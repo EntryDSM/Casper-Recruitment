@@ -11,7 +11,6 @@ erDiagram
         VARCHAR avatar_url "GitHub 아바타 이미지 URL"
         TIMESTAMP created_at "생성 시간"
         TIMESTAMP updated_at "갱신 시간"
-        BOOLEAN is_member_of_org "조직 소속 여부"
         VARCHAR access_token "내부 애플리케이션 액세스 토큰"
         TIMESTAMP token_expiration "토큰 만료 시간"
     }
