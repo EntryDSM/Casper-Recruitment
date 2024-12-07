@@ -1,55 +1,39 @@
 package entry.dsm.gitauth.equusgithubauth.domain.auth.service
 
 import entry.dsm.gitauth.equusgithubauth.domain.auth.presentation.dto.GithubUserInformation
-import org.springframework.http.HttpHeaders
-import org.springframework.http.HttpStatus
-import org.springframework.http.RequestEntity
-import org.springframework.http.ResponseEntity
+import org.slf4j.LoggerFactory
 import org.springframework.security.oauth2.client.OAuth2AuthorizedClient
 import org.springframework.security.oauth2.client.OAuth2AuthorizedClientService
 import org.springframework.security.oauth2.core.user.OAuth2User
 import org.springframework.stereotype.Service
-import org.springframework.web.client.RestTemplate
 
 @Service
 class GithubUserService(
     private val authorizedClientService: OAuth2AuthorizedClientService,
-    private val restTemplate: RestTemplate
+    private val githubUserValidationService: GithubUserValidationService,
+    private val githubUserTokenValidationService: GithubUserTokenValidationService
 ) {
+    private val logger = LoggerFactory.getLogger(GithubUserService::class.java)
+
     fun getGithubUserInformation(oAuth2User: OAuth2User): GithubUserInformation {
         val client = getAuthorizedClient(oAuth2User)
-        validateAccessToken(client.accessToken.tokenValue)
-        return createGithubUserInformation(oAuth2User, client)
+        githubUserTokenValidationService.validateAccessToken(client.accessToken.tokenValue)
+
+        return try {
+            if (!githubUserValidationService.validateUserMembership(client.accessToken.tokenValue, oAuth2User.attributes["login"].toString())) {
+                throw IllegalArgumentException("User is not a member of the organization.")
+            }
+            logger.info("Successfully validated user membership for: ${oAuth2User.attributes["login"]}")
+            createGithubUserInformation(oAuth2User, client)
+        } catch (e: Exception) {
+            logger.error("Error occurred while getting GitHub user information for ${oAuth2User.attributes["login"]}: ${e.message}", e)
+            throw IllegalStateException("Failed to get GitHub user information.", e)
+        }
     }
 
     private fun getAuthorizedClient(oAuth2User: OAuth2User): OAuth2AuthorizedClient {
         return authorizedClientService.loadAuthorizedClient("github", oAuth2User.name)
-            ?: throw IllegalArgumentException("인증된 클라이언트를 찾을 수 없음")
-    }
-
-    private fun validateAccessToken(token: String) {
-        token.takeIf { it.isNotBlank() } ?: throw IllegalArgumentException("토큰이 비어있음")
-        if (!isTokenActive(token)) {
-            throw IllegalArgumentException("토큰이 만료되었거나 잘못된 토큰입니다.")
-        }
-    }
-
-    private fun isTokenActive(token: String): Boolean {
-        return try {
-            val request = buildGithubApiRequest(token)
-            val response: ResponseEntity<String> = restTemplate.exchange(request, String::class.java)
-            response.statusCode == HttpStatus.OK
-        } catch (ex: Exception) {
-            false
-        }
-    }
-
-    private fun buildGithubApiRequest(token: String): RequestEntity<Void> {
-        val url = "https://api.github.com/user"
-        val headers = HttpHeaders().apply {
-            set("Authorization", "Bearer $token")
-        }
-        return RequestEntity.get(url).headers(headers).build()
+            ?: throw IllegalArgumentException("No authorized client found for the user ${oAuth2User.name}.")
     }
 
     private fun createGithubUserInformation(
@@ -71,7 +55,7 @@ class GithubUserService(
 
     private fun getRequiredAttributeValue(oAuth2User: OAuth2User, attributeName: String): String {
         return oAuth2User.attributes[attributeName]?.toString()
-            ?: throw IllegalStateException("필수 속성이 존재하지 않음")
+            ?: throw IllegalStateException("Required attribute '$attributeName' is missing for user ${oAuth2User.attributes["login"]}.")
     }
 
     private fun getOptionalAttributeValue(oAuth2User: OAuth2User, attributeName: String): String? {
