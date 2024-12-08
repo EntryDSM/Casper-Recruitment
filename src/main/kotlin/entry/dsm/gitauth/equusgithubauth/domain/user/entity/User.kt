@@ -4,9 +4,11 @@ import jakarta.persistence.Column
 import jakarta.persistence.Entity
 import jakarta.persistence.Id
 import jakarta.persistence.Table
+import lombok.Builder
 import java.time.LocalDateTime
 import java.util.*
 
+@Builder
 @Entity
 @Table(name = "users")
 data class User(
@@ -20,8 +22,8 @@ data class User(
     @Column(name = "username", nullable = false)
     val username: String,
 
-    @Column(name = "email", nullable = false, unique = true)
-    val email: String,
+    @Column(name = "email", nullable = true, unique = true)
+    val email: String?,
 
     @Column(name = "profile_url")
     val profileUrl: String? = null,
