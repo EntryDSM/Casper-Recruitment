@@ -1,4 +1,4 @@
-package entry.dsm.gitauth.equusgithubauth.global.security
+package entry.dsm.gitauth.equusgithubauth.global.config
 
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
