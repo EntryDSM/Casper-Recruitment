@@ -27,6 +27,9 @@ class UserInformationService(
             tokenExpiration = userInfo.tokenExpiration
         )
 
+        if (userRepository.findByGithubId(userInfo.githubId) != null) {
+            return userRepository.findByGithubId(userInfo.githubId)!!
+        }
         return userRepository.save(user)
     }
 }

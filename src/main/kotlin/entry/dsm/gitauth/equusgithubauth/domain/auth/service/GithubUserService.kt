@@ -1,6 +1,7 @@
 package entry.dsm.gitauth.equusgithubauth.domain.auth.service
 
 import entry.dsm.gitauth.equusgithubauth.domain.auth.presentation.dto.GithubUserInformation
+import entry.dsm.gitauth.equusgithubauth.domain.user.entity.repository.UserRepository
 import org.slf4j.LoggerFactory
 import org.springframework.security.oauth2.client.OAuth2AuthorizedClient
 import org.springframework.security.oauth2.client.OAuth2AuthorizedClientService
@@ -14,7 +15,7 @@ import java.time.format.DateTimeFormatter
 class GithubUserService(
     private val authorizedClientService: OAuth2AuthorizedClientService,
     private val githubUserValidationService: GithubUserValidationService,
-    private val githubUserTokenValidationService: GithubUserTokenValidationService
+    private val githubUserTokenValidationService: GithubUserTokenValidationService,
 ) {
     private val logger = LoggerFactory.getLogger(GithubUserService::class.java)
     private val timestampFormatter = DateTimeFormatter.ISO_LOCAL_DATE_TIME
@@ -27,7 +28,7 @@ class GithubUserService(
 
             validateOrganizationMembership(client, oAuth2User)
 
-            createGithubUserInformation(oAuth2User, client)
+            return createGithubUserInformation(oAuth2User, client)
         } catch (e: Exception) {
             logger.error("GitHub 사용자 정보 취득 중 오류 발생: ${e.message}", e)
             throw IllegalStateException("GitHub 사용자 정보를 가져올 수 없습니다.", e)

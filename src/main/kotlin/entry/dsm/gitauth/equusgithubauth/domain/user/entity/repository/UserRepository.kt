@@ -3,4 +3,6 @@ package entry.dsm.gitauth.equusgithubauth.domain.user.entity.repository
 import org.springframework.data.jpa.repository.JpaRepository
 import entry.dsm.gitauth.equusgithubauth.domain.user.entity.User
 
-interface UserRepository : JpaRepository<User, Long>
+interface UserRepository : JpaRepository<User, Long> {
+    fun findByGithubId(githubId: String): User?
+}

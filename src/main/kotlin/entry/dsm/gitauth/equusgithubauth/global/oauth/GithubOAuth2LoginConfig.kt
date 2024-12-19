@@ -25,8 +25,6 @@ class GithubOAuth2LoginConfig {
             oauth
                 .successHandler(githubAuthenticationSuccessHandler())
                 .failureHandler(githubAuthenticationFailureHandler())
-                .defaultSuccessUrl("/api/github/auth/authenticated/", true)
-                .failureUrl("/api/github/auth/not/authenticated")
                 .authorizationEndpoint { authorizationEndpoint ->
                     val defaultResolver = DefaultOAuth2AuthorizationRequestResolver(
                         clientRegistrationRepository,
