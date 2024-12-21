@@ -3,7 +3,7 @@
 ```mermaid
 sequenceDiagram
     participant User as User
-    participant App as Equus-Github-Auth System
+    participant App as Casper-Internship
     participant GitHub as GitHub
 
     User ->> App: Login Request
@@ -22,4 +22,3 @@ sequenceDiagram
         App ->> User: Login Fail
     end
 ```
-
