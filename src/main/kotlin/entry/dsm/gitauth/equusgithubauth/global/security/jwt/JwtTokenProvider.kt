@@ -72,7 +72,6 @@ class JwtTokenProvider(
     }
 
     fun getAuthentication(token: String): Authentication {
-        val claims = getClaims(token)
         val userDetails: UserDetails = authDetailsService.loadUserByUsername(getClaims(token).subject)
         return UsernamePasswordAuthenticationToken(userDetails, "", userDetails.authorities)
     }
@@ -82,7 +81,7 @@ class JwtTokenProvider(
             Jwts
                 .parser()
                 .setSigningKey(jwtProperties.secretKey)
-                .parseClaimsJwt(token)
+                .parseClaimsJws(token)
                 .body
         } catch (e: Exception) {
             when (e) {
