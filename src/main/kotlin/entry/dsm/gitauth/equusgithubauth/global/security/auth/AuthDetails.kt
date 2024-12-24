@@ -1,6 +1,6 @@
 package entry.dsm.gitauth.equusgithubauth.global.security.auth
 
-import org.springframework.boot.autoconfigure.security.SecurityProperties.User
+import entry.dsm.gitauth.equusgithubauth.domain.user.entity.User
 import org.springframework.security.core.GrantedAuthority
 import org.springframework.security.core.authority.SimpleGrantedAuthority
 import org.springframework.security.core.userdetails.UserDetails
@@ -11,7 +11,7 @@ class AuthDetails(
 ): UserDetails {
 
     override fun getAuthorities(): MutableCollection<out GrantedAuthority> {
-        return Collections.singleton(SimpleGrantedAuthority(user.name))
+        return Collections.singleton(SimpleGrantedAuthority(user.githubId))
     }
 
     override fun getPassword(): String? {
@@ -19,7 +19,7 @@ class AuthDetails(
     }
 
     override fun getUsername(): String {
-        return user.name
+        return user.githubId
     }
 
     override fun isAccountNonExpired(): Boolean {
