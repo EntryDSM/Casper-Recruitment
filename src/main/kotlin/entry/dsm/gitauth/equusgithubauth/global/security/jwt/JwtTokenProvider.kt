@@ -6,6 +6,7 @@ import entry.dsm.gitauth.equusgithubauth.domain.user.presentation.dto.response.T
 import io.jsonwebtoken.Jwts
 import io.jsonwebtoken.SignatureAlgorithm
 import io.jsonwebtoken.security.Keys
+import jakarta.servlet.http.HttpServletRequest
 import org.springframework.stereotype.Component
 import java.time.LocalDateTime
 import java.util.Date
@@ -50,5 +51,14 @@ class JwtTokenProvider(
             .setExpiration(Date(System.currentTimeMillis() + exp * 1000))
             .setIssuedAt(Date())
             .compact()
+    }
+
+    fun resolveToken(request: HttpServletRequest): String? {
+        val bearerToken = request.getHeader(jwtProperties.header)
+
+        if (bearerToken != null && (bearerToken.startsWith(jwtProperties.header))) {
+            return bearerToken.substring(7)
+        }
+        return null
     }
 }
