@@ -32,6 +32,10 @@ spring:
             user-info-uri: https://api.github.com/user
             user-name-attribute: id
 
+  redis:
+    host: localhost
+    port: 6379
+
 jwt:
   header: ${HEADER}
   prefix : ${PREFIX}
