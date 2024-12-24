@@ -1,6 +1,6 @@
 package entry.dsm.gitauth.equusgithubauth.global.error.exception
 
 
-class BusinessException(
+abstract class BusinessException(
     val errorCode: ErrorCode
 ): RuntimeException()
