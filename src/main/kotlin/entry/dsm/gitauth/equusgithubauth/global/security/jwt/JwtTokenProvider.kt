@@ -2,11 +2,19 @@ package entry.dsm.gitauth.equusgithubauth.global.security.jwt
 
 import entry.dsm.gitauth.equusgithubauth.domain.user.entity.RefreshToken
 import entry.dsm.gitauth.equusgithubauth.domain.user.entity.repository.RefreshTokenRepository
+import entry.dsm.gitauth.equusgithubauth.domain.user.exception.InvalidTokenException
 import entry.dsm.gitauth.equusgithubauth.domain.user.presentation.dto.response.TokenResponse
+import entry.dsm.gitauth.equusgithubauth.global.exception.TokenExpiredException
+import entry.dsm.gitauth.equusgithubauth.global.security.auth.AuthDetailsService
+import io.jsonwebtoken.Claims
+import io.jsonwebtoken.ExpiredJwtException
 import io.jsonwebtoken.Jwts
 import io.jsonwebtoken.SignatureAlgorithm
 import io.jsonwebtoken.security.Keys
 import jakarta.servlet.http.HttpServletRequest
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken
+import org.springframework.security.core.Authentication
+import org.springframework.security.core.userdetails.UserDetails
 import org.springframework.stereotype.Component
 import java.time.LocalDateTime
 import java.util.Date
@@ -14,7 +22,8 @@ import java.util.Date
 @Component
 class JwtTokenProvider(
     private val jwtProperties: JwtProperties,
-    private val refreshTokenRepository: RefreshTokenRepository
+    private val refreshTokenRepository: RefreshTokenRepository,
+    private val authDetailsService: AuthDetailsService
 ) {
 
     fun generateToken(githubId: String): TokenResponse {
@@ -60,5 +69,26 @@ class JwtTokenProvider(
             return bearerToken.substring(7)
         }
         return null
+    }
+
+    fun getAuthentication(token: String): Authentication {
+        val claims = getClaims(token)
+        val userDetails: UserDetails = authDetailsService.loadUserByUsername(getClaims(token).subject)
+        return UsernamePasswordAuthenticationToken(userDetails, "", userDetails.authorities)
+    }
+
+    private fun getClaims(token: String): Claims {
+        return try {
+            Jwts
+                .parser()
+                .setSigningKey(jwtProperties.secretKey)
+                .parseClaimsJwt(token)
+                .body
+        } catch (e: Exception) {
+            when (e) {
+                is ExpiredJwtException -> throw TokenExpiredException
+                else -> throw InvalidTokenException
+            }
+        }
     }
 }
