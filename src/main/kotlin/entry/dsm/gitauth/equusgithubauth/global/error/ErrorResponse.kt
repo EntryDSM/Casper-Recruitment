@@ -1,4 +1,4 @@
-package entry.dsm.gitauth.equusgithubauth.global.error.exception
+package entry.dsm.gitauth.equusgithubauth.global.error
 
 class ErrorResponse(
     val statusCode: Int,
