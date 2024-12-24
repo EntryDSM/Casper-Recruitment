@@ -4,7 +4,6 @@ import jakarta.persistence.Column
 import jakarta.persistence.Entity
 import jakarta.persistence.Id
 import jakarta.persistence.Table
-import java.time.LocalDateTime
 
 @Entity
 @Table(name = "refresh_token")
@@ -23,5 +22,5 @@ data class RefreshToken(
     var refreshToken: String? = null,
 
     @Column(name = "token_expiration")
-    var tokenExpiration: LocalDateTime? = null
+    var tokenExpiration: Long? = null
 )
