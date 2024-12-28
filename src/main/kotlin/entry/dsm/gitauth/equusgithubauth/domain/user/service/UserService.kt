@@ -7,7 +7,7 @@ import org.springframework.security.oauth2.core.user.OAuth2User
 import org.springframework.stereotype.Service
 
 @Service
-class UserInformationService(
+class UserService(
     private val userRepository: UserRepository,
     private val GithubUserService: GithubUserService,
 ) {
@@ -30,6 +30,9 @@ class UserInformationService(
         if (userRepository.findByGithubId(userInfo.githubId) != null) {
             return userRepository.findByGithubId(userInfo.githubId)!!
         }
-        return userRepository.save(user)
+
+        // TODO : Token을 생성하고 반환하는 로직
+
+        return userRepository.save(user) // TODO : 토큰을 반환하게
     }
 }
