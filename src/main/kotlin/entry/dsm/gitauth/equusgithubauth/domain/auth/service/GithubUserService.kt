@@ -1,7 +1,6 @@
 package entry.dsm.gitauth.equusgithubauth.domain.auth.service
 
 import entry.dsm.gitauth.equusgithubauth.domain.auth.presentation.dto.GithubUserInformation
-import entry.dsm.gitauth.equusgithubauth.domain.user.entity.repository.UserRepository
 import org.slf4j.LoggerFactory
 import org.springframework.security.oauth2.client.OAuth2AuthorizedClient
 import org.springframework.security.oauth2.client.OAuth2AuthorizedClientService
@@ -19,6 +18,7 @@ class GithubUserService(
 ) {
     private val logger = LoggerFactory.getLogger(GithubUserService::class.java)
     private val timestampFormatter = DateTimeFormatter.ISO_LOCAL_DATE_TIME
+
 
     fun getGithubUserInformation(oAuth2User: OAuth2User): GithubUserInformation {
         return try {
