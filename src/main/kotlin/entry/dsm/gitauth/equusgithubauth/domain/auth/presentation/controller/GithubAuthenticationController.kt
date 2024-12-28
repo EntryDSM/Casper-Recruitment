@@ -1,6 +1,6 @@
 package entry.dsm.gitauth.equusgithubauth.domain.auth.presentation.controller
 
-import entry.dsm.gitauth.equusgithubauth.domain.user.entity.User
+import entry.dsm.gitauth.equusgithubauth.domain.user.presentation.dto.response.TokenResponse
 import entry.dsm.gitauth.equusgithubauth.domain.user.service.UserService
 import org.springframework.security.core.annotation.AuthenticationPrincipal
 import org.springframework.security.oauth2.core.user.OAuth2User
@@ -20,7 +20,7 @@ class GithubAuthenticationController(
     }
 
     @GetMapping("/authenticated/")
-    fun getGithubUserInfo(@AuthenticationPrincipal oAuth2User: OAuth2User): User {
+    fun getGithubUserInfo(@AuthenticationPrincipal oAuth2User: OAuth2User): TokenResponse {
         return userService.execute(oAuth2User)
     }
 
