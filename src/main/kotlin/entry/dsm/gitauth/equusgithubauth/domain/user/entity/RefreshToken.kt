@@ -9,7 +9,7 @@ import org.springframework.data.redis.core.index.Indexed
 
 @RedisHash
 @Table(name = "refresh_token")
-data class RefreshToken(
+class RefreshToken(
     @Id
     @Column(name = "id", nullable = false, unique = true)
     val githubId: String,
