@@ -4,11 +4,13 @@ import entry.dsm.gitauth.equusgithubauth.domain.notice.query.repository.NoticeQu
 import entry.dsm.gitauth.equusgithubauth.domain.notice.query.dto.response.NoticeQueryResponse
 import org.springframework.data.repository.findByIdOrNull
 import org.springframework.stereotype.Service
+import org.springframework.transaction.annotation.Transactional
 
 @Service
 class NoticeQueryService(
     private val noticeQueryRepository: NoticeQueryRepository // 수정된 부분
 ) {
+    @Transactional(readOnly = true)
     fun getNotice(noticeId: Long): NoticeQueryResponse {
         val notice = noticeQueryRepository.findByIdOrNull(noticeId)
             ?: throw IllegalArgumentException("Notice id $noticeId not found")
