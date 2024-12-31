@@ -7,7 +7,7 @@ import org.springframework.stereotype.Service
 @Service
 class GithubUserTokenValidationService(
     private val githubClient: GithubApiClient,
-    private val tokenAuthenticator: TokenAuthenticator
+    private val tokenAuthenticator: TokenAuthenticator,
 ) {
     fun validateAccessToken(token: String) {
         require(token.isNotBlank()) { "Access token is empty." }

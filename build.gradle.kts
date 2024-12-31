@@ -4,6 +4,7 @@ plugins {
     id("org.springframework.boot") version "3.4.0"
     id("io.spring.dependency-management") version "1.1.6"
     id("org.jetbrains.kotlin.plugin.jpa") version "1.9.25"
+    id("org.jlleitschuh.gradle.ktlint").version("12.1.1")
 }
 
 group = "entry.dsm.gitauth"
@@ -33,7 +34,7 @@ dependencies {
     testRuntimeOnly("org.junit.platform:junit-platform-launcher")
     implementation("org.springframework.cloud:spring-cloud-starter-openfeign:4.2.0")
 
-    //vaildation
+    // vaildation
     implementation("org.hibernate.validator:hibernate-validator:7.0.2.Final")
     implementation("javax.validation:javax.validation-api:2.0.1.Final")
 }

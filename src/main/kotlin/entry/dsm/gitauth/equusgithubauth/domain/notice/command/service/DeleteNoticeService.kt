@@ -7,13 +7,13 @@ import org.springframework.transaction.annotation.Transactional
 
 @Service
 class DeleteNoticeService(
-    private val noticeRepository: NoticeRepository
+    private val noticeRepository: NoticeRepository,
 ) {
-
     @Transactional
     fun deleteNotice(noticeId: Long) {
-        val notice = noticeRepository.findByIdOrNull(noticeId)
-            ?: throw IllegalArgumentException("Notice with id $noticeId not found")
+        val notice =
+            noticeRepository.findByIdOrNull(noticeId)
+                ?: throw IllegalArgumentException("Notice with id $noticeId not found")
 
         noticeRepository.delete(notice) // 공지사항 삭제
     }

@@ -9,7 +9,7 @@ class GithubAuthenticationSuccessHandler : AuthenticationSuccessHandler {
     override fun onAuthenticationSuccess(
         request: HttpServletRequest?,
         response: HttpServletResponse?,
-        authentication: Authentication?
+        authentication: Authentication?,
     ) {
         response?.sendRedirect("/api/github/auth/authenticated/")
     }

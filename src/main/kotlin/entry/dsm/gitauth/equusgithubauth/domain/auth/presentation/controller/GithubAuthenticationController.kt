@@ -11,9 +11,8 @@ import org.springframework.web.bind.annotation.RestController
 @RestController
 @RequestMapping("/api/github/auth")
 class GithubAuthenticationController(
-    val userInformationService: UserInformationService
+    val userInformationService: UserInformationService,
 ) {
-
     @GetMapping
     fun githubAuth(): String {
         return "redirect:/oauth2/authorization/github"
@@ -21,7 +20,9 @@ class GithubAuthenticationController(
 
     // 이 주석 아래 메서드들은 테스트용 메서드 입니다.
     @GetMapping("/authenticated/")
-    fun getGithubUserInfo(@AuthenticationPrincipal oAuth2User: OAuth2User): User {
+    fun getGithubUserInfo(
+        @AuthenticationPrincipal oAuth2User: OAuth2User,
+    ): User {
         return userInformationService.execute(oAuth2User)
     }
 

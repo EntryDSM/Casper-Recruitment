@@ -10,7 +10,6 @@ import org.springframework.security.oauth2.client.web.DefaultOAuth2Authorization
 
 @Configuration
 class GithubOAuth2LoginConfig {
-
     @Bean
     fun githubAuthenticationSuccessHandler() = GithubAuthenticationSuccessHandler()
 
@@ -19,17 +18,18 @@ class GithubOAuth2LoginConfig {
 
     fun configure(
         http: HttpSecurity,
-        clientRegistrationRepository: ClientRegistrationRepository
+        clientRegistrationRepository: ClientRegistrationRepository,
     ) {
         http.oauth2Login { oauth ->
             oauth
                 .successHandler(githubAuthenticationSuccessHandler())
                 .failureHandler(githubAuthenticationFailureHandler())
                 .authorizationEndpoint { authorizationEndpoint ->
-                    val defaultResolver = DefaultOAuth2AuthorizationRequestResolver(
-                        clientRegistrationRepository,
-                        "/oauth2/authorization"
-                    )
+                    val defaultResolver =
+                        DefaultOAuth2AuthorizationRequestResolver(
+                            clientRegistrationRepository,
+                            "/oauth2/authorization",
+                        )
                     defaultResolver.setAuthorizationRequestCustomizer { builder ->
                         builder.scope("read:org")
                     }

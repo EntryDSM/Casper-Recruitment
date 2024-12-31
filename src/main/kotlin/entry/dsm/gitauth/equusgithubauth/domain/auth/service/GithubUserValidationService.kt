@@ -9,7 +9,7 @@ import org.springframework.stereotype.Service
 @Service
 class GithubUserValidationService(
     private val githubApiClient: GithubApiClient,
-    private val tokenAuthenticator: TokenAuthenticator
+    private val tokenAuthenticator: TokenAuthenticator,
 ) {
     private val logger = LoggerFactory.getLogger(GithubUserValidationService::class.java)
 
@@ -17,7 +17,10 @@ class GithubUserValidationService(
         private const val TARGET_ORGANIZATION = "EntryDSM"
     }
 
-    fun validateUserMembership(token: String, username: String): Boolean {
+    fun validateUserMembership(
+        token: String,
+        username: String,
+    ): Boolean {
         return try {
             val authorizationHeader = tokenAuthenticator.createAuthorizationHeader(token)
 
@@ -27,8 +30,9 @@ class GithubUserValidationService(
                 return false
             }
 
-            val isMemberOfOrg = githubApiClient.getUserOrganizations(authorizationHeader, username)
-                .any { org: GithubOrganizationResponse -> org.login == TARGET_ORGANIZATION }
+            val isMemberOfOrg =
+                githubApiClient.getUserOrganizations(authorizationHeader, username)
+                    .any { org: GithubOrganizationResponse -> org.login == TARGET_ORGANIZATION }
 
             logger.info("Membership status for $username in $TARGET_ORGANIZATION: $isMemberOfOrg")
             isMemberOfOrg

@@ -1,22 +1,22 @@
 package entry.dsm.gitauth.equusgithubauth.global.config
 
+import entry.dsm.gitauth.equusgithubauth.global.oauth.GithubOAuth2LoginConfig
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 import org.springframework.security.config.annotation.web.builders.HttpSecurity
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity
 import org.springframework.security.oauth2.client.registration.ClientRegistrationRepository
 import org.springframework.security.web.SecurityFilterChain
-import entry.dsm.gitauth.equusgithubauth.global.oauth.GithubOAuth2LoginConfig
 
 @Configuration
 @EnableWebSecurity
 class SecurityConfig(
-    private val githubOAuth2LoginConfig: GithubOAuth2LoginConfig
+    private val githubOAuth2LoginConfig: GithubOAuth2LoginConfig,
 ) {
     @Bean
     fun securityFilterChain(
         http: HttpSecurity,
-        clientRegistrationRepository: ClientRegistrationRepository
+        clientRegistrationRepository: ClientRegistrationRepository,
     ): SecurityFilterChain {
         http
             .authorizeHttpRequests { auth ->

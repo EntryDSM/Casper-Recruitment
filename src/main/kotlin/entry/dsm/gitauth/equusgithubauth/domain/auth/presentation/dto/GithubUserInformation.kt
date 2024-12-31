@@ -11,5 +11,5 @@ data class GithubUserInformation(
     val createdAt: LocalDateTime,
     val updatedAt: LocalDateTime,
     val accessToken: String,
-    val tokenExpiration: LocalDateTime
+    val tokenExpiration: LocalDateTime,
 )

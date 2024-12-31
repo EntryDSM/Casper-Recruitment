@@ -27,12 +27,13 @@ class NoticeController(
     private val updateNoticeService: UpdateNoticeService,
     private val deleteNoticeService: DeleteNoticeService,
     private val getAllNoticesService: GetAllNoticesService,
-    private val noticeQueryService: NoticeQueryService
+    private val noticeQueryService: NoticeQueryService,
 ) {
-
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    fun createNotice(@RequestBody @Valid command: CreateNoticeCommand) {
+    fun createNotice(
+        @RequestBody @Valid command: CreateNoticeCommand,
+    ) {
         createNoticeService.createNotice(command)
     }
 
@@ -40,13 +41,16 @@ class NoticeController(
     @ResponseStatus(HttpStatus.NO_CONTENT)
     fun updateNotice(
         @PathVariable noticeId: Long,
-        @RequestBody command: UpdateNoticeCommand
+        @RequestBody command: UpdateNoticeCommand,
     ) {
         updateNoticeService.updateNotice(noticeId, command)
     }
+
     @DeleteMapping("/{noticeId}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    fun deleteNotice(@PathVariable noticeId: Long) {
+    fun deleteNotice(
+        @PathVariable noticeId: Long,
+    ) {
         deleteNoticeService.deleteNotice(noticeId)
     }
 
@@ -56,12 +60,9 @@ class NoticeController(
     }
 
     @GetMapping("/{noticeId}")
-    fun getNoticeById(@PathVariable noticeId: Long): NoticeQueryResponse {
+    fun getNoticeById(
+        @PathVariable noticeId: Long,
+    ): NoticeQueryResponse {
         return noticeQueryService.getNotice(noticeId)
     }
-
-
-
-
-
 }

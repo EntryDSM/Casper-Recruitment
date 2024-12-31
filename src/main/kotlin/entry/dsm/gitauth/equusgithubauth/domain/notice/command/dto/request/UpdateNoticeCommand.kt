@@ -14,5 +14,5 @@ data class UpdateNoticeCommand(
     @NotBlank(message = "설명은 비워둘 수 없습니다")
     val description: String,
     @NotBlank
-    val importanceOfRecruit: ImportanceOfRecruit
+    val importanceOfRecruit: ImportanceOfRecruit,
 )

@@ -4,7 +4,6 @@ import entry.dsm.gitauth.equusgithubauth.domain.notice.entity.enums.ImportanceOf
 import jakarta.validation.constraints.NotBlank
 import jakarta.validation.constraints.Size
 
-
 data class CreateNoticeCommand(
     val noticeId: Long,
     @NotBlank(message = "제목은 비워둘 수 없습니다")
@@ -16,5 +15,5 @@ data class CreateNoticeCommand(
     @NotBlank(message = "설명은 비워둘 수 없습니다")
     val description: String,
     @NotBlank
-    val importanceOfRecruit: ImportanceOfRecruit
+    val importanceOfRecruit: ImportanceOfRecruit,
 )
