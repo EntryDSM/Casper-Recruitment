@@ -13,6 +13,12 @@ data class UpdateNoticeCommand(
     val titleImageUrl: String,
     @NotBlank(message = "설명은 비워둘 수 없습니다")
     val description: String,
+<<<<<<< HEAD
     @NotBlank
     val importanceOfRecruit: ImportanceOfRecruit,
 )
+=======
+    val importanceOfRecruit: ImportanceOfRecruit
+)
+// conflict 이슈로 나중에 검증 추가 예정
+>>>>>>> 0f16680 (docs : (#9))

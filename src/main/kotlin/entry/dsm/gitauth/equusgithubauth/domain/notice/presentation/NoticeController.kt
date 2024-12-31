@@ -35,7 +35,7 @@ class NoticeController(
         @RequestBody @Valid command: CreateNoticeCommand,
     ) {
         createNoticeService.createNotice(command)
-    }
+    } // conflict 이슈로 나중에 검증 추가 예정
 
     @PatchMapping("/{noticeId}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
