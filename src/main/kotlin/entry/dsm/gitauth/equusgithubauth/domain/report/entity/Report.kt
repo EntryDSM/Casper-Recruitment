@@ -7,9 +7,12 @@ import jakarta.persistence.*
 import java.time.LocalDateTime
 
 <<<<<<< HEAD
+<<<<<<< HEAD
 @Entity(name = "entity")
 class Report()
 =======
+=======
+>>>>>>> 39f02fc (feat : (#9) add Eport Entity)
 @Entity(name = "report")
 class Report(
 
@@ -49,4 +52,7 @@ class Report(
     val notice: Notice
 
 )
+<<<<<<< HEAD
 >>>>>>> 3f68b54 (feat : (#9) add Report Entity)
+=======
+>>>>>>> 39f02fc (feat : (#9) add Eport Entity)
