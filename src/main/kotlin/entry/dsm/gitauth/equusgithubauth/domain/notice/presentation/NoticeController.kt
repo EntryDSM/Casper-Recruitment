@@ -8,6 +8,7 @@ import entry.dsm.gitauth.equusgithubauth.domain.notice.command.service.UpdateNot
 import entry.dsm.gitauth.equusgithubauth.domain.notice.query.dto.response.NoticeQueryResponse
 import entry.dsm.gitauth.equusgithubauth.domain.notice.query.service.GetAllNoticesService
 import entry.dsm.gitauth.equusgithubauth.domain.notice.query.service.NoticeQueryService
+import jakarta.validation.Valid
 import org.springframework.http.HttpStatus
 import org.springframework.web.bind.annotation.DeleteMapping
 import org.springframework.web.bind.annotation.GetMapping
@@ -31,7 +32,7 @@ class NoticeController(
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    fun createNotice(@RequestBody command: CreateNoticeCommand) {
+    fun createNotice(@RequestBody @Valid command: CreateNoticeCommand) {
         createNoticeService.createNotice(command)
     }
 
