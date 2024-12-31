@@ -9,3 +9,4 @@ data class UpdateNoticeCommand(
     val description: String,
     val importanceOfRecruit: ImportanceOfRecruit
 )
+// conflict 이슈로 나중에 검증 추가 예정
