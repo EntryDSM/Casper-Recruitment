@@ -32,6 +32,10 @@ dependencies {
     runtimeOnly("com.mysql:mysql-connector-j")
     testRuntimeOnly("org.junit.platform:junit-platform-launcher")
     implementation("org.springframework.cloud:spring-cloud-starter-openfeign:4.2.0")
+
+    //vaildation
+    implementation("org.hibernate.validator:hibernate-validator:7.0.2.Final")
+    implementation("javax.validation:javax.validation-api:2.0.1.Final")
 }
 
 kotlin {
