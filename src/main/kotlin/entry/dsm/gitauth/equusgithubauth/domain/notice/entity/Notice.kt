@@ -6,12 +6,12 @@ import entry.dsm.gitauth.equusgithubauth.domain.report.entity.Report
 import jakarta.persistence.*
 import jakarta.persistence.OneToMany;
 
-@Entity(name = "application")
+@Entity(name = "notice")
 class Notice(
 
     @Id
     @GeneratedValue
-    @Column(name = "id")
+    @Column(name = "notice_id")
     val noticeId: Long,
 
     @Column(name = "title", nullable = false)
@@ -30,7 +30,7 @@ class Notice(
     @Column(name = "importance_of_recruit", nullable = false)
     var importanceOfRecruit: ImportanceOfRecruit,
 
-    @OneToMany(mappedBy = "notice", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "notice_id", fetch = FetchType.LAZY)
     val reports: List<Report> = listOf()
 
 
