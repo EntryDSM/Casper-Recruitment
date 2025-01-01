@@ -1,4 +1,4 @@
-package entry.dsm.gitauth.equusgithubauth.domain.auth.client
+package entry.dsm.gitauth.equusgithubauth.global.external.github.presentation.controller
 
 import entry.dsm.gitauth.equusgithubauth.global.external.github.presentation.dto.GithubOrganizationResponse
 import entry.dsm.gitauth.equusgithubauth.global.external.github.presentation.dto.GithubUserResponse
