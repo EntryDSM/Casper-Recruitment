@@ -13,6 +13,7 @@ class UserService(
     private val userRepository: UserRepository,
     private val GithubUserService: GithubUserService,
 <<<<<<< HEAD
+<<<<<<< HEAD
 ) {
     fun execute(oAuth2User: OAuth2User): User {
 =======
@@ -34,6 +35,24 @@ class UserService(
                 accessToken = userInfo.accessToken,
                 tokenExpiration = userInfo.tokenExpiration,
             )
+=======
+    private val jwtTokenProvider: JwtTokenProvider
+) {
+    fun  execute(oAuth2User: OAuth2User) : TokenResponse {
+        val userInfo = GithubUserService.getGithubUserInformation(oAuth2User)
+
+        val user = User(
+            githubId = userInfo.githubId,
+            username = userInfo.username,
+            email = userInfo.email,
+            profileUrl = userInfo.profileUrl,
+            avatarUrl = userInfo.avatarUrl,
+            createdAt = userInfo.createdAt,
+            updatedAt = userInfo.updatedAt,
+            accessToken = userInfo.accessToken,
+            tokenExpiration = userInfo.tokenExpiration
+        )
+>>>>>>> origin/main
 
         val token = jwtTokenProvider.generateToken(userInfo.githubId)
 
@@ -43,4 +62,8 @@ class UserService(
         userRepository.save(user)
         return token
     }
+<<<<<<< HEAD
 }
+=======
+}
+>>>>>>> origin/main
