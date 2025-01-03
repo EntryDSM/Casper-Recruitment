@@ -20,5 +20,9 @@ data class UpdateNoticeCommand(
 =======
     val importanceOfRecruit: ImportanceOfRecruit
 )
+<<<<<<< HEAD
 // conflict 이슈로 나중에 검증 추가 예정
 >>>>>>> 0f16680 (docs : (#9))
+=======
+// conflict 이슈로 나중에 검증 추가 예정
+>>>>>>> origin/feature/9-develop-application-resubmission-features
