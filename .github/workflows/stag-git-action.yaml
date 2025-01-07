@@ -1,0 +1,60 @@
+name: prod-casper-recruitment
+
+on:
+  push:
+    branches: [ main ]
+
+jobs:
+  build:
+    permissions:
+      id-token: write
+      contents: read
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Set up Java
+        uses: actions/setup-java@v2
+        with:
+          java-version: '17'
+
+      - name: Build Gradle
+        uses: gradle/gradle-build-action@v2
+        with:
+          arguments: |
+            build
+            --build-cache
+            --no-daemon
+
+      - name: Deploy to xquare
+        uses: team-xquare/xquare-deployment-action@master
+        with:
+          environment: prod
+          access_key: ${{ secrets.ACCESS_KEY }}
+          buildargs: |
+            GITHUB_CLIENT_ID: ${{ secrets.GITHUB_CLIENT_ID }}
+            ACCESS_EXP: ${{ secrets.ACCESS_EXP }}
+            DB_NAME: ${{ secrets.DB_NAME }}
+            HEADER: ${{ secrets.HEADER }}
+            REFRESH_EXP: ${{ secrets.REFRESH_EXP }}
+            GITHUB_AUTHORIZATION_GRANT_TYPE: ${{ secrets.GITHUB_AUTHORIZATION_GRANT_TYPE }}
+            USER_INFO_URI: ${{ secrets.USER_INFO_URI }}
+            GITHUB_ACCESS_SCOPE_1: ${{ secrets.GITHUB_ACCESS_SCOPE_1 }}
+            DB_USERNAME: ${{ secrets.DB_USERNAME }}
+            JPA_SHOW_SQL: ${{ secrets.JPA_SHOW_SQL }}
+            REDIS_PORT: ${{ secrets.REDIS_PORT }}
+            JWT_SECRET: ${{ secrets.JWT_SECRET }}
+            AUTHORIZATION_URI: ${{ secrets.AUTHORIZATION_URI }}
+            GITHUB_ACCESS_SCOPE_2: ${{ secrets.GITHUB_ACCESS_SCOPE_2 }}
+            GITHUB_REDIRECT_URI: ${{ secrets.GITHUB_REDIRECT_URI }}
+            REDIS_HOST: ${{ secrets.REDIS_HOST }}
+            USER_NAME_ATTRIBUTE: ${{ secrets.USER_NAME_ATTRIBUTE }}
+            GITHUB_CLIENT_SECRET: ${{ secrets.GITHUB_CLIENT_SECRET }}
+            GITHUB_CLIENT_NAME: ${{ secrets.GITHUB_CLIENT_NAME }}
+            DB_HOST: ${{ secrets.DB_HOST }}
+            PREFIX: ${{ secrets.PREFIX }}
+            JPA_FORMAT_SQL: ${{ secrets.JPA_FORMAT_SQL }}
+            JPA_HIBERNATE_DDL_AUTO: ${{ secrets.JPA_HIBERNATE_DDL_AUTO }}
+            TOKEN_URI: ${{ secrets.TOKEN_URI }}
+            DB_PASSWORD: ${{ secrets.DB_PASSWORD }}
