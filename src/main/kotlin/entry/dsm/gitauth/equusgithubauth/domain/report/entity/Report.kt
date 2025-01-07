@@ -3,7 +3,15 @@ package entry.dsm.gitauth.equusgithubauth.domain.report.entity
 import entry.dsm.gitauth.equusgithubauth.domain.notice.entity.Notice
 import entry.dsm.gitauth.equusgithubauth.domain.report.entity.enums.Major
 import entry.dsm.gitauth.equusgithubauth.domain.report.entity.enums.ProgrammingExperience
-import jakarta.persistence.*
+import jakarta.persistence.Column
+import jakarta.persistence.Entity
+import jakarta.persistence.GeneratedValue
+import jakarta.persistence.Id
+import jakarta.persistence.Enumerated
+import jakarta.persistence.EnumType
+import jakarta.persistence.ManyToOne
+import jakarta.persistence.JoinColumn
+import jakarta.persistence.FetchType
 
 @Entity(name = "report")
 class Report(
@@ -14,27 +22,27 @@ class Report(
     var reportId: Long = 0,
 
     @Column(name = "applicant_name", nullable = false)
-    var applicantName: String,  // 지원자 이름
+    var applicantName: String,
 
     @Column(name = "student_id", nullable = false)
-    var studentId: String,  // 학번
+    var studentId: String,
 
     @Column(name = "phone_number", nullable = false)
-    var phoneNumber: String,  // 전화번호
+    var phoneNumber: String,
 
     @Enumerated(EnumType.STRING)
     @Column(name = "programming_experience", nullable = false)
-    var programmingExperience: ProgrammingExperience,  // 프로그래밍 경력
+    var programmingExperience: ProgrammingExperience,
 
     @Enumerated(EnumType.STRING)
     @Column(name = "major", nullable = false)
-    var major: Major,  // 전공
+    var major: Major,
 
     @Column(name = "motivation", nullable = false, columnDefinition = "TEXT")
-    var motivation: String,  // 지원 동기
+    var motivation: String,
 
     @Column(name = "self_introduction", nullable = false, columnDefinition = "TEXT")
-    var selfIntroduction: String,  // 자기소개
+    var selfIntroduction: String,
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "notice_id", nullable = false)

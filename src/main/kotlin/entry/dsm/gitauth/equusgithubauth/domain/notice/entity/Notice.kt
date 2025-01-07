@@ -4,7 +4,6 @@ import entry.dsm.gitauth.equusgithubauth.domain.notice.command.dto.request.Updat
 import entry.dsm.gitauth.equusgithubauth.domain.notice.entity.enums.ImportanceOfRecruit
 import entry.dsm.gitauth.equusgithubauth.domain.report.entity.Report
 import jakarta.persistence.*
-import jakarta.persistence.OneToMany
 
 @Entity(name = "notice")
 class Notice(
