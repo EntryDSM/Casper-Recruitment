@@ -28,7 +28,7 @@ class GithubUserService(
 
             validateOrganizationMembership(client, oAuth2User)
 
-            return createGithubUserInformation(oAuth2User, client)
+            createGithubUserInformation(oAuth2User, client)
         } catch (e: Exception) {
             logger.error("GitHub 사용자 정보 취득 중 오류 발생: ${e.message}", e)
             throw IllegalStateException("GitHub 사용자 정보를 가져올 수 없습니다.", e)
