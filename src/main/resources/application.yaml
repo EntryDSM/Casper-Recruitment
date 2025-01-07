@@ -27,10 +27,10 @@ spring:
             client-name: EntryDSM GitHub OAuth
         provider:
           github:
-            authorization-uri: https://github.com/login/oauth/authorize
-            token-uri: https://github.com/login/oauth/access_token
-            user-info-uri: https://api.github.com/user
-            user-name-attribute: id
+            authorization-uri: ${AUTHORIZATION_URI}
+            token-uri: ${TOKEN_URI}
+            user-info-uri: ${USER_INFO_URI}
+            user-name-attribute: ${USER_NAME_ATTRIBUTE}
 
   redis:
     host: localhost
