@@ -32,6 +32,7 @@ jobs:
         with:
           environment: prod
           access_key: ${{ secrets.ACCESS_KEY }}
+          github_token: ${{ secrets.PERSONAL_ACCESS_TOKEN }}
           buildargs: |
             GITHUB_CLIENT_ID: ${{ secrets.GITHUB_CLIENT_ID }}
             ACCESS_EXP: ${{ secrets.ACCESS_EXP }}
