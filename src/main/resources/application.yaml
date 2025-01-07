@@ -1,16 +1,16 @@
 spring:
   datasource:
     url: jdbc:mysql://${DB_HOST:localhost}:3306/${DB_NAME}
-    username: ${DB_USERNAME:root}
-    password: ${DB_PASSWORD:root_password}
+    username: ${DB_USERNAME}
+    password: ${DB_PASSWORD}
     driver-class-name: com.mysql.cj.jdbc.Driver
   jpa:
     hibernate:
-      ddl-auto: ${JPA_HIBERNATE_DDL_AUTO:create}
-    show-sql: ${JPA_SHOW_SQL:true}
+      ddl-auto: ${JPA_HIBERNATE_DDL_AUTO}
+    show-sql: ${JPA_SHOW_SQL}
     properties:
       hibernate:
-        format_sql: ${JPA_FORMAT_SQL:true}
+        format_sql: ${JPA_FORMAT_SQL}
     open-in-view: false
 
 
@@ -21,10 +21,10 @@ spring:
           github:
             client-id: ${GITHUB_CLIENT_ID}
             client-secret: ${GITHUB_CLIENT_SECRET}
-            scope: read:user, user:email
-            redirect-uri: http://localhost:8080/login/oauth2/code/github
-            authorization-grant-type: authorization_code
-            client-name: EntryDSM GitHub OAuth
+            scope: ${GITHUB_ACCESS_SCOPE_1},${GITHUB_ACCESS_SCOPE_2}
+            redirect-uri: ${GITHUB_REDIRECT_URI}
+            authorization-grant-type: ${GITHUB_AUTHORIZATION_GRANT_TYPE}
+            client-name: ${GITHUB_CLIENT_NAME}
         provider:
           github:
             authorization-uri: ${AUTHORIZATION_URI}
@@ -33,8 +33,8 @@ spring:
             user-name-attribute: ${USER_NAME_ATTRIBUTE}
 
   redis:
-    host: localhost
-    port: 6379
+    host: ${REDIS_HOST}
+    port: ${REDIS_PORT}
 
 jwt:
   header: ${HEADER}
