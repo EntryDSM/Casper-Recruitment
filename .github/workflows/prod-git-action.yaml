@@ -1,4 +1,4 @@
-name: stag-casper-recruitment
+name: prod-casper-recruitment
 
 on:
   push:
