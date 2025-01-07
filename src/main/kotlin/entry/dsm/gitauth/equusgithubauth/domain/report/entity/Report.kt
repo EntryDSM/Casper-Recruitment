@@ -4,18 +4,7 @@ import entry.dsm.gitauth.equusgithubauth.domain.notice.entity.Notice
 import entry.dsm.gitauth.equusgithubauth.domain.report.entity.enums.Major
 import entry.dsm.gitauth.equusgithubauth.domain.report.entity.enums.ProgrammingExperience
 import jakarta.persistence.*
-import java.time.LocalDateTime
 
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-@Entity(name = "entity")
-class Report()
-=======
-=======
->>>>>>> 39f02fc (feat : (#9) add Eport Entity)
-=======
->>>>>>> origin/feature/9-develop-application-resubmission-features
 @Entity(name = "report")
 class Report(
 
@@ -52,10 +41,3 @@ class Report(
     val notice: Notice
 
 )
-<<<<<<< HEAD
-<<<<<<< HEAD
->>>>>>> 3f68b54 (feat : (#9) add Report Entity)
-=======
->>>>>>> 39f02fc (feat : (#9) add Eport Entity)
-=======
->>>>>>> origin/feature/9-develop-application-resubmission-features
