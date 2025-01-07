@@ -41,7 +41,7 @@ dependencies {
 
     // vaildation
     implementation("org.hibernate.validator:hibernate-validator:7.0.2.Final")
-    implementation("javax.validation:javax.validation-api:2.0.1.Final")
+    implementation("jakarta.validation:jakarta.validation-api:3.0.2")
 }
 
 kotlin {
