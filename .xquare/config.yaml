@@ -1,0 +1,5 @@
+config:
+  name: casper-recruitment
+  prefix: "/entry-casper-recruitment"
+  service_type: be
+  port: 8080
