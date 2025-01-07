@@ -8,5 +8,4 @@ import org.springframework.context.annotation.Configuration
 @EnableFeignClients(basePackages = ["entry.dsm.gitauth.equusgithubauth.global.external.github.presentation.controller"])
 @EnableConfigurationProperties(value = [ JwtProperties::class])
 @Configuration
-class FeignConfig {
-}
+class FeignConfig

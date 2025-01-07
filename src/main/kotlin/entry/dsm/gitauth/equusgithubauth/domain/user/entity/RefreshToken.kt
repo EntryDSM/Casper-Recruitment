@@ -13,12 +13,10 @@ class RefreshToken(
     @Id
     @Column(name = "id", nullable = false, unique = true)
     val githubId: String,
-
     @Indexed
     @Column(name = "refresh_token", nullable = false)
     var refreshToken: String,
-
     @TimeToLive
     @Column(name = "token_expiration", nullable = false)
-    var tokenExpiration: Long
+    var tokenExpiration: Long,
 )

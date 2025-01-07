@@ -8,5 +8,5 @@ class JwtProperties(
     val prefix: String,
     val secretKey: String,
     val accessExp: Long,
-    val refreshExp: Long
+    val refreshExp: Long,
 )

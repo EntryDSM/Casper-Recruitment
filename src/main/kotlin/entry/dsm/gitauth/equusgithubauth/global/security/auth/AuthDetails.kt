@@ -7,9 +7,8 @@ import org.springframework.security.core.userdetails.UserDetails
 import java.util.Collections
 
 class AuthDetails(
-    val user: User
-): UserDetails {
-
+    val user: User,
+) : UserDetails {
     override fun getAuthorities(): MutableCollection<out GrantedAuthority> {
         return Collections.singleton(SimpleGrantedAuthority(user.githubId))
     }

@@ -8,13 +8,13 @@ import org.springframework.transaction.annotation.Transactional
 
 @Service
 class ReportQueryService(
-    private val reportQueryRepository: ReportQueryRepository
+    private val reportQueryRepository: ReportQueryRepository,
 ) {
-
     @Transactional(readOnly = true)
     fun getReport(reportId: Long): ReportQueryResponse {
-        val report = reportQueryRepository.findByIdOrNull(reportId)
-            ?: throw IllegalArgumentException("Report with id $reportId not found")
+        val report =
+            reportQueryRepository.findByIdOrNull(reportId)
+                ?: throw IllegalArgumentException("Report with id $reportId not found")
         return ReportQueryResponse.from(report)
     }
 }

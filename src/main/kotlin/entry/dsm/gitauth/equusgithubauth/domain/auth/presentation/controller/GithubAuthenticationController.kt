@@ -11,16 +11,17 @@ import org.springframework.web.bind.annotation.RestController
 @RestController
 @RequestMapping("/api/github/auth")
 class GithubAuthenticationController(
-    val userService: UserService
+    val userService: UserService,
 ) {
-
     @GetMapping
     fun githubAuth(): String {
         return "redirect:/oauth2/authorization/github"
     }
 
     @GetMapping("/authenticated/")
-    fun getGithubUserInfo(@AuthenticationPrincipal oAuth2User: OAuth2User): TokenResponse {
+    fun getGithubUserInfo(
+        @AuthenticationPrincipal oAuth2User: OAuth2User,
+    ): TokenResponse {
         return userService.execute(oAuth2User)
     }
 

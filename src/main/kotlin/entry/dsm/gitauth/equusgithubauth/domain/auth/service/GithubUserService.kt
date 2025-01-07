@@ -19,7 +19,6 @@ class GithubUserService(
     private val logger = LoggerFactory.getLogger(GithubUserService::class.java)
     private val timestampFormatter = DateTimeFormatter.ISO_LOCAL_DATE_TIME
 
-
     fun getGithubUserInformation(oAuth2User: OAuth2User): GithubUserInformation {
         return try {
             val client = getAuthorizedClient(oAuth2User)
@@ -40,7 +39,10 @@ class GithubUserService(
             ?: throw IllegalArgumentException("사용자 ${oAuth2User.name}에 대한 인증된 클라이언트를 찾을 수 없습니다.")
     }
 
-    private fun validateOrganizationMembership(client: OAuth2AuthorizedClient, oAuth2User: OAuth2User) {
+    private fun validateOrganizationMembership(
+        client: OAuth2AuthorizedClient,
+        oAuth2User: OAuth2User,
+    ) {
         val username = oAuth2User.attributes["login"].toString()
         if (!githubUserValidationService.validateUserMembership(client.accessToken.tokenValue, username)) {
             logger.warn("조직 멤버십 검증 실패: $username")
@@ -51,7 +53,7 @@ class GithubUserService(
 
     private fun createGithubUserInformation(
         oAuth2User: OAuth2User,
-        client: OAuth2AuthorizedClient
+        client: OAuth2AuthorizedClient,
     ): GithubUserInformation {
         return GithubUserInformation(
             githubId = getRequiredAttributeValue(oAuth2User, "id"),
@@ -62,14 +64,14 @@ class GithubUserService(
             createdAt = parseTimestamp(getRequiredAttributeValue(oAuth2User, "created_at")),
             updatedAt = parseTimestamp(getRequiredAttributeValue(oAuth2User, "updated_at")),
             accessToken = client.accessToken.tokenValue,
-            tokenExpiration = parseTokenExpirationTime(client)
+            tokenExpiration = parseTokenExpirationTime(client),
         )
     }
 
     private fun parseTimestamp(timestamp: String): LocalDateTime {
         return LocalDateTime.parse(
             timestamp.replace("Z", ""),
-            timestampFormatter
+            timestampFormatter,
         )
     }
 
@@ -78,12 +80,18 @@ class GithubUserService(
             ?: throw IllegalStateException("토큰 만료 시간이 누락되었습니다.")
     }
 
-    private fun getRequiredAttributeValue(oAuth2User: OAuth2User, attributeName: String): String {
+    private fun getRequiredAttributeValue(
+        oAuth2User: OAuth2User,
+        attributeName: String,
+    ): String {
         return oAuth2User.attributes[attributeName]?.toString()
             ?: throw IllegalStateException("사용자 ${oAuth2User.attributes["login"]}의 필수 속성 '$attributeName'이(가) 누락되었습니다.")
     }
 
-    private fun getOptionalAttributeValue(oAuth2User: OAuth2User, attributeName: String): String? {
+    private fun getOptionalAttributeValue(
+        oAuth2User: OAuth2User,
+        attributeName: String,
+    ): String? {
         return oAuth2User.attributes[attributeName]?.toString()
     }
 }

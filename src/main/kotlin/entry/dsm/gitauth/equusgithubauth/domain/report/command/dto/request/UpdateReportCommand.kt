@@ -10,5 +10,5 @@ data class UpdateReportCommand(
     val programmingExperience: ProgrammingExperience,
     val major: Major,
     val motivation: String,
-    val selfIntroduction: String
+    val selfIntroduction: String,
 )

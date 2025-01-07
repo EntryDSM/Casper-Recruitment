@@ -12,22 +12,23 @@ import org.springframework.stereotype.Service
 class UserService(
     private val userRepository: UserRepository,
     private val githubUserService: GithubUserService,
-    private val jwtTokenProvider: JwtTokenProvider
+    private val jwtTokenProvider: JwtTokenProvider,
 ) {
     fun execute(oAuth2User: OAuth2User): TokenResponse {
         val userInfo = githubUserService.getGithubUserInformation(oAuth2User)
 
-        val user = User(
-            githubId = userInfo.githubId,
-            username = userInfo.username,
-            email = userInfo.email,
-            profileUrl = userInfo.profileUrl,
-            avatarUrl = userInfo.avatarUrl,
-            createdAt = userInfo.createdAt,
-            updatedAt = userInfo.updatedAt,
-            accessToken = userInfo.accessToken,
-            tokenExpiration = userInfo.tokenExpiration
-        )
+        val user =
+            User(
+                githubId = userInfo.githubId,
+                username = userInfo.username,
+                email = userInfo.email,
+                profileUrl = userInfo.profileUrl,
+                avatarUrl = userInfo.avatarUrl,
+                createdAt = userInfo.createdAt,
+                updatedAt = userInfo.updatedAt,
+                accessToken = userInfo.accessToken,
+                tokenExpiration = userInfo.tokenExpiration,
+            )
 
         val token = jwtTokenProvider.generateToken(userInfo.githubId)
 

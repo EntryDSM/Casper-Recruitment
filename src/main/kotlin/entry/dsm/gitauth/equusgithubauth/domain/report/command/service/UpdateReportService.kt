@@ -9,15 +9,16 @@ import org.springframework.transaction.annotation.Transactional
 
 @Service
 class UpdateReportService(
-    private val reportRepository: ReportRepository
+    private val reportRepository: ReportRepository,
 ) {
-
     @Transactional
-    fun updateReport(reportId: Long, command: UpdateReportCommand): Report {
-
-        val report = reportRepository.findByIdOrNull(reportId)
-            ?: throw IllegalArgumentException("Report with id $reportId not found")
-
+    fun updateReport(
+        reportId: Long,
+        command: UpdateReportCommand,
+    ): Report {
+        val report =
+            reportRepository.findByIdOrNull(reportId)
+                ?: throw IllegalArgumentException("Report with id $reportId not found")
 
         report.apply {
             applicantName = command.applicantName

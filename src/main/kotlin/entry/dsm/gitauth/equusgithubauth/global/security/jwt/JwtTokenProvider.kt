@@ -23,15 +23,14 @@ import java.util.Date
 class JwtTokenProvider(
     private val jwtProperties: JwtProperties,
     private val refreshTokenRepository: RefreshTokenRepository,
-    private val authDetailsService: AuthDetailsService
+    private val authDetailsService: AuthDetailsService,
 ) {
-
     fun generateToken(githubId: String): TokenResponse {
         return TokenResponse(
             accessToken = createAccessToken(githubId),
             accessTokenExpiration = LocalDateTime.now().plusSeconds(jwtProperties.accessExp),
             refreshToken = createRefreshToken(githubId),
-            refreshTokenExpiration = LocalDateTime.now().plusSeconds(jwtProperties.refreshExp)
+            refreshTokenExpiration = LocalDateTime.now().plusSeconds(jwtProperties.refreshExp),
         )
     }
 
@@ -45,13 +44,17 @@ class JwtTokenProvider(
             RefreshToken(
                 githubId = githubId,
                 refreshToken = refreshToken,
-                tokenExpiration = jwtProperties.refreshExp * 1000
-            )
+                tokenExpiration = jwtProperties.refreshExp * 1000,
+            ),
         )
         return refreshToken
     }
 
-    private fun createToken(githubId: String, jwtType: String, exp: Long): String {
+    private fun createToken(
+        githubId: String,
+        jwtType: String,
+        exp: Long,
+    ): String {
         return Jwts.builder()
             .signWith(Keys.hmacShaKeyFor(jwtProperties.secretKey.toByteArray()), SignatureAlgorithm.HS256)
             .setSubject(githubId)

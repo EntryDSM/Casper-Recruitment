@@ -8,12 +8,12 @@ import org.springframework.security.core.context.SecurityContextHolder
 import org.springframework.web.filter.OncePerRequestFilter
 
 class JwtTokenFilter(
-    private val jwtTokenProvider: JwtTokenProvider
-): OncePerRequestFilter() {
+    private val jwtTokenProvider: JwtTokenProvider,
+) : OncePerRequestFilter() {
     override fun doFilterInternal(
         request: HttpServletRequest,
         response: HttpServletResponse,
-        filterChain: FilterChain
+        filterChain: FilterChain,
     ) {
         val bearer: String? = jwtTokenProvider.resolveToken(request)
 

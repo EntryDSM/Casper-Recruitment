@@ -7,7 +7,7 @@ import org.springframework.transaction.annotation.Transactional
 
 @Service
 class GetAllReportService(
-    private val reportQueryRepository: ReportQueryRepository
+    private val reportQueryRepository: ReportQueryRepository,
 ) {
     @Transactional(readOnly = true)
     fun getAllReports(): List<ReportQueryResponse> {

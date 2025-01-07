@@ -6,7 +6,7 @@ import org.springframework.stereotype.Service
 
 @Service
 class GetAllNoticesService(
-    private val noticeQueryRepository: NoticeQueryRepository
+    private val noticeQueryRepository: NoticeQueryRepository,
 ) {
     fun getAllNotices(): List<NoticeQueryResponse> = noticeQueryRepository.findAll().map(NoticeQueryResponse::from)
 }

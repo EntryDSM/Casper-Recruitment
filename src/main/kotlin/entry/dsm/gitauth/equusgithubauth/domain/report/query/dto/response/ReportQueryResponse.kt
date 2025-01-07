@@ -12,7 +12,7 @@ data class ReportQueryResponse(
     val programmingExperience: ProgrammingExperience,
     val major: Major,
     val motivation: String,
-    val selfIntroduction: String
+    val selfIntroduction: String,
 ) {
     companion object {
         fun from(report: Report): ReportQueryResponse {
@@ -24,7 +24,7 @@ data class ReportQueryResponse(
                 programmingExperience = report.programmingExperience,
                 major = report.major,
                 motivation = report.motivation,
-                selfIntroduction = report.selfIntroduction
+                selfIntroduction = report.selfIntroduction,
             )
         }
     }

@@ -12,7 +12,7 @@ import org.springframework.data.redis.serializer.StringRedisSerializer
 @EnableRedisRepositories
 @Configuration
 class RedisConfig(
-    private val redisProperties: RedisProperties
+    private val redisProperties: RedisProperties,
 ) {
     @Bean
     fun redisConnectionFactory(): RedisConnectionFactory {

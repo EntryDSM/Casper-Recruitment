@@ -8,7 +8,7 @@ import org.springframework.transaction.annotation.Transactional
 
 @Service
 class NoticeQueryService(
-    private val noticeQueryRepository: NoticeQueryRepository
+    private val noticeQueryRepository: NoticeQueryRepository,
 ) {
     @Transactional(readOnly = true)
     fun getNotice(noticeId: Long): NoticeQueryResponse {
