@@ -38,11 +38,11 @@ class ReportController(
     }
 
     // Retrieve a single report by ID
-    @GetMapping("/{id}")
+    @GetMapping("/{reportId}")
     fun getReport(
-        @PathVariable id: Long,
+        @PathVariable reportId: Long,
     ): ReportQueryResponse {
-        return reportQueryService.getReport(id)
+        return reportQueryService.getReport(reportId)
     }
 
     // Retrieve all reports
@@ -52,21 +52,21 @@ class ReportController(
     }
 
     // Update an existing report
-    @PatchMapping("/{id}")
+    @PatchMapping("/{reportId}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     fun updateReport(
-        @PathVariable id: Long,
+        @PathVariable reportId: Long,
         @RequestBody command: UpdateReportCommand,
     ) {
-        updateReportService.updateReport(id, command)
+        updateReportService.updateReport(reportId, command)
     }
 
     // Delete a report by ID
-    @DeleteMapping("/{id}")
+    @DeleteMapping("/{reportId}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     fun deleteReport(
-        @PathVariable id: Long,
+        @PathVariable reportId: Long,
     ) {
-        deleteReportService.deleteReport(id)
+        deleteReportService.deleteReport(reportId)
     }
 }
