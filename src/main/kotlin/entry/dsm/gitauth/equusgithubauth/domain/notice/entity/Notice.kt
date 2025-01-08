@@ -29,7 +29,7 @@ class Notice(
     @Enumerated(EnumType.STRING)
     @Column(name = "importance_of_recruit", nullable = false)
     var importanceOfRecruit: ImportanceOfRecruit,
-    @OneToMany(mappedBy = "notice_id", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "notice", fetch = FetchType.LAZY)
     val reports: List<Report> = listOf(),
 ) {
     fun update(command: UpdateNoticeCommand) {
