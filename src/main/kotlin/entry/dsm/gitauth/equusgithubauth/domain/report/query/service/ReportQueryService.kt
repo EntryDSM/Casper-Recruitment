@@ -1,6 +1,5 @@
 package entry.dsm.gitauth.equusgithubauth.domain.report.query.service
 
-import entry.dsm.gitauth.equusgithubauth.domain.report.entity.Report
 import entry.dsm.gitauth.equusgithubauth.domain.report.exception.ReportNotFoundException
 import entry.dsm.gitauth.equusgithubauth.domain.report.query.dto.response.ReportQueryResponse
 import entry.dsm.gitauth.equusgithubauth.domain.report.query.repository.ReportQueryRepository

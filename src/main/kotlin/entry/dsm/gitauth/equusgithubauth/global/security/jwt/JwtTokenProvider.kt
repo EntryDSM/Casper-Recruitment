@@ -4,6 +4,8 @@ import entry.dsm.gitauth.equusgithubauth.domain.user.entity.RefreshToken
 import entry.dsm.gitauth.equusgithubauth.domain.user.entity.repository.RefreshTokenRepository
 import entry.dsm.gitauth.equusgithubauth.domain.user.presentation.dto.response.TokenResponse
 import entry.dsm.gitauth.equusgithubauth.global.security.auth.AuthDetailsService
+import entry.dsm.gitauth.equusgithubauth.global.security.jwt.exception.JwtTokenExpiredException
+import entry.dsm.gitauth.equusgithubauth.global.security.jwt.exception.JwtTokenInvalidException
 import io.jsonwebtoken.Claims
 import io.jsonwebtoken.ExpiredJwtException
 import io.jsonwebtoken.Jwts
@@ -86,8 +88,8 @@ class JwtTokenProvider(
                 .body
         } catch (e: Exception) {
             when (e) {
-                is ExpiredJwtException -> throw IllegalArgumentException("토큰이 만료되었습니다.")
-                else -> throw IllegalArgumentException("유효하지 않은 토큰입니다.")
+                is ExpiredJwtException -> throw JwtTokenExpiredException
+                else -> throw JwtTokenInvalidException
             }
         }
     }
