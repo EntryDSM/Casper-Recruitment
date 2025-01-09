@@ -2,10 +2,10 @@ package entry.dsm.gitauth.equusgithubauth.global.security.jwt
 
 import entry.dsm.gitauth.equusgithubauth.domain.user.entity.RefreshToken
 import entry.dsm.gitauth.equusgithubauth.domain.user.entity.repository.RefreshTokenRepository
-import entry.dsm.gitauth.equusgithubauth.domain.user.exception.InvalidTokenException
 import entry.dsm.gitauth.equusgithubauth.domain.user.presentation.dto.response.TokenResponse
-import entry.dsm.gitauth.equusgithubauth.global.exception.TokenExpiredException
 import entry.dsm.gitauth.equusgithubauth.global.security.auth.AuthDetailsService
+import entry.dsm.gitauth.equusgithubauth.global.security.jwt.exception.JwtTokenExpiredException
+import entry.dsm.gitauth.equusgithubauth.global.security.jwt.exception.JwtTokenInvalidException
 import io.jsonwebtoken.Claims
 import io.jsonwebtoken.ExpiredJwtException
 import io.jsonwebtoken.Jwts
@@ -88,8 +88,8 @@ class JwtTokenProvider(
                 .body
         } catch (e: Exception) {
             when (e) {
-                is ExpiredJwtException -> throw TokenExpiredException
-                else -> throw InvalidTokenException
+                is ExpiredJwtException -> throw JwtTokenExpiredException
+                else -> throw JwtTokenInvalidException
             }
         }
     }

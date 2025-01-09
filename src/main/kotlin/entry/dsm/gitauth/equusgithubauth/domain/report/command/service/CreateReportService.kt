@@ -1,6 +1,7 @@
 package entry.dsm.gitauth.equusgithubauth.domain.report.command.service
 
 import entry.dsm.gitauth.equusgithubauth.domain.notice.command.repository.NoticeRepository
+import entry.dsm.gitauth.equusgithubauth.domain.notice.exception.NoticeNotFoundException
 import entry.dsm.gitauth.equusgithubauth.domain.report.command.dto.request.CreateReportCommand
 import entry.dsm.gitauth.equusgithubauth.domain.report.command.repository.ReportRepository
 import entry.dsm.gitauth.equusgithubauth.domain.report.entity.Report
@@ -17,7 +18,7 @@ class CreateReportService(
         // Notice 엔티티 가져오기
         val notice =
             noticeRepository.findById(command.noticeId)
-                .orElseThrow { IllegalArgumentException("Notice with id ${command.noticeId} not found") }
+                .orElseThrow { NoticeNotFoundException }
 
         // Report 엔티티 생성
         val report =

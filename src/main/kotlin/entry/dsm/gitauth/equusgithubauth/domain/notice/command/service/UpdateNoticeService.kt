@@ -2,6 +2,7 @@ package entry.dsm.gitauth.equusgithubauth.domain.notice.command.service
 
 import entry.dsm.gitauth.equusgithubauth.domain.notice.command.dto.request.UpdateNoticeCommand
 import entry.dsm.gitauth.equusgithubauth.domain.notice.command.repository.NoticeRepository
+import entry.dsm.gitauth.equusgithubauth.domain.notice.exception.NoticeNotFoundException
 import org.springframework.data.repository.findByIdOrNull
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
@@ -17,8 +18,7 @@ class UpdateNoticeService(
     ) {
         val notice =
             noticeRepository.findByIdOrNull(noticeId)
-                ?: throw IllegalArgumentException("Notice with id $noticeId not found")
-
+                ?: throw NoticeNotFoundException
         notice.update(command)
     }
 }
