@@ -1,6 +1,10 @@
 package entry.dsm.gitauth.equusgithubauth.domain.auth.service
 
-import entry.dsm.gitauth.equusgithubauth.domain.auth.exception.*
+import entry.dsm.gitauth.equusgithubauth.domain.auth.exception.AuthorizedClientNotFoundException
+import entry.dsm.gitauth.equusgithubauth.domain.auth.exception.MissingRequiredAttributeException
+import entry.dsm.gitauth.equusgithubauth.domain.auth.exception.OrganizationMembershipErrorException
+import entry.dsm.gitauth.equusgithubauth.domain.auth.exception.TokenExpirationMissingException
+import entry.dsm.gitauth.equusgithubauth.domain.auth.exception.UserInfoFetchFailureException
 import entry.dsm.gitauth.equusgithubauth.domain.auth.presentation.dto.GithubUserInformation
 import org.springframework.security.oauth2.client.OAuth2AuthorizedClient
 import org.springframework.security.oauth2.client.OAuth2AuthorizedClientService
