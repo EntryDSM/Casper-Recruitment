@@ -54,7 +54,7 @@ class NoticeController(
         deleteNoticeService.deleteNotice(noticeId)
     }
 
-    @GetMapping("/all")
+    @GetMapping
     fun getAllNotices(): List<NoticeQueryResponse> {
         return getAllNoticesService.getAllNotices()
     }
