@@ -1,7 +1,7 @@
 package entry.dsm.gitauth.equusgithubauth.domain.auth.service
 
+import entry.dsm.gitauth.equusgithubauth.domain.auth.exception.*
 import entry.dsm.gitauth.equusgithubauth.domain.auth.presentation.dto.GithubUserInformation
-import org.slf4j.LoggerFactory
 import org.springframework.security.oauth2.client.OAuth2AuthorizedClient
 import org.springframework.security.oauth2.client.OAuth2AuthorizedClientService
 import org.springframework.security.oauth2.core.user.OAuth2User
@@ -16,7 +16,6 @@ class GithubUserService(
     private val githubUserValidationService: GithubUserValidationService,
     private val githubUserTokenValidationService: GithubUserTokenValidationService,
 ) {
-    private val logger = LoggerFactory.getLogger(GithubUserService::class.java)
     private val timestampFormatter = DateTimeFormatter.ISO_LOCAL_DATE_TIME
 
     fun getGithubUserInformation(oAuth2User: OAuth2User): GithubUserInformation {
@@ -29,14 +28,13 @@ class GithubUserService(
 
             createGithubUserInformation(oAuth2User, client)
         } catch (e: Exception) {
-            logger.error("GitHub 사용자 정보 취득 중 오류 발생: ${e.message}", e)
-            throw IllegalStateException("GitHub 사용자 정보를 가져올 수 없습니다.", e)
+            throw UserInfoFetchFailureException
         }
     }
 
     private fun getAuthorizedClient(oAuth2User: OAuth2User): OAuth2AuthorizedClient {
         return authorizedClientService.loadAuthorizedClient("github", oAuth2User.name)
-            ?: throw IllegalArgumentException("사용자 ${oAuth2User.name}에 대한 인증된 클라이언트를 찾을 수 없습니다.")
+            ?: throw AuthorizedClientNotFoundException
     }
 
     private fun validateOrganizationMembership(
@@ -45,10 +43,8 @@ class GithubUserService(
     ) {
         val username = oAuth2User.attributes["login"].toString()
         if (!githubUserValidationService.validateUserMembership(client.accessToken.tokenValue, username)) {
-            logger.warn("조직 멤버십 검증 실패: $username")
-            throw IllegalArgumentException("사용자가 조직의 멤버가 아닙니다.")
+            throw OrganizationMembershipErrorException
         }
-        logger.info("조직 멤버십 검증 성공: $username")
     }
 
     private fun createGithubUserInformation(
@@ -77,7 +73,7 @@ class GithubUserService(
 
     private fun parseTokenExpirationTime(client: OAuth2AuthorizedClient): LocalDateTime {
         return client.accessToken.expiresAt?.atZone(ZoneId.systemDefault())?.toLocalDateTime()
-            ?: throw IllegalStateException("토큰 만료 시간이 누락되었습니다.")
+            ?: throw TokenExpirationMissingException
     }
 
     private fun getRequiredAttributeValue(
@@ -85,7 +81,7 @@ class GithubUserService(
         attributeName: String,
     ): String {
         return oAuth2User.attributes[attributeName]?.toString()
-            ?: throw IllegalStateException("사용자 ${oAuth2User.attributes["login"]}의 필수 속성 '$attributeName'이(가) 누락되었습니다.")
+            ?: throw MissingRequiredAttributeException
     }
 
     private fun getOptionalAttributeValue(

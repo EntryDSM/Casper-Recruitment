@@ -23,21 +23,15 @@ class GithubUserValidationService(
     ): Boolean {
         return try {
             val authorizationHeader = tokenAuthenticator.createAuthorizationHeader(token)
-
             val currentUsername = githubApiClient.getUser(authorizationHeader).login
             if (currentUsername != username) {
-                logger.error("Token username mismatch: $currentUsername != $username")
                 return false
             }
-
             val isMemberOfOrg =
                 githubApiClient.getUserOrganizations(authorizationHeader, username)
                     .any { org: GithubOrganizationResponse -> org.login == TARGET_ORGANIZATION }
-
-            logger.info("Membership status for $username in $TARGET_ORGANIZATION: $isMemberOfOrg")
             isMemberOfOrg
         } catch (e: Exception) {
-            logger.error("Error validating GitHub user membership for $username", e)
             false
         }
     }
