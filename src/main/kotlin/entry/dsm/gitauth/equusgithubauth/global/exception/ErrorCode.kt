@@ -13,4 +13,6 @@ enum class ErrorCode(
     EMPTY_ACCESS_TOKEN(400, "액세스 토큰이 비어 있습니다."),
 
     NOTICE_NOT_FOUND(404, "공지사항을 찾을 수 없습니다."),
+
+    REPORT_NOT_FOUND(404, "보고서를 찾을 수 없습니다."),
 }

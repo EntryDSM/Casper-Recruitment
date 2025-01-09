@@ -1,6 +1,7 @@
 package entry.dsm.gitauth.equusgithubauth.domain.report.command.service
 
 import entry.dsm.gitauth.equusgithubauth.domain.report.command.repository.ReportRepository
+import entry.dsm.gitauth.equusgithubauth.domain.report.exception.ReportNotFoundException
 import org.springframework.data.repository.findByIdOrNull
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
@@ -13,8 +14,7 @@ class DeleteReportService(
     fun deleteReport(reportId: Long) {
         val report =
             reportRepository.findByIdOrNull(reportId)
-                ?: throw IllegalArgumentException("Report with id $reportId not found")
-
+                ?: throw ReportNotFoundException
         reportRepository.delete(report)
     }
 }

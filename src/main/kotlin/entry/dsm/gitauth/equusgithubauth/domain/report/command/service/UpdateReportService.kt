@@ -3,6 +3,7 @@ package entry.dsm.gitauth.equusgithubauth.domain.report.command.service
 import entry.dsm.gitauth.equusgithubauth.domain.report.command.dto.request.UpdateReportCommand
 import entry.dsm.gitauth.equusgithubauth.domain.report.command.repository.ReportRepository
 import entry.dsm.gitauth.equusgithubauth.domain.report.entity.Report
+import entry.dsm.gitauth.equusgithubauth.domain.report.exception.ReportNotFoundException
 import org.springframework.data.repository.findByIdOrNull
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
@@ -18,7 +19,7 @@ class UpdateReportService(
     ): Report {
         val report =
             reportRepository.findByIdOrNull(reportId)
-                ?: throw IllegalArgumentException("Report with id $reportId not found")
+                ?: throw ReportNotFoundException
 
         report.apply {
             applicantName = command.applicantName
