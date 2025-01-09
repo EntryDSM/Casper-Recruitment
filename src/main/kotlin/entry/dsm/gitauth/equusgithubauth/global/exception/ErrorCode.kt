@@ -11,4 +11,6 @@ enum class ErrorCode(
     MISSING_REQUIRED_ATTRIBUTE(400, "사용자의 필수 속성이 누락되었습니다."),
     INVALID_ACCESS_TOKEN(400, "액세스 토큰이 만료되었거나 유효하지 않습니다."),
     EMPTY_ACCESS_TOKEN(400, "액세스 토큰이 비어 있습니다."),
+
+    NOTICE_NOT_FOUND(404, "공지사항을 찾을 수 없습니다."),
 }

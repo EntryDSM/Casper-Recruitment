@@ -1,5 +1,6 @@
 package entry.dsm.gitauth.equusgithubauth.domain.notice.query.service
 
+import entry.dsm.gitauth.equusgithubauth.domain.notice.exception.NoticeNotFoundException
 import entry.dsm.gitauth.equusgithubauth.domain.notice.query.dto.response.NoticeQueryResponse
 import entry.dsm.gitauth.equusgithubauth.domain.notice.query.repository.NoticeQueryRepository
 import org.springframework.data.repository.findByIdOrNull
@@ -14,8 +15,7 @@ class NoticeQueryService(
     fun getNotice(noticeId: Long): NoticeQueryResponse {
         val notice =
             noticeQueryRepository.findByIdOrNull(noticeId)
-                ?: throw IllegalArgumentException("Notice id $noticeId not found")
-
+                ?: throw NoticeNotFoundException
         return NoticeQueryResponse.from(notice)
     }
 }
