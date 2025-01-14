@@ -46,7 +46,6 @@ dependencies {
     implementation("jakarta.validation:jakarta.validation-api:3.0.2")
 }
 
-
 kotlin {
     compilerOptions {
         freeCompilerArgs.addAll("-Xjsr305=strict")

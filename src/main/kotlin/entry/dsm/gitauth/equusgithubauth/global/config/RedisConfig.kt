@@ -12,7 +12,7 @@ import org.springframework.data.redis.serializer.StringRedisSerializer
 
 @EnableRedisRepositories(
     enableKeyspaceEvents = RedisKeyValueAdapter.EnableKeyspaceEvents.ON_STARTUP,
-    keyspaceNotificationsConfigParameter = ""
+    keyspaceNotificationsConfigParameter = "",
 )
 @Configuration
 class RedisConfig(
