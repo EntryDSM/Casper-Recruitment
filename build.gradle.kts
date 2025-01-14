@@ -30,7 +30,10 @@ dependencies {
     implementation("io.jsonwebtoken:jjwt-api:0.10.7")
     runtimeOnly("io.jsonwebtoken:jjwt-impl:0.10.7")
     runtimeOnly("io.jsonwebtoken:jjwt-jackson:0.10.7")
+
+    implementation("org.springframework.data:spring-data-redis")
     implementation("org.springframework.boot:spring-boot-starter-data-redis")
+
     implementation("org.springframework.boot:spring-boot-starter-data-jpa")
     implementation("org.projectlombok:lombok")
     testImplementation("org.springframework.boot:spring-boot-starter-test")
@@ -39,10 +42,10 @@ dependencies {
     testRuntimeOnly("org.junit.platform:junit-platform-launcher")
     implementation("org.springframework.cloud:spring-cloud-starter-openfeign:4.2.0")
 
-    // vaildation
     implementation("org.hibernate.validator:hibernate-validator:7.0.2.Final")
     implementation("jakarta.validation:jakarta.validation-api:3.0.2")
 }
+
 
 kotlin {
     compilerOptions {
