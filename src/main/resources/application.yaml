@@ -33,10 +33,10 @@ spring:
             user-info-uri: ${USER_INFO_URI}
             user-name-attribute: ${USER_NAME_ATTRIBUTE}
 
-  redis:
-    host: ${REDIS_HOST}
-    port: ${REDIS_PORT}
-    
+  data:
+    redis:
+      host: ${REDIS_HOST}
+      port: ${REDIS_PORT}
 
 jwt:
   header: ${HEADER}
