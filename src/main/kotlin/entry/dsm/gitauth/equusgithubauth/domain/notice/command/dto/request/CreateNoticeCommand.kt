@@ -14,6 +14,6 @@ data class CreateNoticeCommand(
     val titleImageUrl: String,
     @NotBlank(message = "설명은 비워둘 수 없습니다")
     val description: List<String>,
-    @NotBlank(message = "모집 중요도는 비워둘 수 없습니다")
-    val importanceOfRecruit: ImportanceOfRecruit,
+    val isFocusRecruit: Boolean,
+    val isImportant: Boolean
 )

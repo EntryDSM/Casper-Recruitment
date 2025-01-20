@@ -19,7 +19,8 @@ class CreateNoticeService(
                 keyWord = command.keyWord,
                 titleImageUrl = command.titleImageUrl,
                 description = command.description,
-                importanceOfRecruit = command.importanceOfRecruit,
+                isFocusRecruit = command.isFocusRecruit,
+                isImportant = command.isImportant,
                 reports = listOf(),
             )
         noticeRepository.save(notice)

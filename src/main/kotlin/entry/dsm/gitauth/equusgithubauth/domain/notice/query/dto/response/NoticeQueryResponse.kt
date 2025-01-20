@@ -9,7 +9,8 @@ data class NoticeQueryResponse(
     val keyWord: List<String>,
     val titleImageUrl: String,
     val description: List<String>,
-    val importanceOfRecruit: ImportanceOfRecruit,
+    val isFocusRecruit: Boolean,
+    val isImportant: Boolean,
 ) {
     companion object {
         fun from(notice: Notice) =
@@ -19,7 +20,8 @@ data class NoticeQueryResponse(
                 keyWord = notice.keyWord,
                 titleImageUrl = notice.titleImageUrl,
                 description = notice.description,
-                importanceOfRecruit = notice.importanceOfRecruit,
+                isFocusRecruit = notice.isFocusRecruit,
+                isImportant = notice.isImportant
             )
     }
 }

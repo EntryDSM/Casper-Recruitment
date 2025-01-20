@@ -34,8 +34,10 @@ class Notice(
     @Column(name = "description", nullable = false)
     var description: List<String>,
     @Enumerated(EnumType.STRING)
-    @Column(name = "importance_of_recruit", nullable = false)
-    var importanceOfRecruit: ImportanceOfRecruit,
+    @Column(name = "is_focus_recruit", nullable = false)
+    var isFocusRecruit: Boolean,
+    @Column(name = "is_important", nullable = false)
+    var isImportant: Boolean,
     @OneToMany(mappedBy = "notice", fetch = FetchType.LAZY)
     val reports: List<Report> = listOf(),
 ) {
@@ -44,6 +46,7 @@ class Notice(
         keyWord = command.keyWord
         titleImageUrl = command.titleImageUrl
         description = command.description
-        importanceOfRecruit = command.importanceOfRecruit
+        isFocusRecruit = command.isFocusRecruit
+        isImportant = command.isImportant
     }
 }
