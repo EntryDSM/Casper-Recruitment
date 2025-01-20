@@ -6,9 +6,9 @@ import entry.dsm.gitauth.equusgithubauth.domain.notice.entity.enums.ImportanceOf
 data class NoticeQueryResponse(
     val noticeId: Long,
     val title: String,
-    val keyWord: String,
+    val keyWord: List<String>,
     val titleImageUrl: String,
-    val description: String,
+    val description: List<String>,
     val importanceOfRecruit: ImportanceOfRecruit,
 ) {
     companion object {
