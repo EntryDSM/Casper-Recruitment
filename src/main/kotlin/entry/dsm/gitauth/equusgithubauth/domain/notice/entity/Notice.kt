@@ -1,7 +1,6 @@
 package entry.dsm.gitauth.equusgithubauth.domain.notice.entity
 
 import entry.dsm.gitauth.equusgithubauth.domain.notice.command.dto.request.UpdateNoticeCommand
-import entry.dsm.gitauth.equusgithubauth.domain.notice.entity.enums.ImportanceOfRecruit
 import entry.dsm.gitauth.equusgithubauth.domain.report.entity.Report
 import jakarta.persistence.CollectionTable
 import jakarta.persistence.Column

@@ -1,7 +1,6 @@
 package entry.dsm.gitauth.equusgithubauth.domain.notice.query.dto.response
 
 import entry.dsm.gitauth.equusgithubauth.domain.notice.entity.Notice
-import entry.dsm.gitauth.equusgithubauth.domain.notice.entity.enums.ImportanceOfRecruit
 
 data class NoticeQueryResponse(
     val noticeId: Long,
@@ -21,7 +20,7 @@ data class NoticeQueryResponse(
                 titleImageUrl = notice.titleImageUrl,
                 description = notice.description,
                 isFocusRecruit = notice.isFocusRecruit,
-                isImportant = notice.isImportant
+                isImportant = notice.isImportant,
             )
     }
 }

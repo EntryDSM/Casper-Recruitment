@@ -1,6 +1,5 @@
 package entry.dsm.gitauth.equusgithubauth.domain.notice.command.dto.request
 
-import entry.dsm.gitauth.equusgithubauth.domain.notice.entity.enums.ImportanceOfRecruit
 import jakarta.validation.constraints.NotBlank
 import jakarta.validation.constraints.Size
 
@@ -14,5 +13,5 @@ data class UpdateNoticeCommand(
     @NotBlank(message = "설명은 비워둘 수 없습니다")
     val description: List<String>,
     val isFocusRecruit: Boolean,
-    val isImportant: Boolean
+    val isImportant: Boolean,
 )

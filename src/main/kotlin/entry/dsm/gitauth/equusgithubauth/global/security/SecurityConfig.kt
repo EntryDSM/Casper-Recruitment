@@ -8,28 +8,19 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.http.SessionCreationPolicy
 import org.springframework.security.web.SecurityFilterChain
 
-
 @Configuration
 @EnableWebSecurity
 class SecurityConfig {
-
     @Bean
-    fun publicSecurityFilterChain(http : HttpSecurity) : SecurityFilterChain{
-
+    fun publicSecurityFilterChain(http: HttpSecurity): SecurityFilterChain  {
         http
-
             .csrf { csrf -> csrf.disable() }
-
             .sessionManagement { session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS) }
-
-            .authorizeHttpRequests { auth -> auth
-                .requestMatchers(HttpMethod.GET,"/notice","reports").permitAll()
-
-                .anyRequest().authenticated()
-
-
+            .authorizeHttpRequests { auth ->
+                auth
+                    .requestMatchers(HttpMethod.GET, "/notice", "reports").permitAll()
+                    .anyRequest().authenticated()
             }
         return http.build()
     }
-
 }
