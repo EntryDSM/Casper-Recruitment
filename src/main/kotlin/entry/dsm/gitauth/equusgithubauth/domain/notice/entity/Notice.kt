@@ -2,7 +2,17 @@ package entry.dsm.gitauth.equusgithubauth.domain.notice.entity
 
 import entry.dsm.gitauth.equusgithubauth.domain.notice.command.dto.request.UpdateNoticeCommand
 import entry.dsm.gitauth.equusgithubauth.domain.report.entity.Report
-import jakarta.persistence.*
+import jakarta.persistence.CascadeType
+import jakarta.persistence.CollectionTable
+import jakarta.persistence.Column
+import jakarta.persistence.ElementCollection
+import jakarta.persistence.Entity
+import jakarta.persistence.EnumType
+import jakarta.persistence.Enumerated
+import jakarta.persistence.FetchType
+import jakarta.persistence.GeneratedValue
+import jakarta.persistence.Id
+import jakarta.persistence.OneToMany
 
 @Entity(name = "notice")
 class Notice(
@@ -35,15 +45,14 @@ class Notice(
         isFocusRecruit = command.isFocusRecruit
         isImportant = command.isImportant
 
-
         descriptions.clear()
         command.description.forEach { descDto ->
             descriptions.add(
                 NoticeDescription(
                     title = descDto.title,
                     content = descDto.content,
-                    notice = this
-                )
+                    notice = this,
+                ),
             )
         }
     }

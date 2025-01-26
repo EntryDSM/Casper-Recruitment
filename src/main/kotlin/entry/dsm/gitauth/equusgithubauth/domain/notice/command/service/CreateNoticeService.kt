@@ -13,24 +13,24 @@ class CreateNoticeService(
 ) {
     @Transactional
     fun createNotice(command: CreateNoticeCommand) {
-
-        val notice = Notice(
-            noticeId = command.noticeId,
-            title = command.title,
-            keyWord = command.keyWord,
-            titleImageUrl = command.titleImageUrl,
-            descriptions = mutableListOf(),
-            isFocusRecruit = command.isFocusRecruit,
-            isImportant = command.isImportant,
-            reports = listOf()
-        )
+        val notice =
+            Notice(
+                noticeId = command.noticeId,
+                title = command.title,
+                keyWord = command.keyWord,
+                titleImageUrl = command.titleImageUrl,
+                descriptions = mutableListOf(),
+                isFocusRecruit = command.isFocusRecruit,
+                isImportant = command.isImportant,
+                reports = listOf(),
+            )
         command.description.forEach { descDto ->
             notice.descriptions.add(
                 NoticeDescription(
                     title = descDto.title,
                     content = descDto.content,
-                    notice = notice
-                )
+                    notice = notice,
+                ),
             )
         }
 

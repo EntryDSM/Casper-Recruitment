@@ -19,9 +19,10 @@ data class NoticeQueryResponse(
                 title = notice.title,
                 keyWord = notice.keyWord,
                 titleImageUrl = notice.titleImageUrl,
-                description = notice.descriptions.map { // 엔티티 구조도 변경 필요
-                    DescriptionItem(it.title, it.content)
-                },
+                description =
+                    notice.descriptions.map { // 엔티티 구조도 변경 필요
+                        DescriptionItem(it.title, it.content)
+                    },
                 isFocusRecruit = notice.isFocusRecruit,
                 isImportant = notice.isImportant,
             )
