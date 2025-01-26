@@ -1,5 +1,6 @@
 package entry.dsm.gitauth.equusgithubauth.domain.notice.command.dto.request
 
+import entry.dsm.gitauth.equusgithubauth.domain.notice.entity.DescriptionItem
 import jakarta.validation.constraints.NotBlank
 import jakarta.validation.constraints.Size
 
@@ -12,7 +13,7 @@ data class CreateNoticeCommand(
     val keyWord: List<String>,
     val titleImageUrl: String,
     @NotBlank(message = "설명은 비워둘 수 없습니다")
-    val description: List<String>,
+    val description: List<DescriptionItem>,
     val isFocusRecruit: Boolean,
     val isImportant: Boolean,
 )
