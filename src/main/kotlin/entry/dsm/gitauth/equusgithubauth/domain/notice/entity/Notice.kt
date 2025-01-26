@@ -2,17 +2,7 @@ package entry.dsm.gitauth.equusgithubauth.domain.notice.entity
 
 import entry.dsm.gitauth.equusgithubauth.domain.notice.command.dto.request.UpdateNoticeCommand
 import entry.dsm.gitauth.equusgithubauth.domain.report.entity.Report
-import jakarta.persistence.CollectionTable
-import jakarta.persistence.Column
-import jakarta.persistence.ElementCollection
-import jakarta.persistence.Entity
-import jakarta.persistence.EnumType
-import jakarta.persistence.Enumerated
-import jakarta.persistence.FetchType
-import jakarta.persistence.GeneratedValue
-import jakarta.persistence.Id
-import jakarta.persistence.JoinColumn
-import jakarta.persistence.OneToMany
+import jakarta.persistence.*
 
 @Entity(name = "notice")
 class Notice(
@@ -28,10 +18,8 @@ class Notice(
     var keyWord: List<String>,
     @Column(name = "title_image_url", nullable = false)
     var titleImageUrl: String,
-    @ElementCollection
-    @CollectionTable(name = "notice_descriptions", joinColumns = [JoinColumn(name = "notice_id")])
-    @Column(name = "description", nullable = false)
-    var description: List<String>,
+    @OneToMany(mappedBy = "notice", cascade = [CascadeType.ALL], orphanRemoval = true)
+    var descriptions: MutableList<NoticeDescription> = mutableListOf(),
     @Enumerated(EnumType.STRING)
     @Column(name = "is_focus_recruit", nullable = false)
     var isFocusRecruit: Boolean,
@@ -44,8 +32,19 @@ class Notice(
         title = command.title
         keyWord = command.keyWord
         titleImageUrl = command.titleImageUrl
-        description = command.description
         isFocusRecruit = command.isFocusRecruit
         isImportant = command.isImportant
+
+
+        descriptions.clear()
+        command.description.forEach { descDto ->
+            descriptions.add(
+                NoticeDescription(
+                    title = descDto.title,
+                    content = descDto.content,
+                    notice = this
+                )
+            )
+        }
     }
 }
