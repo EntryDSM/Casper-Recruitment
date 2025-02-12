@@ -22,8 +22,10 @@ class GithubOAuth2LoginConfig {
     fun configure(
         http: HttpSecurity,
         clientRegistrationRepository: ClientRegistrationRepository,
+        corsConfigurationSource: CorsConfigurationSource
     ) {
         http
+            .cors { it.configurationSource(corsConfigurationSource) }
             .oauth2Login { oauth ->
                 oauth
                     .successHandler(githubAuthenticationSuccessHandler())

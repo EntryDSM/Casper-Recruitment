@@ -36,7 +36,7 @@ class SecurityConfig(
                     .anyRequest().authenticated()
             }
 
-        githubOAuth2LoginConfig.configure(http, clientRegistrationRepository)
+        githubOAuth2LoginConfig.configure(http, clientRegistrationRepository, corsConfigurationSource)
 
         return http.build()
     }
