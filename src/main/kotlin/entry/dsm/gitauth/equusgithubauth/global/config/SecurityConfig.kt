@@ -9,7 +9,9 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.http.SessionCreationPolicy
 import org.springframework.security.oauth2.client.registration.ClientRegistrationRepository
 import org.springframework.security.web.SecurityFilterChain
+import org.springframework.web.cors.CorsConfiguration
 import org.springframework.web.cors.CorsConfigurationSource
+import org.springframework.web.cors.UrlBasedCorsConfigurationSource
 
 @Configuration
 @EnableWebSecurity
@@ -20,11 +22,10 @@ class SecurityConfig(
     fun securityFilterChain(
         http: HttpSecurity,
         clientRegistrationRepository: ClientRegistrationRepository,
-        corsConfigurationSource: CorsConfigurationSource,
     ): SecurityFilterChain {
         http
             .csrf { it.disable() }
-            .cors { it.configurationSource(corsConfigurationSource) }
+            .cors { it.configurationSource(corsConfigurationSource()) }
             .headers { it.frameOptions { frame -> frame.sameOrigin() } }
             .sessionManagement { it.sessionCreationPolicy(SessionCreationPolicy.STATELESS) }
             .authorizeHttpRequests { auth ->
@@ -34,8 +35,21 @@ class SecurityConfig(
                     .anyRequest().authenticated()
             }
 
-        githubOAuth2LoginConfig.configure(http, clientRegistrationRepository, corsConfigurationSource)
+        githubOAuth2LoginConfig.configure(http, clientRegistrationRepository)
 
         return http.build()
+    }
+
+    @Bean
+    fun corsConfigurationSource(): CorsConfigurationSource {
+        val configuration = CorsConfiguration()
+        configuration.allowedOrigins = listOf("*")
+        configuration.allowedMethods = listOf("*")
+        configuration.allowedHeaders = listOf("*")
+        configuration.allowCredentials = true
+
+        val source = UrlBasedCorsConfigurationSource()
+        source.registerCorsConfiguration("/**", configuration)
+        return source
     }
 }
