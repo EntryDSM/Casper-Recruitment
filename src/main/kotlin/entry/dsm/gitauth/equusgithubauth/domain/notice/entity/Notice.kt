@@ -7,8 +7,6 @@ import jakarta.persistence.CollectionTable
 import jakarta.persistence.Column
 import jakarta.persistence.ElementCollection
 import jakarta.persistence.Entity
-import jakarta.persistence.EnumType
-import jakarta.persistence.Enumerated
 import jakarta.persistence.FetchType
 import jakarta.persistence.GeneratedValue
 import jakarta.persistence.Id
@@ -31,7 +29,6 @@ class Notice(
     var titleImageUrl: String,
     @OneToMany(mappedBy = "notice", cascade = [CascadeType.ALL], orphanRemoval = true)
     var descriptions: MutableList<NoticeDescription> = mutableListOf(),
-    @Enumerated(EnumType.STRING)
     @Column(name = "is_focus_recruit", nullable = false)
     var isFocusRecruit: Boolean,
     @Column(name = "is_important", nullable = false)
