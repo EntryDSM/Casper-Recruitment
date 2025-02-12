@@ -27,28 +27,28 @@ class GithubOAuth2LoginConfig {
             .cors { it.configurationSource(corsConfigurationSource()) }
             .csrf { it.disable() }
             .oauth2Login { oauth ->
-            oauth
-                .successHandler(githubAuthenticationSuccessHandler())
-                .failureHandler(githubAuthenticationFailureHandler())
-                .authorizationEndpoint { authorizationEndpoint ->
-                    val defaultResolver =
-                        DefaultOAuth2AuthorizationRequestResolver(
+                oauth
+                    .successHandler(githubAuthenticationSuccessHandler())
+                    .failureHandler(githubAuthenticationFailureHandler())
+                    .authorizationEndpoint { authorizationEndpoint ->
+                       val defaultResolver =
+                            DefaultOAuth2AuthorizationRequestResolver(
                             clientRegistrationRepository,
-                            "/oauth2/authorization",
-                        )
-                    defaultResolver.setAuthorizationRequestCustomizer { builder ->
-                        builder.scope("read:org")
+                                "/oauth2/authorization",
+                            )
+                        defaultResolver.setAuthorizationRequestCustomizer { builder ->
+                            builder.scope("read:org")
+                        }
+                        authorizationEndpoint.authorizationRequestResolver(defaultResolver)
                     }
-                    authorizationEndpoint.authorizationRequestResolver(defaultResolver)
-                }
         }
     }
 
     @Bean
     fun corsConfigurationSource(): CorsConfigurationSource {
         val configuration = CorsConfiguration()
-        configuration.allowedOrigins = listOf("*")
-        configuration.allowedMethods = listOf("*")
+        configuration.allowedOrigins = listOf("http://localhost:5173")
+        configuration.allowedMethods = listOf("GET", "POST", "PUT", "DELETE", "PATCH")
         configuration.allowedHeaders = listOf("*")
         configuration.allowCredentials = true
 
