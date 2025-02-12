@@ -24,6 +24,8 @@ class GithubOAuth2LoginConfig {
         clientRegistrationRepository: ClientRegistrationRepository,
     ) {
         http
+            .cors { it.configurationSource(corsConfigurationSource()) }
+            .csrf { it.disable() }
             .oauth2Login { oauth ->
             oauth
                 .successHandler(githubAuthenticationSuccessHandler())
@@ -40,5 +42,18 @@ class GithubOAuth2LoginConfig {
                     authorizationEndpoint.authorizationRequestResolver(defaultResolver)
                 }
         }
+    }
+
+    @Bean
+    fun corsConfigurationSource(): CorsConfigurationSource {
+        val configuration = CorsConfiguration()
+        configuration.allowedOrigins = listOf("*")
+        configuration.allowedMethods = listOf("*")
+        configuration.allowedHeaders = listOf("*")
+        configuration.allowCredentials = true
+
+        val source = UrlBasedCorsConfigurationSource()
+        source.registerCorsConfiguration("/**", configuration)
+        return source
     }
 }
