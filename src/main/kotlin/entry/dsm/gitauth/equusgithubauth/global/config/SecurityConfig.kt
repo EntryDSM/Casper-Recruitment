@@ -20,7 +20,7 @@ class SecurityConfig(
     fun securityFilterChain(
         http: HttpSecurity,
         clientRegistrationRepository: ClientRegistrationRepository,
-        corsConfigurationSource: CorsConfigurationSource
+        corsConfigurationSource: CorsConfigurationSource,
     ): SecurityFilterChain {
         http
             .csrf { it.disable() }
@@ -29,7 +29,7 @@ class SecurityConfig(
             .sessionManagement { it.sessionCreationPolicy(SessionCreationPolicy.STATELESS) }
             .authorizeHttpRequests { auth ->
                 auth
-                    .requestMatchers("/", "/login", "/oauth2/**", "/error").permitAll()
+                    .requestMatchers("/", "/login", "/oauth2/**", "/error", "/notice/**", "/notice", "/reports").permitAll()
                     .requestMatchers(HttpMethod.GET, "reports", "notice").permitAll()
                     .anyRequest().authenticated()
             }
