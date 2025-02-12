@@ -17,15 +17,15 @@ import org.springframework.web.cors.UrlBasedCorsConfigurationSource
 @EnableWebSecurity
 class SecurityConfig(
     private val githubOAuth2LoginConfig: GithubOAuth2LoginConfig,
+    private val corsConfig: CorsConfig
 ) {
     @Bean
     fun securityFilterChain(
         http: HttpSecurity,
         clientRegistrationRepository: ClientRegistrationRepository,
-        corsConfigurationSource: CorsConfigurationSource
     ): SecurityFilterChain {
         http
-            .cors { it.configurationSource(corsConfigurationSource) }
+            .cors { it.configurationSource(corsConfig.corsConfigurationSource()) }
             .csrf { it.disable() }
             .headers { it.frameOptions { frame -> frame.sameOrigin() } }
             .sessionManagement { it.sessionCreationPolicy(SessionCreationPolicy.STATELESS) }
@@ -36,7 +36,7 @@ class SecurityConfig(
                     .anyRequest().authenticated()
             }
 
-        githubOAuth2LoginConfig.configure(http, clientRegistrationRepository, corsConfigurationSource)
+        githubOAuth2LoginConfig.configure(http, clientRegistrationRepository)
 
         return http.build()
     }

@@ -1,5 +1,6 @@
 package entry.dsm.gitauth.equusgithubauth.global.oauth
 
+import entry.dsm.gitauth.equusgithubauth.global.config.CorsConfig
 import entry.dsm.gitauth.equusgithubauth.global.oauth.handler.GithubAuthenticationFailureHandler
 import entry.dsm.gitauth.equusgithubauth.global.oauth.handler.GithubAuthenticationSuccessHandler
 import org.springframework.context.annotation.Bean
@@ -12,7 +13,9 @@ import org.springframework.web.cors.CorsConfigurationSource
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource
 
 @Configuration
-class GithubOAuth2LoginConfig {
+class GithubOAuth2LoginConfig(
+    private val corsConfig: CorsConfig
+) {
     @Bean
     fun githubAuthenticationSuccessHandler() = GithubAuthenticationSuccessHandler()
 
@@ -22,10 +25,9 @@ class GithubOAuth2LoginConfig {
     fun configure(
         http: HttpSecurity,
         clientRegistrationRepository: ClientRegistrationRepository,
-        corsConfigurationSource: CorsConfigurationSource
     ) {
         http
-            .cors { it.configurationSource(corsConfigurationSource) }
+            .cors { it.configurationSource(corsConfig.corsConfigurationSource()) }
             .oauth2Login { oauth ->
                 oauth
                     .successHandler(githubAuthenticationSuccessHandler())
