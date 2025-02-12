@@ -24,8 +24,6 @@ class SecurityConfig(
         clientRegistrationRepository: ClientRegistrationRepository,
     ): SecurityFilterChain {
         http
-            .csrf { it.disable() }
-            .cors { it.configurationSource(corsConfigurationSource()) }
             .headers { it.frameOptions { frame -> frame.sameOrigin() } }
             .sessionManagement { it.sessionCreationPolicy(SessionCreationPolicy.STATELESS) }
             .authorizeHttpRequests { auth ->
@@ -38,18 +36,5 @@ class SecurityConfig(
         githubOAuth2LoginConfig.configure(http, clientRegistrationRepository)
 
         return http.build()
-    }
-
-    @Bean
-    fun corsConfigurationSource(): CorsConfigurationSource {
-        val configuration = CorsConfiguration()
-        configuration.allowedOrigins = listOf("http://localhost:5173")
-        configuration.allowedMethods = listOf("GET", "POST", "PUT", "DELETE", "PATCH")
-        configuration.allowedHeaders = listOf("*")
-        configuration.allowCredentials = true
-
-        val source = UrlBasedCorsConfigurationSource()
-        source.registerCorsConfiguration("/**", configuration)
-        return source
     }
 }
