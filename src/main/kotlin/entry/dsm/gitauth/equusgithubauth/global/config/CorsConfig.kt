@@ -10,14 +10,19 @@ import org.springframework.web.cors.UrlBasedCorsConfigurationSource
 class CorsConfig {
     @Bean
     fun corsConfigurationSource(): CorsConfigurationSource {
-        val configuration = CorsConfiguration()
-        configuration.allowedOrigins = listOf("*")
-        configuration.allowedMethods = listOf("GET", "POST", "PUT", "DELETE", "OPTIONS")
-        configuration.allowedHeaders = listOf("*")
-        configuration.allowCredentials = false
+        val configuration = CorsConfiguration().apply {
+            allowedOrigins = listOf(
+                "http://localhost:5173",
+                "http://localhost:3000"
+            )
+            allowedMethods = listOf("*")
+            allowCredentials = true
+            addAllowedHeader("*")
+            allowedHeaders = listOf("*")
+        }
 
-        val source = UrlBasedCorsConfigurationSource()
-        source.registerCorsConfiguration("/**", configuration)
-        return source
+        return UrlBasedCorsConfigurationSource().apply {
+            registerCorsConfiguration("/**", configuration)
+        }
     }
 }
