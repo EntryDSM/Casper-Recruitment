@@ -15,7 +15,7 @@ class CorsConfig {
                 "http://localhost:5173",
                 "http://localhost:3000"
             )
-            allowedMethods = listOf("*")
+            allowedMethods = listOf("GET", "POST", "PUT", "DELETE", "OPTIONS")
             allowCredentials = true
             addAllowedHeader("*")
             allowedHeaders = listOf("*")

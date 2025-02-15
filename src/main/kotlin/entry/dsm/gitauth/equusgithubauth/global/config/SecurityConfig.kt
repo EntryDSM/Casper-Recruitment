@@ -25,9 +25,8 @@ class SecurityConfig(
         clientRegistrationRepository: ClientRegistrationRepository,
     ): SecurityFilterChain {
         http
-            .cors { it.configurationSource(corsConfig.corsConfigurationSource()) }
             .csrf { it.disable() }
-            .headers { it.frameOptions { frame -> frame.sameOrigin() } }
+            .cors { it.configurationSource(corsConfig.corsConfigurationSource()) }
             .sessionManagement { it.sessionCreationPolicy(SessionCreationPolicy.STATELESS) }
             .authorizeHttpRequests { auth ->
                 auth
