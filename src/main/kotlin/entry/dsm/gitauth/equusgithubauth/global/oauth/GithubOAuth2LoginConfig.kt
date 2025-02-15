@@ -13,9 +13,7 @@ import org.springframework.web.cors.CorsConfigurationSource
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource
 
 @Configuration
-class GithubOAuth2LoginConfig(
-    private val corsConfig: CorsConfig
-) {
+class GithubOAuth2LoginConfig() {
     @Bean
     fun githubAuthenticationSuccessHandler() = GithubAuthenticationSuccessHandler()
 
@@ -27,7 +25,6 @@ class GithubOAuth2LoginConfig(
         clientRegistrationRepository: ClientRegistrationRepository,
     ) {
         http
-            .cors { it.configurationSource(corsConfig.corsConfigurationSource()) }
             .oauth2Login { oauth ->
                 oauth
                     .successHandler(githubAuthenticationSuccessHandler())
