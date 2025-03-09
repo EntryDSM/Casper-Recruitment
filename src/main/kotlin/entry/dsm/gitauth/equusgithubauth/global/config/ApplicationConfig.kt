@@ -11,3 +11,4 @@ class ApplicationConfig {
         return RestTemplate()
     }
 }
+
