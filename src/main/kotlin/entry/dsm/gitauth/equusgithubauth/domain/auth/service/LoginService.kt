@@ -16,7 +16,7 @@ class LoginService(
     private val jwtTokenProvider: JwtTokenProvider
 ) {
     @Transactional
-    fun login(
+    fun execute(
         request: LoginRequest
     ): TokenResponse {
         val user = userRepository.findByUsername(request.username)
