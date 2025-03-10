@@ -11,9 +11,9 @@ import org.springframework.stereotype.Service
 class AuthDetailsService(
     private val userRepository: UserRepository,
 ) : UserDetailsService {
-    override fun loadUserByUsername(githubId: String): UserDetails {
+    override fun loadUserByUsername(username: String): UserDetails {
         val user: User =
-            userRepository.findByGithubId(githubId)
+            userRepository.findByUsername(username)
                 ?: throw UserNotFoundException
 
         return AuthDetails(user)
