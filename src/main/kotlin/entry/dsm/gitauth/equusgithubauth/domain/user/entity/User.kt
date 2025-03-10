@@ -13,12 +13,14 @@ data class User(
     @Id
     @Column(name = "id", nullable = false)
     val id: UUID = UUID.randomUUID(),
-    @Column(name = "github_id", nullable = false, unique = true)
-    val githubId: String,
+    /*@Column(name = "github_id", nullable = false, unique = true)
+    val githubId: String,*/
     @Column(name = "username", nullable = false)
     val username: String,
-    @Column(name = "email", nullable = true, unique = true)
-    val email: String?,
+    @Column(name = "password", nullable = false)
+    val password: String,
+    /*@Column(name = "email", nullable = true, unique = true)
+    val email: String?,*/
     @Column(name = "profile_url")
     val profileUrl: String? = null,
     @Column(name = "avatar_url")
