@@ -19,4 +19,5 @@ enum class ErrorCode(
 
     JWT_TOKEN_EXPIRED(401, "JWT 토큰이 만료되었습니다."),
     JWT_TOKEN_INVALID(401, "JWT 토큰이 유효하지 않습니다."),
+    PASSWORD_MISMATCH(401, "비밀번호가 일치하지 않습니다."),
 }
