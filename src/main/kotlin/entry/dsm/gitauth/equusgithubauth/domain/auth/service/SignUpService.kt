@@ -25,7 +25,6 @@ class SignUpService(
                 username = username,
                 password = passwordEncoder.encode(password),
                 createdAt = LocalDateTime.now(),
-                updatedAt = LocalDateTime.now(),
             )
         }
         userRepository.save(user)
