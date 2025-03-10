@@ -3,7 +3,6 @@ package entry.dsm.gitauth.equusgithubauth.domain.auth.service
 import entry.dsm.gitauth.equusgithubauth.domain.auth.entity.RefreshToken
 import entry.dsm.gitauth.equusgithubauth.domain.auth.entity.repository.RefreshTokenRepository
 import entry.dsm.gitauth.equusgithubauth.domain.auth.exception.RefreshTokenNotFoundException
-import entry.dsm.gitauth.equusgithubauth.domain.auth.presentation.dto.request.TokenRefreshRequest
 import entry.dsm.gitauth.equusgithubauth.domain.auth.presentation.dto.response.TokenResponse
 import entry.dsm.gitauth.equusgithubauth.global.security.jwt.JwtProperties
 import entry.dsm.gitauth.equusgithubauth.global.security.jwt.JwtTokenProvider
@@ -18,15 +17,15 @@ class TokenRefreshService(
 ) {
     @Transactional
     fun execute(
-        request: TokenRefreshRequest
+        refreshToken: String
     ): TokenResponse {
-        val refreshToken: RefreshToken = refreshTokenRepository.findByRefreshToken(request.refreshToken)
+        val rfToken: RefreshToken = refreshTokenRepository.findByRefreshToken(refreshToken)
             ?: throw RefreshTokenNotFoundException
 
-        val username = refreshToken.username
+        val username = rfToken.username
         val tokens = jwtTokenProvider.generateToken(username)
 
-        refreshToken.updateToken(tokens.refreshToken, jwtProperties.refreshExp)
+        rfToken.updateToken(tokens.refreshToken, jwtProperties.refreshExp)
 
         return tokens
     }
