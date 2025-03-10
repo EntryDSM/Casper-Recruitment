@@ -17,14 +17,14 @@ class TokenRefreshService(
 ) {
     @Transactional
     fun execute(refreshToken: String): TokenResponse {
-        val rfToken: RefreshToken =
+        val redisRefreshToken: RefreshToken =
             refreshTokenRepository.findByRefreshToken(refreshToken)
                 ?: throw RefreshTokenNotFoundException
 
-        val username = rfToken.username
-        val tokens = jwtTokenProvider.generateToken(username)
+        val userName = redisRefreshToken.userName
+        val tokens = jwtTokenProvider.generateToken(userName)
 
-        rfToken.updateToken(tokens.refreshToken, jwtProperties.refreshExp)
+        redisRefreshToken.updateToken(tokens.refreshToken, jwtProperties.refreshExp)
 
         return tokens
     }
