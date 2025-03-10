@@ -3,7 +3,7 @@ package entry.dsm.gitauth.equusgithubauth.domain.user.service
 import entry.dsm.gitauth.equusgithubauth.domain.auth.service.GithubUserService
 import entry.dsm.gitauth.equusgithubauth.domain.user.entity.User
 import entry.dsm.gitauth.equusgithubauth.domain.user.entity.repository.UserRepository
-import entry.dsm.gitauth.equusgithubauth.domain.user.presentation.dto.response.TokenResponse
+import entry.dsm.gitauth.equusgithubauth.domain.auth.presentation.dto.response.TokenResponse
 import entry.dsm.gitauth.equusgithubauth.global.security.jwt.JwtTokenProvider
 import org.springframework.security.oauth2.core.user.OAuth2User
 import org.springframework.stereotype.Service

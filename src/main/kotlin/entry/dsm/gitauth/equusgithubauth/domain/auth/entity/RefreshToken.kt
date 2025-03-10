@@ -1,4 +1,4 @@
-package entry.dsm.gitauth.equusgithubauth.domain.user.entity
+package entry.dsm.gitauth.equusgithubauth.domain.auth.entity
 
 import jakarta.persistence.Column
 import jakarta.persistence.Table

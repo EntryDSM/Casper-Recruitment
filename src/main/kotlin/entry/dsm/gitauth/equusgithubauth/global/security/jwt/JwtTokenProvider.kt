@@ -1,8 +1,8 @@
 package entry.dsm.gitauth.equusgithubauth.global.security.jwt
 
-import entry.dsm.gitauth.equusgithubauth.domain.user.entity.RefreshToken
-import entry.dsm.gitauth.equusgithubauth.domain.user.entity.repository.RefreshTokenRepository
-import entry.dsm.gitauth.equusgithubauth.domain.user.presentation.dto.response.TokenResponse
+import entry.dsm.gitauth.equusgithubauth.domain.auth.entity.RefreshToken
+import entry.dsm.gitauth.equusgithubauth.domain.auth.entity.repository.RefreshTokenRepository
+import entry.dsm.gitauth.equusgithubauth.domain.auth.presentation.dto.response.TokenResponse
 import entry.dsm.gitauth.equusgithubauth.global.security.auth.AuthDetailsService
 import entry.dsm.gitauth.equusgithubauth.global.security.jwt.exception.JwtTokenExpiredException
 import entry.dsm.gitauth.equusgithubauth.global.security.jwt.exception.JwtTokenInvalidException
