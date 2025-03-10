@@ -7,9 +7,11 @@ import entry.dsm.gitauth.equusgithubauth.domain.auth.service.SignUpService
 import entry.dsm.gitauth.equusgithubauth.domain.auth.presentation.dto.response.TokenResponse
 import entry.dsm.gitauth.equusgithubauth.domain.auth.service.LoginService
 import entry.dsm.gitauth.equusgithubauth.domain.auth.service.TokenRefreshService
+import org.springframework.http.HttpStatus
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RequestMapping
+import org.springframework.web.bind.annotation.ResponseStatus
 import org.springframework.web.bind.annotation.RestController
 
 @RestController
@@ -19,6 +21,7 @@ class AuthController(
     private val loginService: LoginService,
     private val tokenRefreshService: TokenRefreshService
 ) {
+    @ResponseStatus(HttpStatus.CREATED)
     @PostMapping("/sign-up")
     fun signUp(
         @RequestBody request: SignUpRequest
