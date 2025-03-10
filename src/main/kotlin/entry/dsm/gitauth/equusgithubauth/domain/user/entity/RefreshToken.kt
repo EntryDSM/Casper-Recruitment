@@ -11,8 +11,8 @@ import org.springframework.data.redis.core.index.Indexed
 @Table(name = "refresh_token")
 class RefreshToken(
     @Id
-    @Column(name = "id", nullable = false, unique = true)
-    val githubId: String,
+    @Column(name = "username", nullable = false, unique = true)
+    val username: String,
     @Indexed
     @Column(name = "refresh_token", nullable = false)
     var refreshToken: String,
