@@ -20,7 +20,7 @@ class TokenRefreshService(
     fun execute(
         request: TokenRefreshRequest
     ): TokenResponse {
-        val refreshToken: RefreshToken = refreshTokenRepository.findByToken(request.accessToken)
+        val refreshToken: RefreshToken = refreshTokenRepository.findByToken(request.refreshToken)
             ?: throw RefreshTokenNotFoundException
 
         val username = refreshToken.username
