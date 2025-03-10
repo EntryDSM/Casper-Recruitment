@@ -8,6 +8,7 @@ import entry.dsm.gitauth.equusgithubauth.domain.auth.presentation.dto.response.T
 import entry.dsm.gitauth.equusgithubauth.domain.auth.service.LoginService
 import entry.dsm.gitauth.equusgithubauth.domain.auth.service.TokenRefreshService
 import org.springframework.web.bind.annotation.PostMapping
+import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RestController
 
@@ -20,21 +21,21 @@ class AuthController(
 ) {
     @PostMapping("/sign-up")
     fun signUp(
-        request: SignUpRequest
+        @RequestBody request: SignUpRequest
     ): TokenResponse {
         return signUpService.execute(request)
     }
 
     @PostMapping("login")
     fun login(
-        request: LoginRequest
+        @RequestBody request: LoginRequest
     ): TokenResponse {
         return loginService.execute(request)
     }
 
     @PostMapping("token-refresh")
     fun tokenRefresh(
-        request: TokenRefreshRequest
+        @RequestBody request: TokenRefreshRequest
     ): TokenResponse {
         return tokenRefreshService.execute(request)
     }
