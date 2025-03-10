@@ -22,7 +22,7 @@ class RefreshToken(
 ) {
     fun updateToken(
         refreshToken: String,
-        refExp: Long
+        refExp: Long,
     ) {
         this.refreshToken = refreshToken
         this.tokenExpiration = refExp

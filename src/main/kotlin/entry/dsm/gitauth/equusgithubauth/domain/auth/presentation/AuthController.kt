@@ -2,9 +2,9 @@ package entry.dsm.gitauth.equusgithubauth.domain.auth.presentation
 
 import entry.dsm.gitauth.equusgithubauth.domain.auth.presentation.dto.request.LoginRequest
 import entry.dsm.gitauth.equusgithubauth.domain.auth.presentation.dto.request.SignUpRequest
-import entry.dsm.gitauth.equusgithubauth.domain.auth.service.SignUpService
 import entry.dsm.gitauth.equusgithubauth.domain.auth.presentation.dto.response.TokenResponse
 import entry.dsm.gitauth.equusgithubauth.domain.auth.service.LoginService
+import entry.dsm.gitauth.equusgithubauth.domain.auth.service.SignUpService
 import entry.dsm.gitauth.equusgithubauth.domain.auth.service.TokenRefreshService
 import jakarta.validation.Valid
 import org.springframework.http.HttpStatus
@@ -21,13 +21,13 @@ import org.springframework.web.bind.annotation.RestController
 class AuthController(
     private val signUpService: SignUpService,
     private val loginService: LoginService,
-    private val tokenRefreshService: TokenRefreshService
+    private val tokenRefreshService: TokenRefreshService,
 ) {
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping("/sign-up")
     fun signUp(
         @Valid
-        @RequestBody request: SignUpRequest
+        @RequestBody request: SignUpRequest,
     ): TokenResponse {
         return signUpService.execute(request)
     }
@@ -35,14 +35,14 @@ class AuthController(
     @PostMapping("/login")
     fun login(
         @Valid
-        @RequestBody request: LoginRequest
+        @RequestBody request: LoginRequest,
     ): TokenResponse {
         return loginService.execute(request)
     }
 
     @PutMapping("/token-refresh")
     fun tokenRefresh(
-        @RequestHeader("X-Refresh-Token") refreshToken: String
+        @RequestHeader("X-Refresh-Token") refreshToken: String,
     ): TokenResponse {
         return tokenRefreshService.execute(refreshToken)
     }

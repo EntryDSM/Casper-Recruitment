@@ -9,11 +9,10 @@ data class SignUpRequest(
     @field:Length(min = 1, max = 15)
     @field:NotBlank
     val username: String,
-
     @field:Pattern(
         regexp = RegexpUtil.PASSWORD_PATTERN,
-        message = "비밀번호는 영어, 숫자, 특수문자를 포함해야 하며 10~30자여야 합니다."
+        message = "비밀번호는 영어, 숫자, 특수문자를 포함해야 하며 10~30자여야 합니다.",
     )
     @field:NotBlank
-    val password: String
+    val password: String,
 )

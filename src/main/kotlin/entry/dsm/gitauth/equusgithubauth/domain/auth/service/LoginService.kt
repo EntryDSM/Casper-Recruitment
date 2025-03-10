@@ -13,12 +13,10 @@ import org.springframework.transaction.annotation.Transactional
 class LoginService(
     private val passwordEncoder: PasswordEncoder,
     private val jwtTokenProvider: JwtTokenProvider,
-    private val userFacade: UserFacade
+    private val userFacade: UserFacade,
 ) {
     @Transactional
-    fun execute(
-        request: LoginRequest
-    ): TokenResponse {
+    fun execute(request: LoginRequest): TokenResponse {
         val user = userFacade.findByUsername(request.username)
 
         if (passwordEncoder.matches(user.password, request.password)) {

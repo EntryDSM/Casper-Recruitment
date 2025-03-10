@@ -7,11 +7,9 @@ import org.springframework.stereotype.Component
 
 @Component
 class UserFacade(
-    private val userRepository: UserRepository
+    private val userRepository: UserRepository,
 ) {
-    fun findByUsername(
-        username: String
-    ): User {
+    fun findByUsername(username: String): User {
         return userRepository.findByUsername(username)
             ?: throw UserNotFoundException
     }

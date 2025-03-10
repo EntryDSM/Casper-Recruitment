@@ -13,14 +13,13 @@ import org.springframework.transaction.annotation.Transactional
 class TokenRefreshService(
     private val jwtTokenProvider: JwtTokenProvider,
     private val refreshTokenRepository: RefreshTokenRepository,
-    private val jwtProperties: JwtProperties
+    private val jwtProperties: JwtProperties,
 ) {
     @Transactional
-    fun execute(
-        refreshToken: String
-    ): TokenResponse {
-        val rfToken: RefreshToken = refreshTokenRepository.findByRefreshToken(refreshToken)
-            ?: throw RefreshTokenNotFoundException
+    fun execute(refreshToken: String): TokenResponse {
+        val rfToken: RefreshToken =
+            refreshTokenRepository.findByRefreshToken(refreshToken)
+                ?: throw RefreshTokenNotFoundException
 
         val username = rfToken.username
         val tokens = jwtTokenProvider.generateToken(username)
