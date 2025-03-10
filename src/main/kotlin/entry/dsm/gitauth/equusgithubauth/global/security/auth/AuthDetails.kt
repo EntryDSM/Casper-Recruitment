@@ -10,7 +10,7 @@ class AuthDetails(
     val user: User,
 ) : UserDetails {
     override fun getAuthorities(): MutableCollection<out GrantedAuthority> {
-        return Collections.singleton(SimpleGrantedAuthority(user.username))
+        return Collections.singleton(SimpleGrantedAuthority(user.userName))
     }
 
     override fun getPassword(): String? {
@@ -18,7 +18,7 @@ class AuthDetails(
     }
 
     override fun getUsername(): String {
-        return user.username
+        return user.userName
     }
 
     override fun isAccountNonExpired(): Boolean {

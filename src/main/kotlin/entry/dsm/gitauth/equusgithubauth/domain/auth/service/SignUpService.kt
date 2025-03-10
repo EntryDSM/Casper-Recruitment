@@ -21,13 +21,13 @@ class SignUpService(
         val user =
             request.run {
                 User(
-                    username = username,
+                    userName = userName,
                     password = passwordEncoder.encode(password),
                     createdAt = LocalDateTime.now(),
                 )
             }
         userRepository.save(user)
 
-        return jwtTokenProvider.generateToken(user.username)
+        return jwtTokenProvider.generateToken(user.userName)
     }
 }

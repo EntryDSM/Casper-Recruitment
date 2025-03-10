@@ -16,7 +16,7 @@ data class User(
     /*@Column(name = "github_id", nullable = false, unique = true)
     val githubId: String,*/
     @Column(name = "username", nullable = false)
-    val username: String,
+    val userName: String,
     @Column(name = "password", nullable = false)
     val password: String,
     /*@Column(name = "email", nullable = true, unique = true)

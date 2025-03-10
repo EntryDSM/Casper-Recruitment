@@ -25,24 +25,24 @@ class JwtTokenProvider(
     private val refreshTokenRepository: RefreshTokenRepository,
     private val authDetailsService: AuthDetailsService,
 ) {
-    fun generateToken(username: String): TokenResponse {
+    fun generateToken(userName: String): TokenResponse {
         return TokenResponse(
-            accessToken = createAccessToken(username),
+            accessToken = createAccessToken(userName),
             accessTokenExpiration = LocalDateTime.now().plusSeconds(jwtProperties.accessExp),
-            refreshToken = createRefreshToken(username),
+            refreshToken = createRefreshToken(userName),
             refreshTokenExpiration = LocalDateTime.now().plusSeconds(jwtProperties.refreshExp),
         )
     }
 
-    fun createAccessToken(username: String): String {
-        return createToken(username, "access", jwtProperties.accessExp)
+    fun createAccessToken(userName: String): String {
+        return createToken(userName, "access", jwtProperties.accessExp)
     }
 
-    fun createRefreshToken(username: String): String {
-        val refreshToken = createToken(username, "refresh", jwtProperties.refreshExp)
+    fun createRefreshToken(userName: String): String {
+        val refreshToken = createToken(userName, "refresh", jwtProperties.refreshExp)
         refreshTokenRepository.save(
             RefreshToken(
-                username = username,
+                userName = userName,
                 refreshToken = refreshToken,
                 tokenExpiration = jwtProperties.refreshExp * 1000,
             ),
@@ -51,14 +51,14 @@ class JwtTokenProvider(
     }
 
     private fun createToken(
-        username: String,
+        userName: String,
         jwtType: String,
         exp: Long,
     ): String {
         return Jwts.builder()
             .signWith(Keys.hmacShaKeyFor(jwtProperties.secretKey.toByteArray()), SignatureAlgorithm.HS256)
-            .setSubject(username)
-            .setId(username)
+            .setSubject(userName)
+            .setId(userName)
             .claim("type", jwtType)
             .setExpiration(Date(System.currentTimeMillis() + exp * 1000))
             .setIssuedAt(Date())

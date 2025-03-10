@@ -17,12 +17,12 @@ class LoginService(
 ) {
     @Transactional
     fun execute(request: LoginRequest): TokenResponse {
-        val user = userFacade.findByUsername(request.username)
+        val user = userFacade.findByUserName(request.userName)
 
         if (passwordEncoder.matches(user.password, request.password)) {
             throw PasswordMissMatchException
         }
 
-        return jwtTokenProvider.generateToken(user.username)
+        return jwtTokenProvider.generateToken(user.userName)
     }
 }
