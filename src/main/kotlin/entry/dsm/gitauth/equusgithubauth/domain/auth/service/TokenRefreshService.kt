@@ -2,6 +2,7 @@ package entry.dsm.gitauth.equusgithubauth.domain.auth.service
 
 import entry.dsm.gitauth.equusgithubauth.domain.auth.entity.RefreshToken
 import entry.dsm.gitauth.equusgithubauth.domain.auth.entity.repository.RefreshTokenRepository
+import entry.dsm.gitauth.equusgithubauth.domain.auth.exception.RefreshTokenNotFoundException
 import entry.dsm.gitauth.equusgithubauth.domain.auth.presentation.dto.request.TokenRefreshRequest
 import entry.dsm.gitauth.equusgithubauth.domain.auth.presentation.dto.response.TokenResponse
 import entry.dsm.gitauth.equusgithubauth.global.security.jwt.JwtProperties
@@ -20,6 +21,7 @@ class TokenRefreshService(
         request: TokenRefreshRequest
     ): TokenResponse {
         val refreshToken: RefreshToken = refreshTokenRepository.findByToken(request.accessToken)
+            ?: throw RefreshTokenNotFoundException
 
         val username = refreshToken.username
         val tokens = jwtTokenProvider.generateToken(username)
