@@ -2,7 +2,6 @@ package entry.dsm.gitauth.equusgithubauth.domain.auth.presentation
 
 import entry.dsm.gitauth.equusgithubauth.domain.auth.presentation.dto.request.LoginRequest
 import entry.dsm.gitauth.equusgithubauth.domain.auth.presentation.dto.request.SignUpRequest
-import entry.dsm.gitauth.equusgithubauth.domain.auth.presentation.dto.request.TokenRefreshRequest
 import entry.dsm.gitauth.equusgithubauth.domain.auth.service.SignUpService
 import entry.dsm.gitauth.equusgithubauth.domain.auth.presentation.dto.response.TokenResponse
 import entry.dsm.gitauth.equusgithubauth.domain.auth.service.LoginService
@@ -11,6 +10,7 @@ import jakarta.validation.Valid
 import org.springframework.http.HttpStatus
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestBody
+import org.springframework.web.bind.annotation.RequestHeader
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.ResponseStatus
 import org.springframework.web.bind.annotation.RestController
@@ -41,8 +41,8 @@ class AuthController(
 
     @PostMapping("token-refresh")
     fun tokenRefresh(
-        @RequestBody request: TokenRefreshRequest
+        @RequestHeader("X-Refresh-Token") refreshToken: String
     ): TokenResponse {
-        return tokenRefreshService.execute(request)
+        return tokenRefreshService.execute(refreshToken)
     }
 }
