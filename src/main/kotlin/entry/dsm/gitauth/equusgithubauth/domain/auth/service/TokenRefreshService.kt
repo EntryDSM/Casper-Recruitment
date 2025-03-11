@@ -11,6 +11,6 @@ class TokenRefreshService(
 ) {
     @Transactional
     fun execute(refreshToken: String): TokenResponse {
-        return jwtTokenProvider.reissue(refreshToken)
+        return jwtTokenProvider.reIssue(refreshToken)
     }
 }
