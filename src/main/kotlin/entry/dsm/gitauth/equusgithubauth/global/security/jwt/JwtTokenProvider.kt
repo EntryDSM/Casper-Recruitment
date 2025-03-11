@@ -8,6 +8,7 @@ import entry.dsm.gitauth.equusgithubauth.global.security.jwt.exception.JwtTokenE
 import entry.dsm.gitauth.equusgithubauth.global.security.jwt.exception.JwtTokenInvalidException
 import io.jsonwebtoken.Claims
 import io.jsonwebtoken.ExpiredJwtException
+import io.jsonwebtoken.Jws
 import io.jsonwebtoken.Jwts
 import io.jsonwebtoken.SignatureAlgorithm
 import io.jsonwebtoken.security.Keys
@@ -25,6 +26,11 @@ class JwtTokenProvider(
     private val refreshTokenRepository: RefreshTokenRepository,
     private val authDetailsService: AuthDetailsService,
 ) {
+    companion object {
+        private const val ACCESS_KEY = "access_token"
+        private const val REFRESH_KEY = "refresh_token"
+    }
+
     fun generateToken(userName: String): TokenResponse {
         return TokenResponse(
             accessToken = createAccessToken(userName),
@@ -35,11 +41,11 @@ class JwtTokenProvider(
     }
 
     fun createAccessToken(userName: String): String {
-        return createToken(userName, "access", jwtProperties.accessExp)
+        return createToken(userName, ACCESS_KEY, jwtProperties.accessExp)
     }
 
     fun createRefreshToken(userName: String): String {
-        val refreshToken = createToken(userName, "refresh", jwtProperties.refreshExp)
+        val refreshToken = createToken(userName, REFRESH_KEY, jwtProperties.refreshExp)
         refreshTokenRepository.save(
             RefreshToken(
                 userName = userName,
@@ -52,14 +58,14 @@ class JwtTokenProvider(
 
     private fun createToken(
         userName: String,
-        jwtType: String,
+        type: String,
         exp: Long,
     ): String {
         return Jwts.builder()
             .signWith(Keys.hmacShaKeyFor(jwtProperties.secretKey.toByteArray()), SignatureAlgorithm.HS256)
             .setSubject(userName)
             .setId(userName)
-            .claim("type", jwtType)
+            .claim("type", type)
             .setExpiration(Date(System.currentTimeMillis() + exp * 1000))
             .setIssuedAt(Date())
             .compact()
@@ -91,6 +97,46 @@ class JwtTokenProvider(
                 is ExpiredJwtException -> throw JwtTokenExpiredException
                 else -> throw JwtTokenInvalidException
             }
+        }
+    }
+
+    fun reissue(
+        refreshToken: String
+    ): TokenResponse {
+        if (isNotRefreshToken(refreshToken)) {
+            throw JwtTokenInvalidException
+        }
+
+        refreshTokenRepository.findByRefreshToken(refreshToken)
+            ?.let { token ->
+                val userName = token.userName
+                val tokenResponse = generateToken(userName)
+
+                token.updateToken(refreshToken, jwtProperties.refreshExp)
+                return TokenResponse(
+                    tokenResponse.accessToken,
+                    tokenResponse.accessTokenExpiration,
+                    tokenResponse.refreshToken,
+                    tokenResponse.refreshTokenExpiration
+                )
+            }?: throw JwtTokenInvalidException
+    }
+
+    private fun isNotRefreshToken(
+        token: String?
+    ): Boolean {
+        return REFRESH_KEY != getJws(token!!).header["typ"].toString()
+    }
+
+    private fun getJws(
+        token: String
+    ): Jws<Claims> {
+        return try {
+            Jwts.parser().setSigningKey(jwtProperties.secretKey).parseClaimsJws(token)
+        } catch (e: ExpiredJwtException) {
+            throw JwtTokenExpiredException
+        } catch (e: Exception) {
+            throw JwtTokenInvalidException
         }
     }
 }
