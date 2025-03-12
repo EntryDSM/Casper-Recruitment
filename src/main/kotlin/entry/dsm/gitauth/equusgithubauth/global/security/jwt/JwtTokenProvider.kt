@@ -8,6 +8,7 @@ import entry.dsm.gitauth.equusgithubauth.global.security.jwt.exception.JwtTokenE
 import entry.dsm.gitauth.equusgithubauth.global.security.jwt.exception.JwtTokenInvalidException
 import io.jsonwebtoken.Claims
 import io.jsonwebtoken.ExpiredJwtException
+import io.jsonwebtoken.Header
 import io.jsonwebtoken.Jws
 import io.jsonwebtoken.Jwts
 import io.jsonwebtoken.SignatureAlgorithm
@@ -17,7 +18,6 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication
 import org.springframework.security.core.userdetails.UserDetails
 import org.springframework.stereotype.Component
-import java.time.LocalDateTime
 import java.util.Date
 
 @Component
@@ -34,9 +34,7 @@ class JwtTokenProvider(
     fun generateToken(userName: String): TokenResponse {
         return TokenResponse(
             accessToken = createAccessToken(userName),
-            accessTokenExpiration = LocalDateTime.now().plusSeconds(jwtProperties.accessExp),
             refreshToken = createRefreshToken(userName),
-            refreshTokenExpiration = LocalDateTime.now().plusSeconds(jwtProperties.refreshExp),
         )
     }
 
@@ -65,7 +63,7 @@ class JwtTokenProvider(
             .signWith(Keys.hmacShaKeyFor(jwtProperties.secretKey.toByteArray()), SignatureAlgorithm.HS256)
             .setSubject(userName)
             .setId(userName)
-            .claim("type", type)
+            .setHeaderParam(Header.JWT_TYPE, type)
             .setExpiration(Date(System.currentTimeMillis() + exp * 1000))
             .setIssuedAt(Date())
             .compact()
@@ -86,24 +84,15 @@ class JwtTokenProvider(
     }
 
     private fun getClaims(token: String): Claims {
-        return try {
-            Jwts
+        return Jwts
                 .parser()
                 .setSigningKey(jwtProperties.secretKey)
                 .parseClaimsJws(token)
                 .body
-        } catch (e: Exception) {
-            when (e) {
-                is ExpiredJwtException -> throw JwtTokenExpiredException
-                else -> throw JwtTokenInvalidException
-            }
-        }
     }
 
-    fun reissue(
-        refreshToken: String
-    ): TokenResponse {
-        if (isNotRefreshToken(refreshToken)) {
+    fun reIssue(refreshToken: String): TokenResponse {
+        if (!isRefreshToken(refreshToken)) {
             throw JwtTokenInvalidException
         }
 
@@ -112,27 +101,20 @@ class JwtTokenProvider(
                 val userName = token.userName
                 val tokenResponse = generateToken(userName)
 
-                token.updateToken(refreshToken, jwtProperties.refreshExp)
-                return TokenResponse(
-                    tokenResponse.accessToken,
-                    tokenResponse.accessTokenExpiration,
-                    tokenResponse.refreshToken,
-                    tokenResponse.refreshTokenExpiration
-                )
-            }?: throw JwtTokenInvalidException
+                token.updateToken(tokenResponse.refreshToken, jwtProperties.refreshExp)
+                return TokenResponse(tokenResponse.accessToken, tokenResponse.refreshToken,)
+            } ?: throw JwtTokenInvalidException
     }
 
-    private fun isNotRefreshToken(
-        token: String?
-    ): Boolean {
-        return REFRESH_KEY != getJws(token!!).header["typ"].toString()
+    private fun isRefreshToken(token: String): Boolean {
+        return REFRESH_KEY == getJws(token).header[Header.JWT_TYPE].toString()
     }
 
     private fun getJws(
         token: String
     ): Jws<Claims> {
         return try {
-            Jwts.parser().setSigningKey(jwtProperties.secretKey).parseClaimsJws(token)
+            Jwts.parser().setSigningKey(jwtProperties.secretKey.toByteArray()).parseClaimsJws(token)
         } catch (e: ExpiredJwtException) {
             throw JwtTokenExpiredException
         } catch (e: Exception) {
