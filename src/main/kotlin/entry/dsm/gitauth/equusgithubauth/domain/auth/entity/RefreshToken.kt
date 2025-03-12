@@ -1,4 +1,4 @@
-package entry.dsm.gitauth.equusgithubauth.domain.user.entity
+package entry.dsm.gitauth.equusgithubauth.domain.auth.entity
 
 import jakarta.persistence.Column
 import jakarta.persistence.Table
@@ -11,12 +11,20 @@ import org.springframework.data.redis.core.index.Indexed
 @Table(name = "refresh_token")
 class RefreshToken(
     @Id
-    @Column(name = "id", nullable = false, unique = true)
-    val githubId: String,
+    @Column(name = "user_name", nullable = false, unique = true)
+    val userName: String,
     @Indexed
     @Column(name = "refresh_token", nullable = false)
     var refreshToken: String,
     @TimeToLive
     @Column(name = "token_expiration", nullable = false)
     var tokenExpiration: Long,
-)
+) {
+    fun updateToken(
+        refreshToken: String,
+        refExp: Long,
+    ) {
+        this.refreshToken = refreshToken
+        this.tokenExpiration = refExp
+    }
+}

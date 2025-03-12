@@ -15,24 +15,6 @@ spring:
         dialect: org.hibernate.dialect.MySQLDialect
     open-in-view: false
 
-  security:
-    oauth2:
-      client:
-        registration:
-          github:
-            client-id: ${GITHUB_CLIENT_ID}
-            client-secret: ${GITHUB_CLIENT_SECRET}
-            scope: ${GITHUB_ACCESS_SCOPE_1},${GITHUB_ACCESS_SCOPE_2}
-            redirect-uri: ${GITHUB_REDIRECT_URI}
-            authorization-grant-type: ${GITHUB_AUTHORIZATION_GRANT_TYPE}
-            client-name: ${GITHUB_CLIENT_NAME}
-        provider:
-          github:
-            authorization-uri: ${AUTHORIZATION_URI}
-            token-uri: ${TOKEN_URI}
-            user-info-uri: ${USER_INFO_URI}
-            user-name-attribute: ${USER_NAME_ATTRIBUTE}
-
   data:
     redis:
       host: ${REDIS_HOST}
