@@ -15,6 +15,6 @@ class OauthReissueService(
         val storedToken = refreshTokenRepository.findByRefreshToken(refreshToken)
             ?: throw RefreshTokenNotFoundException()
 
-        return jwtTokenProvider.oauthReissueToken(storedToken)
+        return jwtTokenProvider.reissueToken(storedToken)
     }
 }
