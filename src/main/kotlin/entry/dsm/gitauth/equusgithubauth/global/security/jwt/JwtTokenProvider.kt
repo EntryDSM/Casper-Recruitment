@@ -124,9 +124,9 @@ class JwtTokenProvider(
             getClaims(token)
             true
         } catch (e: JwtTokenExpiredException) {
-            false
+            throw e
         } catch (e: JwtTokenInvalidException) {
-            false
+            throw e
         }
     }
 
