@@ -17,7 +17,8 @@ import org.springframework.stereotype.Service
 @Service
 class CustomOauth2UserService(
     private val userRepository: UserRepository,
-    private val jwtTokenProvider: JwtTokenProvider
+    private val jwtTokenProvider: JwtTokenProvider,
+    private val googleOauthUserService: GoogleOauthUserService
 ) : DefaultOAuth2UserService() {
 
     override fun loadUser(userRequest: OAuth2UserRequest): OAuth2User {
@@ -30,23 +31,16 @@ class CustomOauth2UserService(
             else -> throw OAuth2AuthenticationException("지원하지 않는 provider: $provider")
         }
 
-        val providerId = oAuth2UserInfo.getProviderId()
-        val loginId = "$provider$providerId"
-        val email = oAuth2UserInfo.getEmail()
-        val name = oAuth2UserInfo.getName()
+        val loginId = "${provider}${oAuth2UserInfo.getProviderId()}"
 
 
-        val user = userRepository.findByLoginId(loginId) ?: run {
-            User(
-                loginId = loginId,
-                email = email,
-                password = "", // OAuth는 비밀번호가 필요 없음
-                name = name,
-                provider = provider,
-                providerId = providerId,
-                role = UserRole.USER
-            ).also { userRepository.save(it) }
-        }
+        val user = googleOauthUserService.findOrCreateOAuthUser(
+            loginId = loginId,
+            email = oAuth2UserInfo.getEmail(),
+            name = oAuth2UserInfo.getName(),
+            provider = provider,
+            providerId = oAuth2UserInfo.getProviderId()
+        )
 
 
         val tokenResponse: TokenResponse = jwtTokenProvider.generateToken(loginId)
