@@ -21,12 +21,6 @@ data class User(
     val loginId: String,
     @Email(message = "이메일 형식이 올바르지 않습니다.")
     val email: String,
-    @Pattern(
-        regexp = "^(?=.*[0-9])(?=.*[!@#\$%^&*])(?=\\S+$).{8,}$",
-        message = "비밀번호는 최소 8자 이상, 하나 이상의 숫자와 특수 문자를 포함해야 합니다."
-    )
-    @NotBlank(message = "비밀번호는 필수 입력입니다.")
-    var password: String,
     @Column(name = "name", nullable = false)
     var name: String,
     @Enumerated(EnumType.STRING)
