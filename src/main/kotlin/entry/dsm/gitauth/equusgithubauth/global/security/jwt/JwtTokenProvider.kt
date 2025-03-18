@@ -39,12 +39,17 @@ class JwtTokenProvider(
         )
     }
 
+    companion object {
+        private const val ACCESS_TOKEN = "access_token"
+        private const val REFRESH_TOKEN = "refresh_token"
+    }
+
     fun createAccessToken(loginId: String): String {
-        return createToken(loginId, "access", jwtProperties.accessExp)
+        return createToken(loginId, ACCESS_TOKEN, jwtProperties.accessExp)
     }
 
     fun createRefreshToken(loginId: String): String {
-        val refreshToken = createToken(loginId, "refresh", jwtProperties.refreshExp)
+        val refreshToken = createToken(loginId, REFRESH_TOKEN, jwtProperties.refreshExp)
 
         val refreshTokenEntity = RefreshToken(
             loginId = loginId,
