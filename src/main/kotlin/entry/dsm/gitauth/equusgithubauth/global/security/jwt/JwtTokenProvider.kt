@@ -82,7 +82,7 @@ class JwtTokenProvider(
         return null
     }
 
-    fun oauthReissueToken(storedToken: RefreshToken): TokenResponse {
+    fun reissueToken(storedToken: RefreshToken): TokenResponse {
         val loginId = storedToken.loginId
 
         val newAccessToken = createAccessToken(loginId)
