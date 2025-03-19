@@ -27,10 +27,10 @@ class RedisConfig(
     fun redisTemplate(): RedisTemplate<*, *> {
         return RedisTemplate<Any, Any>().apply {
             this.setConnectionFactory(redisConnectionFactory())
-
             this.keySerializer = StringRedisSerializer()
             this.hashKeySerializer = StringRedisSerializer()
             this.valueSerializer = StringRedisSerializer()
+            this.setDefaultSerializer(StringRedisSerializer())
         }
     }
 }
