@@ -14,7 +14,7 @@ interface GithubApiClient {
         @RequestHeader("Authorization") authorization: String,
     ): GithubUserResponse
 
-    @GetMapping("/users/orgs")
+    @GetMapping("/user/orgs")
     fun getUserOrganizations(
         @RequestHeader("Authorization") authorization: String,
     ): List<GithubOrganizationResponse>
