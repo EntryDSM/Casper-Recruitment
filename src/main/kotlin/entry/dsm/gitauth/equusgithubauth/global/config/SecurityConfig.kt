@@ -25,6 +25,8 @@ class SecurityConfig(
     private val jwtTokenProvider: JwtTokenProvider,
     private val customOauth2UserService: CustomOauth2UserService,
     private val objectMapper: ObjectMapper
+    private val githubOAuth2LoginConfig: GithubOAuth2LoginConfig,
+    private val corsConfig: CorsConfig,
 ) {
 
     @Bean
