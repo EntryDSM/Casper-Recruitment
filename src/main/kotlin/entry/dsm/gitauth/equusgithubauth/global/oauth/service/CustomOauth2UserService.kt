@@ -31,7 +31,7 @@ class CustomOauth2UserService(
 
         val oAuth2UserInfo: OAuth2UserInfo = when(provider) {
             "google" -> GoogleUserDetails(oAuth2User.attributes)
-            else -> throw OAuth2AuthenticationException("지원하지 않는 provider: $provider")
+            else -> throw UnsupportedOperationException(provider)
         }
 
         val loginId = "$provider${oAuth2UserInfo.getProviderId()}"
