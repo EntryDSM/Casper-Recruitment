@@ -11,6 +11,13 @@ class CustomOAuth2AuthenticationSuccessHandler(
     private val objectMapper: ObjectMapper
 ) : AuthenticationSuccessHandler {
 
+    companion object {
+        private const val ACCESS_TOKEN = "accessToken"
+        private const val ACCESS_TOKEN_EXPIRATION = "accessTokenExpiration"
+        private const val REFRESH_TOKEN = "refreshToken"
+        private const val REFRESH_TOKEN_EXPIRATION = "refreshTokenExpiration"
+    }
+
     override fun onAuthenticationSuccess(
         request: HttpServletRequest,
         response: HttpServletResponse,
@@ -20,10 +27,10 @@ class CustomOAuth2AuthenticationSuccessHandler(
         val oauthUser = authentication.principal as? CustomOauth2UserDetails
         val tokenInfo = oauthUser?.attributes?.let { attributes ->
             mapOf(
-                "accessToken" to attributes["accessToken"],
-                "accessTokenExpiration" to attributes["accessTokenExpiration"],
-                "refreshToken" to attributes["refreshToken"],
-                "refreshTokenExpiration" to attributes["refreshTokenExpiration"]
+                ACCESS_TOKEN to attributes[ACCESS_TOKEN],
+                ACCESS_TOKEN_EXPIRATION to attributes[ACCESS_TOKEN_EXPIRATION],
+                REFRESH_TOKEN to attributes[REFRESH_TOKEN],
+                REFRESH_TOKEN_EXPIRATION to attributes[REFRESH_TOKEN_EXPIRATION]
             )
         }
         response.contentType = "application/json"

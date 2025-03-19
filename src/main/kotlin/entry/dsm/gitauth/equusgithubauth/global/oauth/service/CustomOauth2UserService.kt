@@ -1,7 +1,5 @@
 package entry.dsm.gitauth.equusgithubauth.global.oauth.service
 
-import entry.dsm.gitauth.equusgithubauth.domain.user.entity.User
-import entry.dsm.gitauth.equusgithubauth.domain.user.entity.enums.UserRole
 import entry.dsm.gitauth.equusgithubauth.domain.user.entity.repository.UserRepository
 import entry.dsm.gitauth.equusgithubauth.domain.user.presentation.dto.response.TokenResponse
 import entry.dsm.gitauth.equusgithubauth.global.oauth.OAuth2UserInfo
@@ -16,23 +14,27 @@ import org.springframework.stereotype.Service
 
 @Service
 class CustomOauth2UserService(
-    private val userRepository: UserRepository,
     private val jwtTokenProvider: JwtTokenProvider,
     private val googleOauthUserService: GoogleOauthUserService
 ) : DefaultOAuth2UserService() {
 
+    companion object {
+        private const val ACCESS_TOKEN = "accessToken"
+        private const val ACCESS_TOKEN_EXPIRATION = "accessTokenExpiration"
+        private const val REFRESH_TOKEN = "refreshToken"
+        private const val REFRESH_TOKEN_EXPIRATION = "refreshTokenExpiration"
+    }
+
     override fun loadUser(userRequest: OAuth2UserRequest): OAuth2User {
         val oAuth2User = super.loadUser(userRequest)
         val provider = userRequest.clientRegistration.registrationId
-
 
         val oAuth2UserInfo: OAuth2UserInfo = when(provider) {
             "google" -> GoogleUserDetails(oAuth2User.attributes)
             else -> throw OAuth2AuthenticationException("지원하지 않는 provider: $provider")
         }
 
-        val loginId = "${provider}${oAuth2UserInfo.getProviderId()}"
-
+        val loginId = "$provider${oAuth2UserInfo.getProviderId()}"
 
         val user = googleOauthUserService.findOrCreateOAuthUser(
             loginId = loginId,
@@ -42,15 +44,14 @@ class CustomOauth2UserService(
             providerId = oAuth2UserInfo.getProviderId()
         )
 
-
         val tokenResponse: TokenResponse = jwtTokenProvider.generateToken(loginId)
 
         // OAuth2User의 attributes에 토큰 정보를 추가하여 클라이언트 전달에 사용
         val updatedAttributes = oAuth2User.attributes.toMutableMap().apply {
-            put("accessToken", tokenResponse.accessToken)
-            put("accessTokenExpiration", tokenResponse.accessTokenExpiration.toString())
-            put("refreshToken", tokenResponse.refreshToken)
-            put("refreshTokenExpiration", tokenResponse.refreshTokenExpiration.toString())
+            put(ACCESS_TOKEN, tokenResponse.accessToken)
+            put(ACCESS_TOKEN_EXPIRATION, tokenResponse.accessTokenExpiration.toString())
+            put(REFRESH_TOKEN, tokenResponse.refreshToken)
+            put(REFRESH_TOKEN_EXPIRATION, tokenResponse.refreshTokenExpiration.toString())
         }
 
         return CustomOauth2UserDetails(user, updatedAttributes)
