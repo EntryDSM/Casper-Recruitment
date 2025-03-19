@@ -20,7 +20,6 @@ class GoogleOauthUserService(
             User(
                 loginId = loginId,
                 email = email,
-                password = "",
                 name = name,
                 provider = provider,
                 providerId = providerId,
