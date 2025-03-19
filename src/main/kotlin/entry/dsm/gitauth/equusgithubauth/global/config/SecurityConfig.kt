@@ -13,6 +13,8 @@ import org.springframework.security.web.SecurityFilterChain
 @EnableWebSecurity
 class SecurityConfig(
     private val corsConfig: CorsConfig,
+    private val githubOAuth2LoginConfig: GithubOAuth2LoginConfig,
+    private val corsConfig: CorsConfig,
 ) {
     @Bean
     fun securityFilterChain(http: HttpSecurity): SecurityFilterChain {
