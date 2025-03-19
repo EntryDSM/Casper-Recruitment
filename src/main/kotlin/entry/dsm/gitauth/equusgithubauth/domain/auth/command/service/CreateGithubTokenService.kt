@@ -11,7 +11,6 @@ class CreateGithubTokenService(
     private val githubProperties: GithubProperties,
 ) {
     companion object {
-        private const val ACCESS_TOKEN_URL = "https://github.com/login/oauth/access_token"
         private val restTemplate = RestTemplate()
     }
 
@@ -19,7 +18,7 @@ class CreateGithubTokenService(
         code: String
     ): TokenResponse {
         return restTemplate.postForObject(
-            ACCESS_TOKEN_URL,
+            githubProperties.tokenUri,
             GithubAccessTokenRequest(
                 clientId = githubProperties.clientId,
                 clientSecret = githubProperties.clientSecret,
