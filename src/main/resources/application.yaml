@@ -15,6 +15,9 @@ spring:
         dialect: org.hibernate.dialect.MySQLDialect
     open-in-view: false
 
+
+
+
   data:
     redis:
       host: ${REDIS_HOST}
@@ -35,3 +38,8 @@ jwt:
   secret-key: ${JWT_SECRET}
   access-exp: ${ACCESS_EXP}
   refresh-exp: ${REFRESH_EXP}
+
+oauth:
+  google:
+    redirect: ${GOOGLE_DIRECT_URL}
+
