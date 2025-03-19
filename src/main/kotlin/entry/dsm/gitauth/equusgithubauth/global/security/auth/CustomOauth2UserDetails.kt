@@ -27,8 +27,9 @@ class CustomOauth2UserDetails(
     }
 
     override fun getPassword(): String {
-        return user.password
+        return ""
     }
+
 
     override fun getUsername(): String {
         return user.loginId
