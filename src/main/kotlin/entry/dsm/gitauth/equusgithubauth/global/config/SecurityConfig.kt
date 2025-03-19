@@ -3,7 +3,7 @@ package entry.dsm.gitauth.equusgithubauth.global.config
 import com.fasterxml.jackson.databind.ObjectMapper
 import entry.dsm.gitauth.equusgithubauth.global.oauth.handler.CustomOAuth2AuthenticationFailureHandler
 import entry.dsm.gitauth.equusgithubauth.global.oauth.handler.CustomOAuth2AuthenticationSuccessHandler
-import entry.dsm.gitauth.equusgithubauth.global.oauth.service.CustomOauth2UserService
+import entry.dsm.gitauth.equusgithubauth.global.oauth.service.GoogleOauthService
 import entry.dsm.gitauth.equusgithubauth.global.security.jwt.JwtTokenFilter
 import entry.dsm.gitauth.equusgithubauth.global.security.jwt.JwtTokenProvider
 import org.springframework.context.annotation.Bean
@@ -23,7 +23,7 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 class SecurityConfig(
     private val corsConfig: CorsConfig,
     private val jwtTokenProvider: JwtTokenProvider,
-    private val customOauth2UserService: CustomOauth2UserService,
+    private val customOauth2UserService: GoogleOauthService,
     private val objectMapper: ObjectMapper
     private val githubOAuth2LoginConfig: GithubOAuth2LoginConfig,
     private val corsConfig: CorsConfig,

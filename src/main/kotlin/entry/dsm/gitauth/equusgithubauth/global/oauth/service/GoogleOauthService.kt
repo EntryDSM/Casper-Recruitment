@@ -1,6 +1,5 @@
 package entry.dsm.gitauth.equusgithubauth.global.oauth.service
 
-import entry.dsm.gitauth.equusgithubauth.domain.user.entity.repository.UserRepository
 import entry.dsm.gitauth.equusgithubauth.domain.user.presentation.dto.response.TokenResponse
 import entry.dsm.gitauth.equusgithubauth.global.oauth.OAuth2UserInfo
 import entry.dsm.gitauth.equusgithubauth.global.security.auth.CustomOauth2UserDetails
@@ -8,12 +7,11 @@ import entry.dsm.gitauth.equusgithubauth.global.security.auth.GoogleUserDetails
 import entry.dsm.gitauth.equusgithubauth.global.security.jwt.JwtTokenProvider
 import org.springframework.security.oauth2.client.userinfo.DefaultOAuth2UserService
 import org.springframework.security.oauth2.client.userinfo.OAuth2UserRequest
-import org.springframework.security.oauth2.core.OAuth2AuthenticationException
 import org.springframework.security.oauth2.core.user.OAuth2User
 import org.springframework.stereotype.Service
 
 @Service
-class CustomOauth2UserService(
+class GoogleOauthService(
     private val jwtTokenProvider: JwtTokenProvider,
     private val googleOauthUserService: GoogleOauthUserService
 ) : DefaultOAuth2UserService() {
