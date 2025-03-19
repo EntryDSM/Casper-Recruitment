@@ -1,6 +1,7 @@
 package entry.dsm.gitauth.equusgithubauth.global.oauth.handler
 
 import com.fasterxml.jackson.databind.ObjectMapper
+import entry.dsm.gitauth.equusgithubauth.global.oauth.JwtConstants
 import jakarta.servlet.http.HttpServletRequest
 import jakarta.servlet.http.HttpServletResponse
 import org.springframework.security.core.Authentication
@@ -11,13 +12,6 @@ class CustomOAuth2AuthenticationSuccessHandler(
     private val objectMapper: ObjectMapper
 ) : AuthenticationSuccessHandler {
 
-    companion object {
-        private const val ACCESS_TOKEN = "accessToken"
-        private const val ACCESS_TOKEN_EXPIRATION = "accessTokenExpiration"
-        private const val REFRESH_TOKEN = "refreshToken"
-        private const val REFRESH_TOKEN_EXPIRATION = "refreshTokenExpiration"
-    }
-
     override fun onAuthenticationSuccess(
         request: HttpServletRequest,
         response: HttpServletResponse,
@@ -27,10 +21,10 @@ class CustomOAuth2AuthenticationSuccessHandler(
         val oauthUser = authentication.principal as? CustomOauth2UserDetails
         val tokenInfo = oauthUser?.attributes?.let { attributes ->
             mapOf(
-                ACCESS_TOKEN to attributes[ACCESS_TOKEN],
-                ACCESS_TOKEN_EXPIRATION to attributes[ACCESS_TOKEN_EXPIRATION],
-                REFRESH_TOKEN to attributes[REFRESH_TOKEN],
-                REFRESH_TOKEN_EXPIRATION to attributes[REFRESH_TOKEN_EXPIRATION]
+                JwtConstants.ACCESS_TOKEN to attributes[JwtConstants.ACCESS_TOKEN],
+                JwtConstants.ACCESS_TOKEN_EXPIRATION to attributes[JwtConstants.ACCESS_TOKEN_EXPIRATION],
+                JwtConstants.REFRESH_TOKEN to attributes[JwtConstants.REFRESH_TOKEN],
+                JwtConstants.REFRESH_TOKEN_EXPIRATION to attributes[JwtConstants.REFRESH_TOKEN_EXPIRATION]
             )
         }
         response.contentType = "application/json"

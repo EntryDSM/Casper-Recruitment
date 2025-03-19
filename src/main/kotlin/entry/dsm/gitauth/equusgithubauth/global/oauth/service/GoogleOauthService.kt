@@ -1,6 +1,7 @@
 package entry.dsm.gitauth.equusgithubauth.global.oauth.service
 
 import entry.dsm.gitauth.equusgithubauth.domain.user.presentation.dto.response.TokenResponse
+import entry.dsm.gitauth.equusgithubauth.global.oauth.JwtConstants
 import entry.dsm.gitauth.equusgithubauth.global.oauth.OAuth2UserInfo
 import entry.dsm.gitauth.equusgithubauth.global.security.auth.CustomOauth2UserDetails
 import entry.dsm.gitauth.equusgithubauth.global.security.auth.GoogleUserDetails
@@ -15,13 +16,6 @@ class GoogleOauthService(
     private val jwtTokenProvider: JwtTokenProvider,
     private val googleOauthUserService: GoogleOauthUserService
 ) : DefaultOAuth2UserService() {
-
-    companion object {
-        private const val ACCESS_TOKEN = "accessToken"
-        private const val ACCESS_TOKEN_EXPIRATION = "accessTokenExpiration"
-        private const val REFRESH_TOKEN = "refreshToken"
-        private const val REFRESH_TOKEN_EXPIRATION = "refreshTokenExpiration"
-    }
 
     override fun loadUser(userRequest: OAuth2UserRequest): OAuth2User {
         val oAuth2User = super.loadUser(userRequest)
@@ -46,10 +40,10 @@ class GoogleOauthService(
 
         // OAuth2User의 attributes에 토큰 정보를 추가하여 클라이언트 전달에 사용
         val updatedAttributes = oAuth2User.attributes.toMutableMap().apply {
-            put(ACCESS_TOKEN, tokenResponse.accessToken)
-            put(ACCESS_TOKEN_EXPIRATION, tokenResponse.accessTokenExpiration.toString())
-            put(REFRESH_TOKEN, tokenResponse.refreshToken)
-            put(REFRESH_TOKEN_EXPIRATION, tokenResponse.refreshTokenExpiration.toString())
+            put(JwtConstants.ACCESS_TOKEN, tokenResponse.accessToken)
+            put(JwtConstants.ACCESS_TOKEN_EXPIRATION, tokenResponse.accessTokenExpiration.toString())
+            put(JwtConstants.REFRESH_TOKEN, tokenResponse.refreshToken)
+            put(JwtConstants.REFRESH_TOKEN_EXPIRATION, tokenResponse.refreshTokenExpiration.toString())
         }
 
         return CustomOauth2UserDetails(user, updatedAttributes)
