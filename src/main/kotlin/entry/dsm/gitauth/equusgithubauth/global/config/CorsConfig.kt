@@ -12,18 +12,9 @@ class CorsConfig {
     fun corsConfigurationSource(): CorsConfigurationSource {
         val configuration =
             CorsConfiguration().apply {
-<<<<<<< HEAD
-                allowedOrigins =
-                    listOf(
-                        "http://localhost:5173",
-                    )
-                allowedMethods = listOf("GET", "POST", "PUT", "DELETE", "OPTIONS")
-                allowCredentials = true
-=======
                 allowedOrigins = listOf("*")
                 allowedMethods = listOf("GET", "POST", "PUT", "DELETE", "OPTIONS")
                 allowCredentials = false
->>>>>>> origin/main
                 addAllowedHeader("*")
                 allowedHeaders = listOf("*")
             }
