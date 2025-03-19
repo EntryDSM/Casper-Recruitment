@@ -7,5 +7,4 @@ class GithubProperties(
     val clientId: String,
     val clientSecret: String,
     val redirectUri: String,
-    val tokenUri: String
 )
