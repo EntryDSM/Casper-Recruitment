@@ -1,5 +1,6 @@
 package entry.dsm.gitauth.equusgithubauth.domain.auth.presentation
 
+import entry.dsm.gitauth.equusgithubauth.domain.auth.presentation.dto.response.GithubAccessTokenResponse
 import entry.dsm.gitauth.equusgithubauth.domain.auth.presentation.dto.response.LoginSuccessResponse
 import entry.dsm.gitauth.equusgithubauth.domain.auth.service.CreateGithubTokenService
 import entry.dsm.gitauth.equusgithubauth.domain.user.service.UserService
@@ -24,8 +25,7 @@ class GithubAuthenticationController(
 
     // code to token
     @GetMapping("/login/oauth2/code/github")
-    fun githubCallback(@RequestParam code: String): String {
-        println("code : $code")
+    fun githubCallback(@RequestParam code: String): GithubAccessTokenResponse {
         return createGithubTokenService.execute(code)
     }
 
