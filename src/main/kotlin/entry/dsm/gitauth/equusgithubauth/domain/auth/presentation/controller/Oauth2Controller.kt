@@ -37,7 +37,7 @@ class Oauth2Controller(
 
     @PostMapping("/logout")
     fun logout(@RequestBody request: LogoutRequest) {
-        logoutService.logout(request.accessToken, request.refreshToken)
+        logoutService.logout(request.accessToken)
     }
 
 
