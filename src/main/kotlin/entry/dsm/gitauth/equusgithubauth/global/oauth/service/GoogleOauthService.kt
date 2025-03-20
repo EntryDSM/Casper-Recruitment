@@ -1,6 +1,7 @@
 package entry.dsm.gitauth.equusgithubauth.global.oauth.service
 
 import entry.dsm.gitauth.equusgithubauth.domain.auth.enums.OauthType
+import entry.dsm.gitauth.equusgithubauth.domain.auth.exception.UnsupportedProviderException
 import entry.dsm.gitauth.equusgithubauth.domain.user.presentation.dto.response.TokenResponse
 import entry.dsm.gitauth.equusgithubauth.global.oauth.JwtConstants
 import entry.dsm.gitauth.equusgithubauth.global.oauth.OAuth2UserInfo
@@ -24,7 +25,7 @@ class GoogleOauthService(
 
         val oAuth2UserInfo: OAuth2UserInfo = when(provider) {
             OauthType.GOOGLE.provider -> GoogleUserDetails(oAuth2User.attributes)
-            else -> throw UnsupportedOperationException(provider)
+            else -> throw UnsupportedProviderException(provider)
         }
 
         val loginId = "$provider${oAuth2UserInfo.getProviderId()}"
