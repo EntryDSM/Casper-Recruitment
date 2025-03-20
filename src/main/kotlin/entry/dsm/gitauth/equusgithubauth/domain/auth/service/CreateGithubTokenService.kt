@@ -18,6 +18,6 @@ class CreateGithubTokenService(
             code = code
         )
 
-        return GithubAccessTokenResponse(response.body!!.accessToken)
+        return GithubAccessTokenResponse(response.accessToken)
     }
 }
