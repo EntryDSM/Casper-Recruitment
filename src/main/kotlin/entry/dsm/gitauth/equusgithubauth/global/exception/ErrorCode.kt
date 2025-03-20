@@ -19,4 +19,9 @@ enum class ErrorCode(
 
     JWT_TOKEN_EXPIRED(401, "JWT 토큰이 만료되었습니다."),
     JWT_TOKEN_INVALID(401, "JWT 토큰이 유효하지 않습니다."),
+
+    REFRESH_TOKEN_NOT_FOUND(404, "리프레시 토큰을 찾을 수 없습니다"),
+
+    NO_TOKEN_IN_HEADER(404, "헤더에서 토큰을 찾을 수 없습니다"),
+    INVALID_TOKEN_FORMAT(401, " 잘못된 토큰 형식입니다.")
 }

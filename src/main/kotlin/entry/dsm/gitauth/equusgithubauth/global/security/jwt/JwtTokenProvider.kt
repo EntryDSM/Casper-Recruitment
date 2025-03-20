@@ -1,11 +1,17 @@
 package entry.dsm.gitauth.equusgithubauth.global.security.jwt
 
+
 import entry.dsm.gitauth.equusgithubauth.domain.user.entity.RefreshToken
 import entry.dsm.gitauth.equusgithubauth.domain.user.entity.repository.RefreshTokenRepository
+import entry.dsm.gitauth.equusgithubauth.domain.user.entity.repository.UserRepository
 import entry.dsm.gitauth.equusgithubauth.domain.user.presentation.dto.response.TokenResponse
 import entry.dsm.gitauth.equusgithubauth.global.security.auth.AuthDetailsService
+import entry.dsm.gitauth.equusgithubauth.global.security.auth.exception.RefreshTokenNotFoundException
+import entry.dsm.gitauth.equusgithubauth.global.security.auth.exception.UserNotFoundException
+import entry.dsm.gitauth.equusgithubauth.global.security.jwt.exception.InValidTokenFormat
 import entry.dsm.gitauth.equusgithubauth.global.security.jwt.exception.JwtTokenExpiredException
 import entry.dsm.gitauth.equusgithubauth.global.security.jwt.exception.JwtTokenInvalidException
+import entry.dsm.gitauth.equusgithubauth.global.security.jwt.exception.NoTokenInHeader
 import io.jsonwebtoken.Claims
 import io.jsonwebtoken.ExpiredJwtException
 import io.jsonwebtoken.Jwts
@@ -22,43 +28,52 @@ import java.util.Date
 @Component
 class JwtTokenProvider(
     private val jwtProperties: JwtProperties,
-    private val refreshTokenRepository: RefreshTokenRepository,
+    private val userRepository: UserRepository,
     private val authDetailsService: AuthDetailsService,
+    private val refreshTokenRepository: RefreshTokenRepository
 ) {
-    fun generateToken(githubId: String): TokenResponse {
+    fun generateToken(loginId: String): TokenResponse {
         return TokenResponse(
-            accessToken = createAccessToken(githubId),
+            accessToken = createAccessToken(loginId),
             accessTokenExpiration = LocalDateTime.now().plusSeconds(jwtProperties.accessExp),
-            refreshToken = createRefreshToken(githubId),
+            refreshToken = createRefreshToken(loginId),
             refreshTokenExpiration = LocalDateTime.now().plusSeconds(jwtProperties.refreshExp),
         )
     }
 
-    fun createAccessToken(githubId: String): String {
-        return createToken(githubId, "access", jwtProperties.accessExp)
+    companion object {
+        private const val ACCESS_TOKEN = "access_token"
+        private const val REFRESH_TOKEN = "refresh_token"
     }
 
-    fun createRefreshToken(githubId: String): String {
-        val refreshToken = createToken(githubId, "refresh", jwtProperties.refreshExp)
-        refreshTokenRepository.save(
-            RefreshToken(
-                githubId = githubId,
-                refreshToken = refreshToken,
-                tokenExpiration = jwtProperties.refreshExp * 1000,
-            ),
+    fun createAccessToken(loginId: String): String {
+        return createToken(loginId, ACCESS_TOKEN, jwtProperties.accessExp)
+    }
+
+    fun createRefreshToken(loginId: String): String {
+        val refreshToken = createToken(loginId, REFRESH_TOKEN, jwtProperties.refreshExp)
+
+        val refreshTokenEntity = RefreshToken(
+            loginId = loginId,
+            refreshToken = refreshToken,
+            tokenExpiration = jwtProperties.refreshExp
         )
+
+        refreshTokenRepository.save(refreshTokenEntity)
+
         return refreshToken
     }
 
+
     private fun createToken(
-        githubId: String,
+        loginId: String,
         jwtType: String,
         exp: Long,
     ): String {
         return Jwts.builder()
             .signWith(Keys.hmacShaKeyFor(jwtProperties.secretKey.toByteArray()), SignatureAlgorithm.HS256)
-            .setSubject(githubId)
-            .setId(githubId)
+            .setSubject(loginId)
+            .setId(loginId)
             .claim("type", jwtType)
             .setExpiration(Date(System.currentTimeMillis() + exp * 1000))
             .setIssuedAt(Date())
@@ -67,11 +82,25 @@ class JwtTokenProvider(
 
     fun resolveToken(request: HttpServletRequest): String? {
         val bearerToken = request.getHeader(jwtProperties.header)
+        return validateTokenFormat(bearerToken)
+    }
 
-        if (bearerToken != null && (bearerToken.startsWith(jwtProperties.header))) {
-            return bearerToken.substring(7)
-        }
-        return null
+    fun reissueToken(storedToken: RefreshToken): TokenResponse {
+        val loginId = storedToken.loginId
+
+        val newAccessToken = createAccessToken(loginId)
+        val newRefreshToken = createRefreshToken(loginId)
+
+        storedToken.refreshToken = newRefreshToken
+
+        refreshTokenRepository.save(storedToken)
+
+        return TokenResponse(
+            accessToken = newAccessToken,
+            refreshToken = newRefreshToken,
+            accessTokenExpiration = LocalDateTime.now().plusSeconds(jwtProperties.accessExp),
+            refreshTokenExpiration = LocalDateTime.now().plusSeconds(jwtProperties.refreshExp)
+        )
     }
 
     fun getAuthentication(token: String): Authentication {
@@ -93,4 +122,31 @@ class JwtTokenProvider(
             }
         }
     }
+    fun validateToken(token: String): Boolean {
+        return try {
+            getClaims(token)
+            true
+        } catch (e: JwtTokenExpiredException) {
+            throw e
+        } catch (e: JwtTokenInvalidException) {
+            throw e
+        }
+    }
+
+    private fun validateTokenFormat(bearerToken: String?): String {
+        return when {
+            bearerToken.isNullOrBlank() -> throw NoTokenInHeader()
+            !bearerToken.startsWith("Bearer ") -> throw InValidTokenFormat()
+            else -> bearerToken.substring(7)
+        }
+    }
+
+    fun getExpiration(token: String): Long {
+        return getClaims(token).expiration.time - System.currentTimeMillis()
+    }
+
+    fun getSubjectFromToken(token: String): String {
+        return getClaims(token).subject
+    }
+
 }
