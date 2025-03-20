@@ -18,7 +18,7 @@ class LogoutService(
 
     @Transactional
     fun logout(accessToken: String) {
-        if (!jwtTokenProvider.valid(accessToken)) {
+        if (!jwtTokenProvider.validateToken(accessToken)) {
             throw InvalidAccessTokenException
         }
 
