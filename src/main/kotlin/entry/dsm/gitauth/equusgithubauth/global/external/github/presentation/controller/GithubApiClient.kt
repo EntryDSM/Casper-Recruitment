@@ -1,7 +1,7 @@
 package entry.dsm.gitauth.equusgithubauth.global.external.github.presentation.controller
 
-import entry.dsm.gitauth.equusgithubauth.global.external.github.presentation.dto.GithubOrganizationResponse
-import entry.dsm.gitauth.equusgithubauth.global.external.github.presentation.dto.GithubUserResponse
+import entry.dsm.gitauth.equusgithubauth.global.external.github.presentation.dto.response.GithubOrganizationResponse
+import entry.dsm.gitauth.equusgithubauth.global.external.github.presentation.dto.response.GithubUserResponse
 import feign.Response
 import org.springframework.cloud.openfeign.FeignClient
 import org.springframework.web.bind.annotation.GetMapping

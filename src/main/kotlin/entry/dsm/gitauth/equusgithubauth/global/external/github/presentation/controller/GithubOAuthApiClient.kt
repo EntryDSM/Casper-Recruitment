@@ -1,6 +1,6 @@
 package entry.dsm.gitauth.equusgithubauth.global.external.github.presentation.controller
 
-import entry.dsm.gitauth.equusgithubauth.global.external.github.presentation.dto.LoginAccessTokenResponse
+import entry.dsm.gitauth.equusgithubauth.global.external.github.presentation.dto.response.LoginAccessTokenResponse
 import org.springframework.cloud.openfeign.FeignClient
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestParam

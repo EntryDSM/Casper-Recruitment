@@ -3,6 +3,7 @@ package entry.dsm.gitauth.equusgithubauth.domain.user.service
 import entry.dsm.gitauth.equusgithubauth.domain.auth.exception.OrganizationMembershipErrorException
 import entry.dsm.gitauth.equusgithubauth.domain.auth.presentation.dto.response.LoginSuccessResponse
 import entry.dsm.gitauth.equusgithubauth.domain.auth.service.CreateGithubTokenService
+import entry.dsm.gitauth.equusgithubauth.domain.auth.service.ValidateGithubOrganizationService
 import entry.dsm.gitauth.equusgithubauth.domain.user.entity.User
 import entry.dsm.gitauth.equusgithubauth.domain.user.entity.repository.UserRepository
 import entry.dsm.gitauth.equusgithubauth.domain.user.presentation.dto.response.TokenResponse
@@ -20,11 +21,12 @@ class UserService(
     private val userRepository: UserRepository,
     private val jwtTokenProvider: JwtTokenProvider,
     private val githubApiClient: GithubApiClient,
+    private val validateGithubOrganizationService: ValidateGithubOrganizationService
 ) {
     fun execute(accessToken: String): LoginSuccessResponse {
         val userInfo = githubApiClient.getUser("Bearer $accessToken")
         val tokens = jwtTokenProvider.generateToken(userInfo.login)
-        val isUser = validateUserOrganization("Bearer $accessToken", userInfo.login)
+        val isUser = validateGithubOrganizationService.execute("Bearer $accessToken", userInfo.login)
 
         val user =
             User(
@@ -57,16 +59,5 @@ class UserService(
             tokens.refreshToken,
             tokens.refreshTokenExpiration
         )
-    }
-
-    fun validateUserOrganization(accessToken: String, username: String): Boolean {
-        return try {
-            githubApiClient.checkOrganization(accessToken, username)
-            false
-        } catch (e: FeignException.NotFound) {
-            true
-        } catch (e: FeignException) {
-            throw OrganizationMembershipErrorException
-        }
     }
 }
