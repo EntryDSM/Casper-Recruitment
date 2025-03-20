@@ -25,7 +25,9 @@ class GithubAuthenticationController(
 
     // code to token
     @GetMapping("/login/oauth2/code/github")
-    fun githubCallback(@RequestParam code: String): GithubAccessTokenResponse {
+    fun githubCallback(
+        @RequestParam("code") code: String
+    ): GithubAccessTokenResponse {
         return createGithubTokenService.execute(code)
     }
 
