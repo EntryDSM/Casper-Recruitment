@@ -8,8 +8,10 @@ import entry.dsm.gitauth.equusgithubauth.domain.user.presentation.dto.response.T
 import entry.dsm.gitauth.equusgithubauth.global.security.auth.AuthDetailsService
 import entry.dsm.gitauth.equusgithubauth.global.security.auth.exception.RefreshTokenNotFoundException
 import entry.dsm.gitauth.equusgithubauth.global.security.auth.exception.UserNotFoundException
+import entry.dsm.gitauth.equusgithubauth.global.security.jwt.exception.InValidTokenFormat
 import entry.dsm.gitauth.equusgithubauth.global.security.jwt.exception.JwtTokenExpiredException
 import entry.dsm.gitauth.equusgithubauth.global.security.jwt.exception.JwtTokenInvalidException
+import entry.dsm.gitauth.equusgithubauth.global.security.jwt.exception.NoTokenInHeader
 import io.jsonwebtoken.Claims
 import io.jsonwebtoken.ExpiredJwtException
 import io.jsonwebtoken.Jwts
@@ -80,11 +82,7 @@ class JwtTokenProvider(
 
     fun resolveToken(request: HttpServletRequest): String? {
         val bearerToken = request.getHeader(jwtProperties.header)
-
-        if (bearerToken != null && (bearerToken.startsWith(jwtProperties.header))) {
-            return bearerToken.substring(7)
-        }
-        return null
+        return validateTokenFormat(bearerToken)
     }
 
     fun reissueToken(storedToken: RefreshToken): TokenResponse {
@@ -124,7 +122,7 @@ class JwtTokenProvider(
             }
         }
     }
-    fun valid(token: String): Boolean {
+    fun validateToken(token: String): Boolean {
         return try {
             getClaims(token)
             true
@@ -132,6 +130,14 @@ class JwtTokenProvider(
             throw e
         } catch (e: JwtTokenInvalidException) {
             throw e
+        }
+    }
+
+    private fun validateTokenFormat(bearerToken: String?): String {
+        return when {
+            bearerToken.isNullOrBlank() -> throw NoTokenInHeader()
+            !bearerToken.startsWith("Bearer ") -> throw InValidTokenFormat()
+            else -> bearerToken.substring(7)
         }
     }
 
