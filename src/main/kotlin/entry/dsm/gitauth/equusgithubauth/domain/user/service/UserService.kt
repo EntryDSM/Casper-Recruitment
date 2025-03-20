@@ -23,7 +23,6 @@ class UserService(
 ) {
     fun execute(accessToken: String): LoginSuccessResponse {
         val userInfo = githubApiClient.getUser("Bearer $accessToken")
-        println("userInfo login: ${userInfo.login}")
         val tokens = jwtTokenProvider.generateToken(userInfo.login)
         val isUser = validateUserOrganization("Bearer $accessToken", userInfo.login)
 
