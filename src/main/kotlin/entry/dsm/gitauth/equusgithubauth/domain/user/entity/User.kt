@@ -28,5 +28,5 @@ data class User(
     val role: UserRole,
     val provider: String,  // 구글 로그인 사용자의 provider
     val providerId: String,
-
 )
+fun asdf(){}
