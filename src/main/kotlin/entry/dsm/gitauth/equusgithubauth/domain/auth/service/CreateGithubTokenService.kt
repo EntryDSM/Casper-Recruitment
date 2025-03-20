@@ -17,6 +17,7 @@ class CreateGithubTokenService(
             clientId = githubProperties.clientId,
             code = code
         )
-        return GithubAccessTokenResponse(response.accessToken)
+
+        return GithubAccessTokenResponse(response.body!!.accessToken)
     }
 }
