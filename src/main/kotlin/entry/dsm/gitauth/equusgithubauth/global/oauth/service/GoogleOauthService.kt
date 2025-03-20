@@ -1,5 +1,6 @@
 package entry.dsm.gitauth.equusgithubauth.global.oauth.service
 
+import entry.dsm.gitauth.equusgithubauth.domain.auth.enums.OauthType
 import entry.dsm.gitauth.equusgithubauth.domain.user.presentation.dto.response.TokenResponse
 import entry.dsm.gitauth.equusgithubauth.global.oauth.JwtConstants
 import entry.dsm.gitauth.equusgithubauth.global.oauth.OAuth2UserInfo
@@ -22,7 +23,7 @@ class GoogleOauthService(
         val provider = userRequest.clientRegistration.registrationId
 
         val oAuth2UserInfo: OAuth2UserInfo = when(provider) {
-            "google" -> GoogleUserDetails(oAuth2User.attributes)
+            OauthType.GOOGLE.provider -> GoogleUserDetails(oAuth2User.attributes)
             else -> throw UnsupportedOperationException(provider)
         }
 
