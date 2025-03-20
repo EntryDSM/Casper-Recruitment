@@ -6,13 +6,14 @@ import entry.dsm.gitauth.equusgithubauth.global.security.jwt.JwtTokenProvider
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 import org.springframework.data.redis.core.RedisTemplate
+import org.springframework.data.repository.findByIdOrNull
 import java.util.concurrent.TimeUnit
 
 @Service
 class LogoutService(
     private val jwtTokenProvider: JwtTokenProvider,
-    private val redisTemplate: RedisTemplate<String, String>,
-    private val refreshTokenRepository: RefreshTokenRepository
+    private val refreshTokenRepository: RefreshTokenRepository,
+    private val tokenBlackListService: TokenBlackListService
 ) {
 
     @Transactional
@@ -23,14 +24,11 @@ class LogoutService(
 
         val userName = jwtTokenProvider.getSubjectFromToken(accessToken)
 
-        refreshTokenRepository.findByLoginId(userName)?.let {
+        refreshTokenRepository.findByIdOrNull(userName)?.let {
             refreshTokenRepository.delete(it)
         }
 
-        val expiration = jwtTokenProvider.getExpiration(accessToken)
-        if (expiration > 0) {
-            redisTemplate.opsForValue().set("blacklist:$accessToken", "logout", expiration, TimeUnit.MILLISECONDS)
-        }
+        tokenBlackListService.blackList(accessToken)
     }
 }
 
