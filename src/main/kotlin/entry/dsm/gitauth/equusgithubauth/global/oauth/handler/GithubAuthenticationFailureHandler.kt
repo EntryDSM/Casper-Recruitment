@@ -9,7 +9,7 @@ class GithubAuthenticationFailureHandler : AuthenticationFailureHandler {
     override fun onAuthenticationFailure(
         request: HttpServletRequest,
         response: HttpServletResponse,
-        exception: AuthenticationException
+        exception: AuthenticationException,
     ) {
         response.sendRedirect("/api/github/auth/not/authenticated")
     }

@@ -8,15 +8,16 @@ import org.springframework.stereotype.Service
 @Service
 class GenerateGithubTokenService(
     private val githubOAuthApiClient: GithubOAuthApiClient,
-    private val githubRegistrationProperties: GithubRegistrationProperties
+    private val githubRegistrationProperties: GithubRegistrationProperties,
 ) {
     fun execute(code: String): GithubAccessTokenResponse {
-        val response = githubOAuthApiClient.codeToToken(
-            redirectUri = githubRegistrationProperties.redirectUri,
-            clientSecret = githubRegistrationProperties.clientSecret,
-            clientId = githubRegistrationProperties.clientId,
-            code = code
-        )
+        val response =
+            githubOAuthApiClient.codeToToken(
+                redirectUri = githubRegistrationProperties.redirectUri,
+                clientSecret = githubRegistrationProperties.clientSecret,
+                clientId = githubRegistrationProperties.clientId,
+                code = code,
+            )
 
         return GithubAccessTokenResponse(response.accessToken)
     }

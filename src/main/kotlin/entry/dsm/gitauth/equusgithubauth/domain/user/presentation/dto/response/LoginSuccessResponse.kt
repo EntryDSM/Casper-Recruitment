@@ -7,5 +7,5 @@ data class LoginSuccessResponse(
     val accessToken: String,
     val accessTokenExpiration: LocalDateTime,
     val refreshToken: String,
-    val refreshTokenExpiration: LocalDateTime
+    val refreshTokenExpiration: LocalDateTime,
 )

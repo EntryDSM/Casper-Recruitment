@@ -27,9 +27,11 @@ class SecurityConfig(
             .sessionManagement { it.sessionCreationPolicy(SessionCreationPolicy.STATELESS) }
             .authorizeHttpRequests { auth ->
                 auth
-                    .requestMatchers("/", "/login", "/oauth2/**", "/api/github/auth", "/api/github/auth/**",
+                    .requestMatchers(
+                        "/", "/login", "/oauth2/**", "/api/github/auth", "/api/github/auth/**",
                         "/oauth2/authorize/**", "/error", "/notice/**", "/notice", "/reports",
-                        "/login/oauth2/code/**").permitAll()
+                        "/login/oauth2/code/**",
+                    ).permitAll()
                     .requestMatchers(HttpMethod.GET, "reports", "notice").permitAll()
                     .anyRequest().authenticated()
             }

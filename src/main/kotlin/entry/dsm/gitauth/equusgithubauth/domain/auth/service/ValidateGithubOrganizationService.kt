@@ -5,7 +5,7 @@ import org.springframework.stereotype.Service
 
 @Service
 class ValidateGithubOrganizationService(
-    private val githubApiClient: GithubApiClient
+    private val githubApiClient: GithubApiClient,
 ) {
     companion object {
         private const val TARGET_ORG = "EntryDSM"

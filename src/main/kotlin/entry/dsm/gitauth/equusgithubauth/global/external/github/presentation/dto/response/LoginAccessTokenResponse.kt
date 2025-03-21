@@ -7,5 +7,5 @@ import com.fasterxml.jackson.databind.annotation.JsonNaming
 data class LoginAccessTokenResponse(
     val accessToken: String,
     val scope: String,
-    val tokenType: String
+    val tokenType: String,
 )

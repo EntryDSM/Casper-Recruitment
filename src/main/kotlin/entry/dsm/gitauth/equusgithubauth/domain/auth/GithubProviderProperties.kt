@@ -7,5 +7,5 @@ class GithubProviderProperties(
     val authorizationUri: String,
     val tokenUri: String,
     val userInfoUri: String,
-    val userNameAttribute: String
+    val userNameAttribute: String,
 )

@@ -8,5 +8,5 @@ class GithubRegistrationProperties(
     val clientSecret: String,
     val redirectUri: String,
     val scope: String,
-    val clientName: String
+    val clientName: String,
 )

@@ -14,5 +14,5 @@ data class GithubUserResponse(
     val htmlUrl: String,
     val avatarUrl: String,
     val createdAt: LocalDateTime,
-    val updatedAt: LocalDateTime
+    val updatedAt: LocalDateTime,
 )

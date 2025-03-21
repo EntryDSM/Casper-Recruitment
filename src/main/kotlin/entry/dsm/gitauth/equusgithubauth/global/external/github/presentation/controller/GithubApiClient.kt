@@ -9,8 +9,12 @@ import org.springframework.web.bind.annotation.RequestHeader
 @FeignClient(name = "githubApiClient", url = "https://api.github.com")
 interface GithubApiClient {
     @GetMapping("/user")
-    fun getUser(@RequestHeader("Authorization") authorization: String): GithubUserResponse
+    fun getUser(
+        @RequestHeader("Authorization") authorization: String,
+    ): GithubUserResponse
 
     @GetMapping("/user/orgs")
-    fun getUserOrganizations(@RequestHeader("Authorization") authorization: String): List<GithubOrganizationResponse>
+    fun getUserOrganizations(
+        @RequestHeader("Authorization") authorization: String,
+    ): List<GithubOrganizationResponse>
 }
