@@ -10,7 +10,7 @@ import java.time.LocalDateTime
 data class GithubUserResponse(
     val login: String,
     val name: String,
-    val email: String?,
+    val email: String,
     val htmlUrl: String,
     val avatarUrl: String,
     val createdAt: LocalDateTime,

@@ -26,7 +26,7 @@ data class User(
     @Enumerated(EnumType.STRING)
     @Column(name = "role")
     val role: UserRole,
-    val provider: String,  // 구글 로그인 사용자의 provider
-    val providerId: String,
+    val provider: String? = null,  // 구글 로그인 사용자의 provider
+    val providerId: String? = null,
 
 )

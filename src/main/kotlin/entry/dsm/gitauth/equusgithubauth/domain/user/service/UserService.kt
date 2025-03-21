@@ -2,6 +2,7 @@ package entry.dsm.gitauth.equusgithubauth.domain.user.service
 
 import entry.dsm.gitauth.equusgithubauth.domain.auth.service.ValidateGithubOrganizationService
 import entry.dsm.gitauth.equusgithubauth.domain.user.entity.User
+import entry.dsm.gitauth.equusgithubauth.domain.user.entity.enums.UserRole
 import entry.dsm.gitauth.equusgithubauth.domain.user.entity.repository.UserRepository
 import entry.dsm.gitauth.equusgithubauth.domain.user.presentation.dto.response.LoginSuccessResponse
 import entry.dsm.gitauth.equusgithubauth.global.external.github.presentation.controller.GithubApiClient
@@ -22,18 +23,13 @@ class UserService(
 
         val user =
             User(
-                githubId = userInfo.login,
-                username = userInfo.name,
+                loginId = userInfo.login,
+                name = userInfo.name,
                 email = userInfo.email,
-                profileUrl = userInfo.htmlUrl,
-                avatarUrl = userInfo.avatarUrl,
-                createdAt = userInfo.createdAt,
-                updatedAt = userInfo.updatedAt,
-                accessToken = tokens.accessToken,
-                tokenExpiration = tokens.accessTokenExpiration,
+                role = UserRole.ADMIN
             )
 
-        if (userRepository.findByGithubId(userInfo.login) != null) {
+        /*if (userRepository.findByGithubId(userInfo.login) != null) {
             return LoginSuccessResponse(
                 isMember,
                 tokens.accessToken,
@@ -41,7 +37,7 @@ class UserService(
                 tokens.refreshToken,
                 tokens.refreshTokenExpiration,
             )
-        }
+        }*/
 
         userRepository.save(user)
         return LoginSuccessResponse(
