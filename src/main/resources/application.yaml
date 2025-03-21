@@ -15,6 +15,7 @@ spring:
         dialect: org.hibernate.dialect.MySQLDialect
     open-in-view: false
 
+<<<<<<< HEAD
   security:
     oauth2:
       client:
@@ -32,11 +33,24 @@ spring:
             token-uri: ${TOKEN_URI}
             user-info-uri: ${USER_INFO_URI}
             user-name-attribute: ${USER_NAME_ATTRIBUTE}
+=======
+
+
+>>>>>>> main
 
   data:
     redis:
       host: ${REDIS_HOST}
       port: ${REDIS_PORT}
+
+  security:
+    oauth2:
+      client:
+        registration:
+          google:
+            client-id: ${GOOGLE_CLIENT_ID}
+            client-secret: ${GOOGLE_SECRET}
+            scope: profile, email
 
 jwt:
   header: ${HEADER}
@@ -44,3 +58,8 @@ jwt:
   secret-key: ${JWT_SECRET}
   access-exp: ${ACCESS_EXP}
   refresh-exp: ${REFRESH_EXP}
+
+oauth:
+  google:
+    redirect: ${GOOGLE_DIRECT_URL}
+

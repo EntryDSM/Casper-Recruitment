@@ -7,16 +7,13 @@ import org.springframework.data.redis.core.RedisHash
 import org.springframework.data.redis.core.TimeToLive
 import org.springframework.data.redis.core.index.Indexed
 
-@RedisHash
-@Table(name = "refresh_token")
+@RedisHash("refresh_token")
 class RefreshToken(
+
     @Id
-    @Column(name = "id", nullable = false, unique = true)
-    val githubId: String,
+    val loginId: String,
     @Indexed
-    @Column(name = "refresh_token", nullable = false)
     var refreshToken: String,
     @TimeToLive
-    @Column(name = "token_expiration", nullable = false)
     var tokenExpiration: Long,
 )
