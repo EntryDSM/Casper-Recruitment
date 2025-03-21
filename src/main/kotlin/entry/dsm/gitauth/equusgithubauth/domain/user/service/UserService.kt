@@ -18,10 +18,9 @@ class UserService(
     fun execute(accessToken: String): LoginSuccessResponse {
         val userInfo = githubApiClient.getUser("Bearer $accessToken")
         val tokens = jwtTokenProvider.generateToken(userInfo.login)
-        val isUser = validateGithubOrganizationService.execute("Bearer $accessToken", userInfo.login)
+        val isMember = validateGithubOrganizationService.execute("Bearer $accessToken")
 
-        val user =
-            User(
+        val user = User(
                 githubId = userInfo.login,
                 username = userInfo.name,
                 email = userInfo.email,
@@ -35,7 +34,7 @@ class UserService(
 
         if (userRepository.findByGithubId(userInfo.login) != null) {
             return LoginSuccessResponse(
-                isUser,
+                isMember,
                 tokens.accessToken,
                 tokens.accessTokenExpiration,
                 tokens.refreshToken,
@@ -45,7 +44,7 @@ class UserService(
 
         userRepository.save(user)
         return LoginSuccessResponse(
-            isUser,
+            isMember,
             tokens.accessToken,
             tokens.accessTokenExpiration,
             tokens.refreshToken,
