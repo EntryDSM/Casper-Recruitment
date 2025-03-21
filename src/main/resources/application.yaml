@@ -15,7 +15,7 @@ spring:
         dialect: org.hibernate.dialect.MySQLDialect
     open-in-view: false
 
-<<<<<<< HEAD
+
   security:
     oauth2:
       client:
@@ -27,30 +27,21 @@ spring:
             redirect-uri: ${GITHUB_REDIRECT_URI}
             authorization-grant-type: ${GITHUB_AUTHORIZATION_GRANT_TYPE}
             client-name: ${GITHUB_CLIENT_NAME}
+          google:
+            client-id: ${GOOGLE_CLIENT_ID}
+            client-secret: ${GOOGLE_SECRET}
+            scope: profile, email
         provider:
           github:
             authorization-uri: ${AUTHORIZATION_URI}
             token-uri: ${TOKEN_URI}
             user-info-uri: ${USER_INFO_URI}
             user-name-attribute: ${USER_NAME_ATTRIBUTE}
-=======
-
-
->>>>>>> main
 
   data:
     redis:
       host: ${REDIS_HOST}
       port: ${REDIS_PORT}
-
-  security:
-    oauth2:
-      client:
-        registration:
-          google:
-            client-id: ${GOOGLE_CLIENT_ID}
-            client-secret: ${GOOGLE_SECRET}
-            scope: profile, email
 
 jwt:
   header: ${HEADER}
