@@ -20,7 +20,7 @@ data class User(
     val id: UUID = UUID.randomUUID(),
     val loginId: String,
     @Email(message = "이메일 형식이 올바르지 않습니다.")
-    val email: String,
+    val email: String? = null,
     @Column(name = "name", nullable = false)
     var name: String,
     @Enumerated(EnumType.STRING)
