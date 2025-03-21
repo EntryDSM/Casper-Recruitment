@@ -2,7 +2,7 @@ package entry.dsm.gitauth.equusgithubauth.domain.auth.presentation
 
 import entry.dsm.gitauth.equusgithubauth.domain.auth.presentation.dto.response.GithubAccessTokenResponse
 import entry.dsm.gitauth.equusgithubauth.domain.auth.presentation.dto.response.LoginSuccessResponse
-import entry.dsm.gitauth.equusgithubauth.domain.auth.service.CreateGithubTokenService
+import entry.dsm.gitauth.equusgithubauth.domain.auth.service.GenerateGithubTokenService
 import entry.dsm.gitauth.equusgithubauth.domain.user.service.UserService
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.RequestHeader
@@ -14,7 +14,7 @@ import org.springframework.web.servlet.view.RedirectView
 @RestController
 @RequestMapping("/api/github/auth")
 class GithubAuthenticationController(
-    private val createGithubTokenService: CreateGithubTokenService,
+    private val generateGithubTokenService: GenerateGithubTokenService,
     private val userService: UserService
 ) {
     // redirect
@@ -28,7 +28,7 @@ class GithubAuthenticationController(
     fun githubCallback(
         @RequestParam("code") code: String
     ): GithubAccessTokenResponse {
-        return createGithubTokenService.execute(code)
+        return generateGithubTokenService.execute(code)
     }
 
     @GetMapping("/authenticated")
