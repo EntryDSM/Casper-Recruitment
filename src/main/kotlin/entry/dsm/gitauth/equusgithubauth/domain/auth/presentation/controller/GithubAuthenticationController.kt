@@ -1,8 +1,8 @@
-package entry.dsm.gitauth.equusgithubauth.domain.auth.presentation
+package entry.dsm.gitauth.equusgithubauth.domain.auth.presentation.controller
 
-import entry.dsm.gitauth.equusgithubauth.domain.auth.presentation.dto.response.GithubAccessTokenResponse
-import entry.dsm.gitauth.equusgithubauth.domain.auth.presentation.dto.response.LoginSuccessResponse
-import entry.dsm.gitauth.equusgithubauth.domain.auth.service.GenerateGithubTokenService
+import entry.dsm.gitauth.equusgithubauth.domain.auth.presentation.response.GithubAccessTokenResponse
+import entry.dsm.gitauth.equusgithubauth.domain.user.presentation.dto.response.LoginSuccessResponse
+import entry.dsm.gitauth.equusgithubauth.domain.auth.command.service.GenerateGithubTokenService
 import entry.dsm.gitauth.equusgithubauth.domain.user.service.UserService
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.RequestHeader

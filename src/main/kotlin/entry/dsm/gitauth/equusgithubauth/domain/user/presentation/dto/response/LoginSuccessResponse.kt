@@ -1,4 +1,4 @@
-package entry.dsm.gitauth.equusgithubauth.domain.auth.presentation.dto.response
+package entry.dsm.gitauth.equusgithubauth.domain.user.presentation.dto.response
 
 import java.time.LocalDateTime
 

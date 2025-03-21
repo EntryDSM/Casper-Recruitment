@@ -1,6 +1,6 @@
 package entry.dsm.gitauth.equusgithubauth.domain.user.service
 
-import entry.dsm.gitauth.equusgithubauth.domain.auth.presentation.dto.response.LoginSuccessResponse
+import entry.dsm.gitauth.equusgithubauth.domain.user.presentation.dto.response.LoginSuccessResponse
 import entry.dsm.gitauth.equusgithubauth.domain.auth.service.ValidateGithubOrganizationService
 import entry.dsm.gitauth.equusgithubauth.domain.user.entity.User
 import entry.dsm.gitauth.equusgithubauth.domain.user.entity.repository.UserRepository
