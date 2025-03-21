@@ -1,5 +1,6 @@
 package entry.dsm.gitauth.equusgithubauth.global.config
 
+import entry.dsm.gitauth.equusgithubauth.global.oauth.GithubOAuth2LoginConfig
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 import org.springframework.http.HttpMethod
@@ -13,6 +14,7 @@ import org.springframework.security.web.SecurityFilterChain
 @EnableWebSecurity
 class SecurityConfig(
     private val corsConfig: CorsConfig,
+    private val githubOAuth2LoginConfig: GithubOAuth2LoginConfig,
 ) {
     @Bean
     fun securityFilterChain(
@@ -31,6 +33,8 @@ class SecurityConfig(
                     .requestMatchers(HttpMethod.GET, "reports", "notice").permitAll()
                     .anyRequest().authenticated()
             }
+
+        githubOAuth2LoginConfig.configure(http)
 
         return http.build()
     }
