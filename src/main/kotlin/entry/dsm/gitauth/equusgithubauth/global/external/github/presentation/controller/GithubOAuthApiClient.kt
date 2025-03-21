@@ -3,7 +3,6 @@ package entry.dsm.gitauth.equusgithubauth.global.external.github.presentation.co
 import entry.dsm.gitauth.equusgithubauth.global.external.github.presentation.dto.response.LoginAccessTokenResponse
 import org.springframework.cloud.openfeign.FeignClient
 import org.springframework.web.bind.annotation.PostMapping
-import org.springframework.web.bind.annotation.RequestHeader
 import org.springframework.web.bind.annotation.RequestParam
 
 @FeignClient(
@@ -17,6 +16,5 @@ interface GithubOAuthApiClient {
         @RequestParam("client_secret") clientSecret: String,
         @RequestParam("redirect_uri") redirectUri: String,
         @RequestParam("code") code: String,
-        @RequestHeader("Accept") accept: String = "application/json"
     ): LoginAccessTokenResponse
 }
