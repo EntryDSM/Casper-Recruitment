@@ -19,6 +19,9 @@ class GithubOAuth2LoginConfig(
     private val githubRegistrationProperties: GithubRegistrationProperties,
     private val githubProviderProperties: GithubProviderProperties,
 ) {
+    companion object {
+        private const val REGISTRATION_ID = "github"
+    }
     @Bean
     fun githubAuthenticationSuccessHandler() = GithubAuthenticationSuccessHandler()
 
@@ -46,21 +49,22 @@ class GithubOAuth2LoginConfig(
 
     @Bean
     fun clientRegistrationRepository(): ClientRegistrationRepository {
-        val githubRegistration =
-            ClientRegistration
-                .withRegistrationId("github")
-                .clientId(githubRegistrationProperties.clientId)
-                .clientSecret(githubRegistrationProperties.clientSecret)
-                .clientAuthenticationMethod(ClientAuthenticationMethod.CLIENT_SECRET_BASIC)
-                .authorizationGrantType(AuthorizationGrantType.AUTHORIZATION_CODE)
-                .redirectUri(githubRegistrationProperties.redirectUri)
-                .scope(githubRegistrationProperties.scope)
-                .authorizationUri(githubProviderProperties.authorizationUri)
-                .tokenUri(githubProviderProperties.tokenUri)
-                .userInfoUri(githubProviderProperties.userInfoUri)
-                .userNameAttributeName(githubProviderProperties.userNameAttribute)
-                .clientName(githubRegistrationProperties.clientName)
-                .build()
+        val githubRegistration = ClientRegistration
+            .withRegistrationId(REGISTRATION_ID)
+            .apply {
+                clientId(githubRegistrationProperties.clientId)
+                clientSecret(githubRegistrationProperties.clientSecret)
+                clientAuthenticationMethod(ClientAuthenticationMethod.CLIENT_SECRET_BASIC)
+                authorizationGrantType(AuthorizationGrantType.AUTHORIZATION_CODE)
+                redirectUri(githubRegistrationProperties.redirectUri)
+                scope(githubRegistrationProperties.scope)
+                authorizationUri(githubProviderProperties.authorizationUri)
+                tokenUri(githubProviderProperties.tokenUri)
+                userInfoUri(githubProviderProperties.userInfoUri)
+                userNameAttributeName(githubProviderProperties.userNameAttribute)
+                clientName(githubRegistrationProperties.clientName)
+            }
+            .build()
 
         return InMemoryClientRegistrationRepository(githubRegistration)
     }
