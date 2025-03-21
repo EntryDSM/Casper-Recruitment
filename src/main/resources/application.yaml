@@ -22,7 +22,7 @@ spring:
           github:
             client-id: ${GITHUB_CLIENT_ID}
             client-secret: ${GITHUB_CLIENT_SECRET}
-            scope: ${GITHUB_ACCESS_SCOPE_1},${GITHUB_ACCESS_SCOPE_2}
+            scope: ${GITHUB_ACCESS_SCOPE_1}
             redirect-uri: ${GITHUB_REDIRECT_URI}
             authorization-grant-type: ${GITHUB_AUTHORIZATION_GRANT_TYPE}
             client-name: ${GITHUB_CLIENT_NAME}
