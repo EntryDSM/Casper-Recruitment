@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RequestHeader
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RequestParam
 import org.springframework.web.bind.annotation.RestController
+import org.springframework.web.servlet.view.RedirectView
 
 @RestController
 @RequestMapping("/api/github/auth")
@@ -18,8 +19,8 @@ class GithubAuthenticationController(
 ) {
     // redirect
     @GetMapping
-    fun githubAuth(): String {
-        return "redirect:/oauth2/authorization/github"
+    fun githubAuth(): RedirectView {
+        return RedirectView("/oauth2/authorization/github")
     }
 
     // code to token
