@@ -29,16 +29,6 @@ class UserService(
                 role = UserRole.ADMIN
             )
 
-        /*if (userRepository.findByGithubId(userInfo.login) != null) {
-            return LoginSuccessResponse(
-                isMember,
-                tokens.accessToken,
-                tokens.accessTokenExpiration,
-                tokens.refreshToken,
-                tokens.refreshTokenExpiration,
-            )
-        }*/
-
         userRepository.save(user)
         return LoginSuccessResponse(
             isMember,
