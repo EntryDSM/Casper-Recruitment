@@ -21,8 +21,8 @@ data class User(
     val loginId: String,
     @Email(message = "이메일 형식이 올바르지 않습니다.")
     val email: String? = null,
-    @Column(name = "name", nullable = false)
-    var name: String,
+    @Column(name = "name")
+    var name: String? = null,
     @Enumerated(EnumType.STRING)
     @Column(name = "role")
     val role: UserRole,
