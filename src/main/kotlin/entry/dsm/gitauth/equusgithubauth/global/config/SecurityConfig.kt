@@ -1,6 +1,7 @@
 package entry.dsm.gitauth.equusgithubauth.global.config
 
 import com.fasterxml.jackson.databind.ObjectMapper
+import entry.dsm.gitauth.equusgithubauth.global.oauth.GithubOAuth2LoginConfig
 import entry.dsm.gitauth.equusgithubauth.global.oauth.handler.CustomOAuth2AuthenticationFailureHandler
 import entry.dsm.gitauth.equusgithubauth.global.oauth.handler.CustomOAuth2AuthenticationSuccessHandler
 import entry.dsm.gitauth.equusgithubauth.global.oauth.service.GoogleOauthService
@@ -21,12 +22,12 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 @EnableWebSecurity
 @EnableMethodSecurity
 class SecurityConfig(
+
     private val corsConfig: CorsConfig,
     private val jwtTokenProvider: JwtTokenProvider,
     private val customOauth2UserService: GoogleOauthService,
-    private val objectMapper: ObjectMapper
+    private val objectMapper: ObjectMapper,
     private val githubOAuth2LoginConfig: GithubOAuth2LoginConfig,
-    private val corsConfig: CorsConfig,
 ) {
 
     @Bean
@@ -48,28 +49,32 @@ class SecurityConfig(
             .csrf { it.disable() }
             .cors { it.configurationSource(corsConfig.corsConfigurationSource()) }
             .formLogin { it.disable() }
+            .sessionManagement { it.sessionCreationPolicy(SessionCreationPolicy.STATELESS) }
 
-                // 세션 관리 설정 (무상태 세션)
-                http.sessionManagement { it.sessionCreationPolicy(SessionCreationPolicy.STATELESS) }
+            .authorizeHttpRequests { auth ->
+                auth
+                    .requestMatchers(
+                        "/", "/login", "/oauth2/**", "/api/github/auth", "/api/github/auth/**",
+                        "/oauth2/authorize/**", "/error", "/notice/**", "/notice", "/reports",
+                        "/login/oauth2/code/**",
+                    ).permitAll()
 
+                    .requestMatchers(HttpMethod.GET, "reports", "notice").permitAll()
+                    .requestMatchers("/api/**").permitAll()
+                    .requestMatchers("/oauth-login/admin").hasRole("ADMIN") // 특정 URL에 대한 권한 설정
+                    .requestMatchers("/oauth-login/info").authenticated()
+
+
+                    .anyRequest().authenticated()
+
+
+                githubOAuth2LoginConfig.configure(http)
 
                 http
-                    .authorizeHttpRequests { auth ->
-                        auth
-                            .requestMatchers("/", "/login", "/oauth2/**", "/error", "/notice/**", "/notice", "/reports")
-                            .permitAll()
-                            .requestMatchers(HttpMethod.GET, "reports", "notice").permitAll()
-                            .requestMatchers("/api/**").permitAll()
-                            .requestMatchers("/oauth-login/admin").hasRole("ADMIN") // 특정 URL에 대한 권한 설정
-                            .requestMatchers("/oauth-login/info").authenticated() // 인증된 사용자만 접근 허용
-                            .anyRequest().authenticated() // 나머지 요청은 인증된 사용자만 접근 가능
-                    }
-
-                // OAuth 2.0 로그인 설정
                     .oauth2Login { oauth ->
                         oauth.loginPage("/oauth-login/login")
                             .userInfoEndpoint { userInfo ->
-                                // 여기서 CustomOauth2AuthService를 등록합니다.
+
                                 userInfo.userService(customOauth2UserService)
                             }
                             .successHandler(CustomOAuth2AuthenticationSuccessHandler(objectMapper))
@@ -79,9 +84,8 @@ class SecurityConfig(
                     .addFilterBefore(JwtTokenFilter(jwtTokenProvider), UsernamePasswordAuthenticationFilter::class.java)
 
 
-
-                return http.build()
             }
-
+        return http.build()
 
     }
+}
