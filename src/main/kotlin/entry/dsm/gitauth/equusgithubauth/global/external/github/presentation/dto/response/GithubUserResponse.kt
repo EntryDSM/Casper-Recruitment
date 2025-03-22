@@ -9,7 +9,7 @@ import java.time.LocalDateTime
 @JsonNaming(SnakeCaseStrategy::class)
 data class GithubUserResponse(
     val login: String,
-    val name: String,
+    val name: String?,
     val email: String?,
     val htmlUrl: String,
     val avatarUrl: String,
