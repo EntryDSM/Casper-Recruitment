@@ -59,15 +59,12 @@ class SecurityConfig(
                         "/login/oauth2/code/**",
                     ).permitAll()
 
-                    .requestMatchers("/", "/login", "/oauth2/**", "/error", "/notice/**", "/notice", "/reports")
-                    .permitAll()
                     .requestMatchers(HttpMethod.GET, "reports", "notice").permitAll()
                     .requestMatchers("/api/**").permitAll()
                     .requestMatchers("/oauth-login/admin").hasRole("ADMIN") // 특정 URL에 대한 권한 설정
                     .requestMatchers("/oauth-login/info").authenticated()
 
 
-                    .requestMatchers(HttpMethod.GET, "reports", "notice").permitAll()
                     .anyRequest().authenticated()
 
 
