@@ -104,24 +104,17 @@ class JwtTokenProvider(
     }
 
     fun getAuthentication(token: String): Authentication {
-        val userDetails: UserDetails = authDetailsService.loadUserByUsername(getClaims(token).subject)
+        val userDetails = authDetailsService.loadUserByUsername(getClaims(token).subject)
         return UsernamePasswordAuthenticationToken(userDetails, "", userDetails.authorities)
     }
 
     private fun getClaims(token: String): Claims {
-        return try {
-            Jwts
-                .parser()
-                .setSigningKey(jwtProperties.secretKey)
-                .parseClaimsJws(token)
-                .body
-        } catch (e: Exception) {
-            when (e) {
-                is ExpiredJwtException -> throw JwtTokenExpiredException
-                else -> throw JwtTokenInvalidException
-            }
-        }
+        return Jwts.parser()
+            .setSigningKey(Keys.hmacShaKeyFor(jwtProperties.secretKey.toByteArray())) // 생성할 때와 동일한 방식으로 설정
+            .parseClaimsJws(token)
+            .body
     }
+
     fun validateToken(token: String): Boolean {
         return try {
             getClaims(token)
@@ -133,9 +126,8 @@ class JwtTokenProvider(
         }
     }
 
-    private fun validateTokenFormat(bearerToken: String?): String {
+    private fun validateTokenFormat(bearerToken: String): String {
         return when {
-            bearerToken.isNullOrBlank() -> throw NoTokenInHeader()
             !bearerToken.startsWith("Bearer ") -> throw InValidTokenFormat()
             else -> bearerToken.substring(7)
         }
