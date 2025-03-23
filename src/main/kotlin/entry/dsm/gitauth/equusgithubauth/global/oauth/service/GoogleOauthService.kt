@@ -5,6 +5,8 @@ import entry.dsm.gitauth.equusgithubauth.domain.auth.exception.UnsupportedProvid
 import entry.dsm.gitauth.equusgithubauth.domain.user.presentation.dto.response.TokenResponse
 import entry.dsm.gitauth.equusgithubauth.global.oauth.JwtConstants
 import entry.dsm.gitauth.equusgithubauth.global.oauth.OAuth2UserInfo
+import entry.dsm.gitauth.equusgithubauth.global.oauth.service.component.EmailDomainValidator
+import entry.dsm.gitauth.equusgithubauth.global.oauth.service.component.GoogleOauthUserService
 import entry.dsm.gitauth.equusgithubauth.global.security.auth.CustomOauth2UserDetails
 import entry.dsm.gitauth.equusgithubauth.global.security.auth.GoogleUserDetails
 import entry.dsm.gitauth.equusgithubauth.global.security.jwt.JwtTokenProvider
@@ -16,7 +18,8 @@ import org.springframework.stereotype.Service
 @Service
 class GoogleOauthService(
     private val jwtTokenProvider: JwtTokenProvider,
-    private val googleOauthUserService: GoogleOauthUserService
+    private val googleOauthUserService: GoogleOauthUserService,
+    private val emailDomainValidator: EmailDomainValidator
 ) : DefaultOAuth2UserService() {
 
     override fun loadUser(userRequest: OAuth2UserRequest): OAuth2User {
@@ -27,6 +30,13 @@ class GoogleOauthService(
             OauthType.GOOGLE.provider -> GoogleUserDetails(oAuth2User.attributes)
             else -> throw UnsupportedProviderException(provider)
         }
+
+
+        val email = oAuth2UserInfo.getEmail()
+
+        // 이메일 검증 학교 도메인 외 로그인 못함
+        emailDomainValidator.isAllowed(email)
+
 
         val loginId = "$provider${oAuth2UserInfo.getProviderId()}"
 
