@@ -1,4 +1,4 @@
-package entry.dsm.gitauth.equusgithubauth.domain.auth.service
+package entry.dsm.gitauth.equusgithubauth.domain.auth.command.service
 
 import entry.dsm.gitauth.equusgithubauth.global.external.github.presentation.controller.GithubApiClient
 import org.springframework.stereotype.Service

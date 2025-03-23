@@ -1,7 +1,7 @@
 package entry.dsm.gitauth.equusgithubauth.domain.auth.presentation.controller
 
-import entry.dsm.gitauth.equusgithubauth.domain.auth.service.LogoutService
-import entry.dsm.gitauth.equusgithubauth.domain.auth.service.OauthReissueService
+import entry.dsm.gitauth.equusgithubauth.domain.auth.command.service.LogoutService
+import entry.dsm.gitauth.equusgithubauth.domain.auth.command.service.OauthReissueService
 import entry.dsm.gitauth.equusgithubauth.domain.user.presentation.dto.request.LogoutRequest
 import entry.dsm.gitauth.equusgithubauth.domain.user.presentation.dto.request.RefreshTokenRequest
 import entry.dsm.gitauth.equusgithubauth.domain.user.presentation.dto.response.TokenResponse

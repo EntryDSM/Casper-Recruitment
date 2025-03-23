@@ -1,7 +1,7 @@
 package entry.dsm.gitauth.equusgithubauth.domain.auth.command.service
 
 import entry.dsm.gitauth.equusgithubauth.domain.auth.GithubRegistrationProperties
-import entry.dsm.gitauth.equusgithubauth.domain.auth.presentation.response.GithubAccessTokenResponse
+import entry.dsm.gitauth.equusgithubauth.domain.auth.command.dto.response.GithubAccessTokenResponse
 import entry.dsm.gitauth.equusgithubauth.global.external.github.presentation.controller.GithubOAuthApiClient
 import org.springframework.stereotype.Service
 
