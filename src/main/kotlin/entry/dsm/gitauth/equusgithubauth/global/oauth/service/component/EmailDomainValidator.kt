@@ -6,13 +6,12 @@ import org.springframework.stereotype.Component
 
 @Component
 class EmailDomainValidator(
-    @Value("\${email.allowed") private val allowedDomain : String,
+    @Value("\${email.allowed}") private val allowedDomain: String,
 ) {
-
-
-    fun isAllowed(email: String) {
+    fun isAllowed(email: String): Boolean {
         if (!email.endsWith("@$allowedDomain")) {
             throw EmailIsNotAllowed()
         }
+        return true
     }
 }
