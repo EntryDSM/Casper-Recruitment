@@ -20,8 +20,8 @@ import org.springframework.security.oauth2.core.ClientAuthenticationMethod
 class OAuth2LoginConfig(
     private val githubRegistrationProperties: GithubRegistrationProperties,
     private val githubProviderProperties: GithubProviderProperties,
-    @Value("\${security.oauth2.client.registration.google.client-id}") private val googleClientId: String,
-    @Value("\${security.oauth2.client.registration.google.client-secret}") private val googleSecret: String
+    @Value("\${google.client-id}") private val googleClientId: String,
+    @Value("\${google.secret}") private val googleSecret: String
 
 ) {
     companion object {
