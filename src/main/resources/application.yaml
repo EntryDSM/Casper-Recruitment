@@ -27,6 +27,8 @@ spring:
             redirect-uri: ${GITHUB_REDIRECT_URI}
             authorization-grant-type: ${GITHUB_AUTHORIZATION_GRANT_TYPE}
             client-name: ${GITHUB_CLIENT_NAME}
+            api-base-uri: ${GITHUB_API_BASE_URI}
+            base-uri: ${GITHUB_BASE_URI}
           google:
             client-id: ${GOOGLE_CLIENT_ID}
             client-secret: ${GOOGLE_SECRET}
@@ -37,7 +39,6 @@ spring:
             token-uri: ${TOKEN_URI}
             user-info-uri: ${USER_INFO_URI}
             user-name-attribute: ${USER_NAME_ATTRIBUTE}
-            api-base-uri: ${GITHUB_API_BASE_URI}
   data:
     redis:
       host: ${REDIS_HOST}
