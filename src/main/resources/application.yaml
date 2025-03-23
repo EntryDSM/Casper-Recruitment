@@ -55,3 +55,7 @@ oauth:
 
 email:
   allowed: ${EMAIL_DOMAIN}
+
+google:
+  client-id: ${GOOGLE_CLIENT_ID}
+  secret: ${GOOGLE_SECRET}
