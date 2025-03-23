@@ -37,7 +37,7 @@ class GithubAuthenticationController(
     fun githubLoginSuccess(
         @RequestHeader("Authorization") accessToken: String,
     ): LoginSuccessResponse {
-        val token = if (accessToken.startsWith("Bearer")) {
+        val token = if (accessToken.startsWith("Bearer ")) {
             accessToken.substring(7)
         } else {
             accessToken
