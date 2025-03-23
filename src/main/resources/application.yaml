@@ -42,6 +42,8 @@ spring:
 github:
   auth:
     redirect-url: ${GITHUB_AUTH_REDIRECT_URL}
+    success-authentication-url: ${SUCCESS_AUTHENTICATION_URL}
+    failure-authentication-url: ${FAILURE_AUTHENTICATION_URL}
 
   data:
     redis:
