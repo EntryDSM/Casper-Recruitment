@@ -1,5 +1,6 @@
 package entry.dsm.gitauth.equusgithubauth.global.config
 
+import entry.dsm.gitauth.equusgithubauth.domain.auth.GithubAuthProperties
 import entry.dsm.gitauth.equusgithubauth.domain.auth.GithubProviderProperties
 import entry.dsm.gitauth.equusgithubauth.domain.auth.GithubRegistrationProperties
 import entry.dsm.gitauth.equusgithubauth.global.oauth.handler.GithubAuthenticationFailureHandler
@@ -20,6 +21,7 @@ import org.springframework.security.oauth2.core.ClientAuthenticationMethod
 class OAuth2LoginConfig(
     private val githubRegistrationProperties: GithubRegistrationProperties,
     private val githubProviderProperties: GithubProviderProperties,
+    private val githubAuthProperties: GithubAuthProperties,
     @Value("\${google.client-id}") private val googleClientId: String,
     @Value("\${google.secret}") private val googleSecret: String
 
@@ -30,10 +32,10 @@ class OAuth2LoginConfig(
     }
 
     @Bean
-    fun githubAuthenticationSuccessHandler() = GithubAuthenticationSuccessHandler()
+    fun githubAuthenticationSuccessHandler() = GithubAuthenticationSuccessHandler(githubAuthProperties)
 
     @Bean
-    fun githubAuthenticationFailureHandler() = GithubAuthenticationFailureHandler()
+    fun githubAuthenticationFailureHandler() = GithubAuthenticationFailureHandler(githubAuthProperties)
 
     fun configure(http: HttpSecurity) {
         http.oauth2Login { oauth ->
