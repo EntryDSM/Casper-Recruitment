@@ -1,7 +1,6 @@
 package entry.dsm.gitauth.equusgithubauth.global.config
 
 import com.fasterxml.jackson.databind.ObjectMapper
-import entry.dsm.gitauth.equusgithubauth.global.oauth.GithubOAuth2LoginConfig
 import entry.dsm.gitauth.equusgithubauth.global.oauth.handler.CustomOAuth2AuthenticationFailureHandler
 import entry.dsm.gitauth.equusgithubauth.global.oauth.handler.CustomOAuth2AuthenticationSuccessHandler
 import entry.dsm.gitauth.equusgithubauth.global.oauth.service.GoogleOauthService
@@ -27,7 +26,7 @@ class SecurityConfig(
     private val jwtTokenProvider: JwtTokenProvider,
     private val customOauth2UserService: GoogleOauthService,
     private val objectMapper: ObjectMapper,
-    private val githubOAuth2LoginConfig: GithubOAuth2LoginConfig,
+    private val githubOAuth2LoginConfig: OAuth2LoginConfig,
 ) {
 
     @Bean
@@ -41,10 +40,7 @@ class SecurityConfig(
     }
 
     @Bean
-    fun securityFilterChain(
-        http: HttpSecurity,
-    ): SecurityFilterChain {
-
+    fun securityFilterChain(http: HttpSecurity): SecurityFilterChain {
         http
             .csrf { it.disable() }
             .cors { it.configurationSource(corsConfig.corsConfigurationSource()) }
@@ -56,36 +52,36 @@ class SecurityConfig(
                     .requestMatchers(
                         "/", "/login", "/oauth2/**", "/api/github/auth", "/api/github/auth/**",
                         "/oauth2/authorize/**", "/error", "/notice/**", "/notice", "/reports",
-                        "/login/oauth2/code/**",
+                        "/login/oauth2/code/**"
                     ).permitAll()
 
                     .requestMatchers(HttpMethod.GET, "reports", "notice").permitAll()
                     .requestMatchers("/api/**").permitAll()
-                    .requestMatchers("/oauth-login/admin").hasRole("ADMIN") // 특정 URL에 대한 권한 설정
+                    .requestMatchers("/oauth-login/admin").hasRole("ADMIN")
                     .requestMatchers("/oauth-login/info").authenticated()
-
-
                     .anyRequest().authenticated()
-
-
-                githubOAuth2LoginConfig.configure(http)
-
-                http
-                    .oauth2Login { oauth ->
-                        oauth.loginPage("/oauth-login/login")
-                            .userInfoEndpoint { userInfo ->
-
-                                userInfo.userService(customOauth2UserService)
-                            }
-                            .successHandler(CustomOAuth2AuthenticationSuccessHandler(objectMapper))
-                            .failureHandler(CustomOAuth2AuthenticationFailureHandler())
-                            .permitAll()
-                    }
-                    .addFilterBefore(JwtTokenFilter(jwtTokenProvider), UsernamePasswordAuthenticationFilter::class.java)
-
-
             }
-        return http.build()
 
+
+        githubOAuth2LoginConfig.configure(http)
+
+        http
+            .oauth2Login { oauth ->
+                oauth.loginPage("/oauth-login/login")
+                    .clientRegistrationRepository(githubOAuth2LoginConfig.clientRegistrationRepository())
+                    .userInfoEndpoint { userInfo ->
+                        userInfo.userService(customOauth2UserService)
+                    }
+                    .successHandler(CustomOAuth2AuthenticationSuccessHandler(objectMapper))
+                    .failureHandler(CustomOAuth2AuthenticationFailureHandler())
+                    .permitAll()
+            }
+
+        // JwtTokenFilter를 OAuth 설정과 별도로 등록
+        http.addFilterBefore(JwtTokenFilter(jwtTokenProvider), UsernamePasswordAuthenticationFilter::class.java)
+
+        return http.build()
     }
+
+
 }
