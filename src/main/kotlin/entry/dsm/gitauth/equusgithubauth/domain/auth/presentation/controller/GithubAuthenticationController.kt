@@ -3,6 +3,7 @@ package entry.dsm.gitauth.equusgithubauth.domain.auth.presentation.controller
 import entry.dsm.gitauth.equusgithubauth.domain.auth.GithubAuthProperties
 import entry.dsm.gitauth.equusgithubauth.domain.auth.command.service.GenerateGithubTokenService
 import entry.dsm.gitauth.equusgithubauth.domain.auth.exception.InvalidAccessToken
+import entry.dsm.gitauth.equusgithubauth.domain.auth.exception.InvalidAuthorizationCodeException
 import entry.dsm.gitauth.equusgithubauth.domain.auth.presentation.response.GithubAccessTokenResponse
 import entry.dsm.gitauth.equusgithubauth.domain.user.presentation.dto.response.LoginSuccessResponse
 import entry.dsm.gitauth.equusgithubauth.domain.user.service.UserService
@@ -32,6 +33,9 @@ class GithubAuthenticationController(
     fun githubCallback(
         @RequestParam("code") code: String,
     ): GithubAccessTokenResponse {
+        if (code.isBlank()) {
+            throw InvalidAuthorizationCodeException
+        }
         return generateGithubTokenService.execute(code)
     }
 
