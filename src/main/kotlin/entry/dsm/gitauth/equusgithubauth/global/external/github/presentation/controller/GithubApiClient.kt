@@ -6,7 +6,10 @@ import org.springframework.cloud.openfeign.FeignClient
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.RequestHeader
 
-@FeignClient(name = "githubApiClient", url = "https://api.github.com")
+@FeignClient(
+    name = "github-api-client",
+    url = "\${spring.security.oauth2.client.registration.github.api-base-uri}"
+)
 interface GithubApiClient {
     @GetMapping("/user")
     fun getUser(
