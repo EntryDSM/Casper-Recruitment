@@ -1,5 +1,6 @@
 package entry.dsm.gitauth.equusgithubauth.domain.auth.presentation.controller
 
+import entry.dsm.gitauth.equusgithubauth.domain.auth.GithubAuthProperties
 import entry.dsm.gitauth.equusgithubauth.domain.auth.command.service.GenerateGithubTokenService
 import entry.dsm.gitauth.equusgithubauth.domain.auth.command.dto.response.GithubAccessTokenResponse
 import entry.dsm.gitauth.equusgithubauth.domain.user.presentation.dto.response.LoginSuccessResponse
@@ -16,11 +17,12 @@ import org.springframework.web.servlet.view.RedirectView
 class GithubAuthenticationController(
     private val generateGithubTokenService: GenerateGithubTokenService,
     private val userService: UserService,
+    private val githubAuthProperties: GithubAuthProperties
 ) {
     // redirect
     @GetMapping
     fun githubAuth(): RedirectView {
-        return RedirectView("/oauth2/authorization/github")
+        return RedirectView(githubAuthProperties.redirectUrl)
     }
 
     // code to token
