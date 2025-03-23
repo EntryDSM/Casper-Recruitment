@@ -1,5 +1,6 @@
 package entry.dsm.gitauth.equusgithubauth.global.oauth
 
+import entry.dsm.gitauth.equusgithubauth.domain.auth.GithubAuthProperties
 import entry.dsm.gitauth.equusgithubauth.domain.auth.GithubProviderProperties
 import entry.dsm.gitauth.equusgithubauth.domain.auth.GithubRegistrationProperties
 import entry.dsm.gitauth.equusgithubauth.global.oauth.handler.GithubAuthenticationFailureHandler
@@ -18,15 +19,16 @@ import org.springframework.security.oauth2.core.ClientAuthenticationMethod
 class GithubOAuth2LoginConfig(
     private val githubRegistrationProperties: GithubRegistrationProperties,
     private val githubProviderProperties: GithubProviderProperties,
+    private val githubAuthProperties: GithubAuthProperties
 ) {
     companion object {
         private const val REGISTRATION_ID = "github"
     }
     @Bean
-    fun githubAuthenticationSuccessHandler() = GithubAuthenticationSuccessHandler()
+    fun githubAuthenticationSuccessHandler() = GithubAuthenticationSuccessHandler(githubAuthProperties)
 
     @Bean
-    fun githubAuthenticationFailureHandler() = GithubAuthenticationFailureHandler()
+    fun githubAuthenticationFailureHandler() = GithubAuthenticationFailureHandler(githubAuthProperties)
 
     fun configure(http: HttpSecurity) {
         http.oauth2Login { oauth ->
