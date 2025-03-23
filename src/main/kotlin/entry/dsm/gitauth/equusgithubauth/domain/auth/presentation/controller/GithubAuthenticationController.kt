@@ -37,11 +37,16 @@ class GithubAuthenticationController(
     fun githubLoginSuccess(
         @RequestHeader("Authorization") accessToken: String,
     ): LoginSuccessResponse {
-        return userService.execute(accessToken)
+        val token = if (accessToken.startsWith("Bearer")) {
+            accessToken.substring(7)
+        } else {
+            accessToken
+        }
+        return userService.execute(token)
     }
 
     @GetMapping("/not/authenticated")
     fun githubLoginFailure(): String {
-        return "Not authenticated"
+        return "인증에 실패했습니다. GitHub 로그인을 다시 시도하거나 관리자에게 문의하세요."
     }
 }
