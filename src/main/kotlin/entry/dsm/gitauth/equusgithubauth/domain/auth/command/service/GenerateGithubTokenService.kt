@@ -1,7 +1,7 @@
 package entry.dsm.gitauth.equusgithubauth.domain.auth.command.service
 
 import entry.dsm.gitauth.equusgithubauth.domain.auth.GithubRegistrationProperties
-import entry.dsm.gitauth.equusgithubauth.domain.auth.exception.GithubOAuthException
+import entry.dsm.gitauth.equusgithubauth.domain.auth.exception.GitHubOAuthException
 import entry.dsm.gitauth.equusgithubauth.domain.auth.presentation.response.GithubAccessTokenResponse
 import entry.dsm.gitauth.equusgithubauth.global.external.github.presentation.controller.GithubOAuthApiClient
 import org.springframework.stereotype.Service
@@ -23,7 +23,7 @@ class GenerateGithubTokenService(
 
             return GithubAccessTokenResponse(response.accessToken)
         } catch (e: Exception) {
-            throw GithubOAuthException()
+            throw GitHubOAuthException()
         }
     }
 }
