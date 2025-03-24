@@ -13,7 +13,7 @@ class GenerateGithubTokenService(
     fun execute(code: String): GithubAccessTokenResponse {
         val response =
             githubOAuthApiClient.codeToToken(
-                redirectUri = githubRegistrationProperties.redirectUri,
+                redirectUrl = githubRegistrationProperties.redirectUrl,
                 clientSecret = githubRegistrationProperties.clientSecret,
                 clientId = githubRegistrationProperties.clientId,
                 code = code,
