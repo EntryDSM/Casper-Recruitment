@@ -43,10 +43,8 @@ class GithubAuthenticationController(
         if (accessToken.isBlank()) {
             throw InvalidAccessTokenException()
         }
-        val token = if (accessToken.startsWith("Bearer ")) {
-            accessToken.substring(7)
-        } else {
-            accessToken
+        val token = accessToken.trim().let {
+            if (it.startsWith("Bearer ")) it.substring(7) else it
         }
         if (token.isBlank()) {
             throw InvalidAccessTokenException()
