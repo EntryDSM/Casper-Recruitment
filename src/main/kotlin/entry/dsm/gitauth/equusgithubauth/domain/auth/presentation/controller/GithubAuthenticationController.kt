@@ -39,7 +39,7 @@ class GithubAuthenticationController(
         return generateGithubTokenService.execute(code)
     }
 
-    @GetMapping("/authenticated")
+    @GetMapping("/authentication")
     fun githubLoginSuccess(
         @RequestHeader("Authorization") accessToken: String,
     ): LoginSuccessResponse {
@@ -55,7 +55,7 @@ class GithubAuthenticationController(
         return userService.execute(token)
     }
 
-    @GetMapping("/not/authenticated")
+    @GetMapping("/not/authentication")
     fun githubLoginFailure(): String {
         return messageSource.getMessage(
             "githubAuthProperties.failure",
