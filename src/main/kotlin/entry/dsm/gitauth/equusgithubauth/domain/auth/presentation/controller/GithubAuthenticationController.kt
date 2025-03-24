@@ -7,6 +7,8 @@ import entry.dsm.gitauth.equusgithubauth.domain.auth.exception.InvalidAuthorizat
 import entry.dsm.gitauth.equusgithubauth.domain.auth.presentation.response.GithubAccessTokenResponse
 import entry.dsm.gitauth.equusgithubauth.domain.user.presentation.dto.response.LoginSuccessResponse
 import entry.dsm.gitauth.equusgithubauth.domain.user.service.UserService
+import org.springframework.context.MessageSource
+import org.springframework.context.i18n.LocaleContextHolder
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.RequestHeader
 import org.springframework.web.bind.annotation.RequestMapping
@@ -19,7 +21,8 @@ import org.springframework.web.servlet.view.RedirectView
 class GithubAuthenticationController(
     private val generateGithubTokenService: GenerateGithubTokenService,
     private val userService: UserService,
-    private val githubAuthProperties: GithubAuthProperties
+    private val githubAuthProperties: GithubAuthProperties,
+    private val messageSource: MessageSource
 ) {
     @GetMapping
     fun githubAuth(): RedirectView {
@@ -54,6 +57,10 @@ class GithubAuthenticationController(
 
     @GetMapping("/not/authenticated")
     fun githubLoginFailure(): String {
-        return "인증에 실패했습니다. GitHub 로그인을 다시 시도하거나 관리자에게 문의하세요."
+        return messageSource.getMessage(
+            "githubAuthProperties.failure",
+            null,
+            LocaleContextHolder.getLocale()
+        )
     }
 }
