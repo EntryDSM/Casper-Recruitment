@@ -70,7 +70,6 @@ class JwtTokenProvider(
         return Jwts.builder()
             .signWith(Keys.hmacShaKeyFor(jwtProperties.secretKey.toByteArray()), SignatureAlgorithm.HS256)
             .setSubject(loginId)
-            .setId(loginId)
             .claim("type", jwtType)
             .setExpiration(Date(System.currentTimeMillis() + exp * 1000))
             .setIssuedAt(Date())
