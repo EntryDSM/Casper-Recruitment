@@ -16,21 +16,41 @@ spring:
     open-in-view: false
 
 
-
-
+  security:
+    oauth2:
+      client:
+        registration:
+          github:
+            client-id: ${GITHUB_CLIENT_ID}
+            client-secret: ${GITHUB_CLIENT_SECRET}
+            scope: ${GITHUB_ACCESS_SCOPE_1}
+            redirect-url: ${GITHUB_REDIRECT_URL}
+            authorization-grant-type: ${GITHUB_AUTHORIZATION_GRANT_TYPE}
+            authorization-request-base-url: ${GITHUB_AUTHORIZATION_REQUEST_BASE_URL}
+            client-name: ${GITHUB_CLIENT_NAME}
+            api-base-url: ${GITHUB_API_BASE_URL}
+            base-url: ${GITHUB_BASE_URL}
+          google:
+            client-id: ${GOOGLE_CLIENT_ID}
+            client-secret: ${GOOGLE_SECRET}
+            scope: profile, email
+        provider:
+          github:
+            authorization-url: ${AUTHORIZATION_URL}
+            token-url: ${TOKEN_URL}
+            user-info-url: ${USER_INFO_URL}
+            user-name-attribute: ${USER_NAME_ATTRIBUTE}
   data:
     redis:
       host: ${REDIS_HOST}
       port: ${REDIS_PORT}
 
-  security:
-    oauth2:
-      client:
-        registration:
-          google:
-            client-id: ${GOOGLE_CLIENT_ID}
-            client-secret: ${GOOGLE_SECRET}
-            scope: profile, email
+github:
+  auth:
+    failure: ${GITHUB_AUTH_FAILURE}
+    redirect-url: ${GITHUB_AUTH_REDIRECT_URL}
+    success-authentication-url: ${SUCCESS_AUTHENTICATION_URL}
+    failure-authentication-url: ${FAILURE_AUTHENTICATION_URL}
 
 jwt:
   header: ${HEADER}

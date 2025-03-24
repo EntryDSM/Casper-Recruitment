@@ -20,13 +20,13 @@ data class User(
     val id: UUID = UUID.randomUUID(),
     val loginId: String,
     @Email(message = "이메일 형식이 올바르지 않습니다.")
-    val email: String,
-    @Column(name = "name", nullable = false)
-    var name: String,
+    val email: String? = null,
+    @Column(name = "name")
+    var name: String? = null,
     @Enumerated(EnumType.STRING)
     @Column(name = "role")
     val role: UserRole,
-    val provider: String,  // 구글 로그인 사용자의 provider
-    val providerId: String,
+    val provider: String? = null,  // 구글 로그인 사용자의 provider
+    val providerId: String? = null,
 
 )

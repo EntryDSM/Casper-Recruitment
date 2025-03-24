@@ -9,13 +9,24 @@ import org.springframework.web.filter.OncePerRequestFilter
 
 class JwtTokenFilter(
     private val jwtTokenProvider: JwtTokenProvider,
+    private val excludedPaths: List<String> = listOf(
+        "/api/github/auth",
+        "/oauth2/authorization/github",
+        "/login/oauth2/code/github",
+    )
 ) : OncePerRequestFilter() {
     override fun doFilterInternal(
         request: HttpServletRequest,
         response: HttpServletResponse,
         filterChain: FilterChain,
     ) {
-        val bearer: String? = jwtTokenProvider.resolveToken(request)
+        val requestURI = request.requestURI
+        if (excludedPaths.any { requestURI.startsWith(it) }) {
+            filterChain.doFilter(request, response)
+            return
+        }
+
+        val bearer = jwtTokenProvider.resolveToken(request)
 
         if (bearer != null) {
             val authentication: Authentication = jwtTokenProvider.getAuthentication(bearer)

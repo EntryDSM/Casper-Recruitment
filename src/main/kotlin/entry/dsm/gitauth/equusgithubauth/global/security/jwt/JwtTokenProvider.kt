@@ -6,11 +6,9 @@ import entry.dsm.gitauth.equusgithubauth.domain.user.entity.repository.RefreshTo
 import entry.dsm.gitauth.equusgithubauth.domain.user.entity.repository.UserRepository
 import entry.dsm.gitauth.equusgithubauth.domain.user.presentation.dto.response.TokenResponse
 import entry.dsm.gitauth.equusgithubauth.global.security.auth.AuthDetailsService
-import entry.dsm.gitauth.equusgithubauth.global.security.auth.exception.RefreshTokenNotFoundException
-import entry.dsm.gitauth.equusgithubauth.global.security.auth.exception.UserNotFoundException
 import entry.dsm.gitauth.equusgithubauth.global.security.jwt.exception.InValidTokenFormat
-import entry.dsm.gitauth.equusgithubauth.global.security.jwt.exception.JwtTokenExpiredException
-import entry.dsm.gitauth.equusgithubauth.global.security.jwt.exception.JwtTokenInvalidException
+import entry.dsm.gitauth.equusgithubauth.global.security.jwt.exception.ExpiredJwtTokenException
+import entry.dsm.gitauth.equusgithubauth.global.security.jwt.exception.InvalidJwtTokenException
 import entry.dsm.gitauth.equusgithubauth.global.security.jwt.exception.NoTokenInHeader
 import io.jsonwebtoken.Claims
 import io.jsonwebtoken.ExpiredJwtException
@@ -20,7 +18,6 @@ import io.jsonwebtoken.security.Keys
 import jakarta.servlet.http.HttpServletRequest
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken
 import org.springframework.security.core.Authentication
-import org.springframework.security.core.userdetails.UserDetails
 import org.springframework.stereotype.Component
 import java.time.LocalDateTime
 import java.util.Date
@@ -73,7 +70,6 @@ class JwtTokenProvider(
         return Jwts.builder()
             .signWith(Keys.hmacShaKeyFor(jwtProperties.secretKey.toByteArray()), SignatureAlgorithm.HS256)
             .setSubject(loginId)
-            .setId(loginId)
             .claim("type", jwtType)
             .setExpiration(Date(System.currentTimeMillis() + exp * 1000))
             .setIssuedAt(Date())
@@ -82,6 +78,7 @@ class JwtTokenProvider(
 
     fun resolveToken(request: HttpServletRequest): String? {
         val bearerToken = request.getHeader(jwtProperties.header)
+            ?: throw NoTokenInHeader()
         return validateTokenFormat(bearerToken)
     }
 
@@ -104,38 +101,36 @@ class JwtTokenProvider(
     }
 
     fun getAuthentication(token: String): Authentication {
-        val userDetails: UserDetails = authDetailsService.loadUserByUsername(getClaims(token).subject)
+        val userDetails = authDetailsService.loadUserByUsername(getClaims(token).subject)
         return UsernamePasswordAuthenticationToken(userDetails, "", userDetails.authorities)
     }
 
     private fun getClaims(token: String): Claims {
         return try {
-            Jwts
-                .parser()
-                .setSigningKey(jwtProperties.secretKey)
+            Jwts.parser()
+                .setSigningKey(Keys.hmacShaKeyFor(jwtProperties.secretKey.toByteArray()))
                 .parseClaimsJws(token)
                 .body
+        } catch (e: ExpiredJwtException) {
+            throw ExpiredJwtTokenException()
         } catch (e: Exception) {
-            when (e) {
-                is ExpiredJwtException -> throw JwtTokenExpiredException
-                else -> throw JwtTokenInvalidException
-            }
+            throw InvalidJwtTokenException()
         }
     }
+
     fun validateToken(token: String): Boolean {
         return try {
             getClaims(token)
             true
-        } catch (e: JwtTokenExpiredException) {
+        } catch (e: ExpiredJwtTokenException) {
             throw e
-        } catch (e: JwtTokenInvalidException) {
+        } catch (e: InvalidJwtTokenException) {
             throw e
         }
     }
 
-    private fun validateTokenFormat(bearerToken: String?): String {
+    private fun validateTokenFormat(bearerToken: String): String {
         return when {
-            bearerToken.isNullOrBlank() -> throw NoTokenInHeader()
             !bearerToken.startsWith("Bearer ") -> throw InValidTokenFormat()
             else -> bearerToken.substring(7)
         }
