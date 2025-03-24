@@ -17,10 +17,14 @@ class UserService(
     private val validateGithubOrganizationService: ValidateGithubOrganizationService,
     private val oauthRoleProvider: OauthRoleProvider
 ) {
+    companion object {
+        private fun withBearer(accessToken: String) = "Bearer $accessToken"
+    }
     fun execute(accessToken: String): LoginSuccessResponse {
-        val userInfo = githubApiClient.getUser("Bearer $accessToken")
+        val bearerToken = withBearer(accessToken)
+        val userInfo = githubApiClient.getUser(bearerToken)
         val tokens = jwtTokenProvider.generateToken(userInfo.login)
-        val isMember = validateGithubOrganizationService.execute("Bearer $accessToken")
+        val isMember = validateGithubOrganizationService.execute(accessToken)
 
         val provider = "GITHUB" // 지금 GitHub OAuth 로직에는 provider가 없으므로 하드코딩
 

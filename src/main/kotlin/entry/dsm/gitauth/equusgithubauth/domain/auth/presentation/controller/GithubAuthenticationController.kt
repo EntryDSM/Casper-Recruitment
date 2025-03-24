@@ -19,7 +19,7 @@ import org.springframework.web.servlet.view.RedirectView
 class GithubAuthenticationController(
     private val generateGithubTokenService: GenerateGithubTokenService,
     private val userService: UserService,
-    private val githubAuthProperties: GithubAuthProperties
+    private val githubAuthProperties: GithubAuthProperties,
 ) {
     @GetMapping
     fun githubAuth(): RedirectView {
@@ -36,7 +36,7 @@ class GithubAuthenticationController(
         return generateGithubTokenService.execute(code)
     }
 
-    @GetMapping("/authenticated")
+    @GetMapping("/authentication")
     fun githubLoginSuccess(
         @RequestHeader("Authorization") accessToken: String,
     ): LoginSuccessResponse {
@@ -52,8 +52,8 @@ class GithubAuthenticationController(
         return userService.execute(token)
     }
 
-    @GetMapping("/not/authenticated")
+    @GetMapping("/not/authentication")
     fun githubLoginFailure(): String {
-        return "인증에 실패했습니다. GitHub 로그인을 다시 시도하거나 관리자에게 문의하세요."
+        return githubAuthProperties.failure
     }
 }

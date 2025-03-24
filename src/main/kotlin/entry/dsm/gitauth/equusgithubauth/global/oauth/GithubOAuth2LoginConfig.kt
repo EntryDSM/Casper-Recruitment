@@ -39,10 +39,10 @@ class GithubOAuth2LoginConfig(
                     val defaultResolver =
                         DefaultOAuth2AuthorizationRequestResolver(
                             clientRegistrationRepository(),
-                            "/oauth2/authorization",
+                            githubRegistrationProperties.authorizationRequestBaseUrl,
                         )
                     defaultResolver.setAuthorizationRequestCustomizer { builder ->
-                        builder.scope("read:org")
+                        builder.scope(githubRegistrationProperties.scope)
                     }
                     authorizationEndpoint.authorizationRequestResolver(defaultResolver)
                 }
@@ -58,11 +58,11 @@ class GithubOAuth2LoginConfig(
                 clientSecret(githubRegistrationProperties.clientSecret)
                 clientAuthenticationMethod(ClientAuthenticationMethod.CLIENT_SECRET_BASIC)
                 authorizationGrantType(AuthorizationGrantType.AUTHORIZATION_CODE)
-                redirectUri(githubRegistrationProperties.redirectUri)
+                redirectUri(githubRegistrationProperties.redirectUrl)
                 scope(githubRegistrationProperties.scope)
-                authorizationUri(githubProviderProperties.authorizationUri)
-                tokenUri(githubProviderProperties.tokenUri)
-                userInfoUri(githubProviderProperties.userInfoUri)
+                authorizationUri(githubProviderProperties.authorizationUrl)
+                tokenUri(githubProviderProperties.tokenUrl)
+                userInfoUri(githubProviderProperties.userInfoUrl)
                 userNameAttributeName(githubProviderProperties.userNameAttribute)
                 clientName(githubRegistrationProperties.clientName)
             }

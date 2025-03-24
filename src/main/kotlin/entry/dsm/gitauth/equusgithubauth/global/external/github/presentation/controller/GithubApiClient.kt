@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.RequestHeader
 
 @FeignClient(
     name = "github-api-client",
-    url = "\${spring.security.oauth2.client.registration.github.api-base-uri}"
+    url = "\${spring.security.oauth2.client.registration.github.api-base-url}"
 )
 interface GithubApiClient {
     @GetMapping("/user")
