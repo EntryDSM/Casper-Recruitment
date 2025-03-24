@@ -26,6 +26,7 @@ spring:
             scope: ${GITHUB_ACCESS_SCOPE_1}
             redirect-url: ${GITHUB_REDIRECT_URL}
             authorization-grant-type: ${GITHUB_AUTHORIZATION_GRANT_TYPE}
+            authorization-request-base-uri: ${GITHUB_AUTHORIZATION_REQUEST_BASE_URI}
             client-name: ${GITHUB_CLIENT_NAME}
             api-base-uri: ${GITHUB_API_BASE_URI}
             base-uri: ${GITHUB_BASE_URI}
