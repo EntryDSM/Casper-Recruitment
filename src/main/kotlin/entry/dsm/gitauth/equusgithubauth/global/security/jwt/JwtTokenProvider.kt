@@ -82,6 +82,7 @@ class JwtTokenProvider(
 
     fun resolveToken(request: HttpServletRequest): String? {
         val bearerToken = request.getHeader(jwtProperties.header)
+            ?: throw NoTokenInHeader()
         return validateTokenFormat(bearerToken)
     }
 
