@@ -58,7 +58,7 @@ class GithubOAuth2LoginConfig(
                 clientSecret(githubRegistrationProperties.clientSecret)
                 clientAuthenticationMethod(ClientAuthenticationMethod.CLIENT_SECRET_BASIC)
                 authorizationGrantType(AuthorizationGrantType.AUTHORIZATION_CODE)
-                redirectUri(githubRegistrationProperties.redirectUri)
+                redirectUri(githubRegistrationProperties.redirectUrl)
                 scope(githubRegistrationProperties.scope)
                 authorizationUri(githubProviderProperties.authorizationUri)
                 tokenUri(githubProviderProperties.tokenUri)
