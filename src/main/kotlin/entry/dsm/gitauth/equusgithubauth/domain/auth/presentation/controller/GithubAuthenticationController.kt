@@ -2,12 +2,11 @@ package entry.dsm.gitauth.equusgithubauth.domain.auth.presentation.controller
 
 import entry.dsm.gitauth.equusgithubauth.domain.auth.GithubAuthProperties
 import entry.dsm.gitauth.equusgithubauth.domain.auth.command.service.GenerateGithubTokenService
-import entry.dsm.gitauth.equusgithubauth.domain.auth.exception.InvalidAccessToken
+import entry.dsm.gitauth.equusgithubauth.domain.auth.exception.InvalidAccessTokenException
 import entry.dsm.gitauth.equusgithubauth.domain.auth.exception.InvalidAuthorizationCodeException
 import entry.dsm.gitauth.equusgithubauth.domain.auth.presentation.response.GithubAccessTokenResponse
 import entry.dsm.gitauth.equusgithubauth.domain.user.presentation.dto.response.LoginSuccessResponse
 import entry.dsm.gitauth.equusgithubauth.domain.user.service.UserService
-import entry.dsm.gitauth.equusgithubauth.global.security.jwt.exception.JwtTokenInvalidException
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.RequestHeader
 import org.springframework.web.bind.annotation.RequestMapping
@@ -44,7 +43,7 @@ class GithubAuthenticationController(
         @RequestHeader("Authorization") accessToken: String,
     ): LoginSuccessResponse {
         if (accessToken.isBlank()) {
-            throw InvalidAccessToken()
+            throw InvalidAccessTokenException()
         }
         val token = if (accessToken.startsWith("Bearer ")) {
             accessToken.substring(7)
@@ -52,7 +51,7 @@ class GithubAuthenticationController(
             accessToken
         }
         if (token.isBlank()) {
-            throw InvalidAccessToken()
+            throw InvalidAccessTokenException()
         }
         return userService.execute(token)
     }
