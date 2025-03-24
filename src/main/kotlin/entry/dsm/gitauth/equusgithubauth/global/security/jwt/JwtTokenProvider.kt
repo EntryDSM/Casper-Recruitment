@@ -6,11 +6,9 @@ import entry.dsm.gitauth.equusgithubauth.domain.user.entity.repository.RefreshTo
 import entry.dsm.gitauth.equusgithubauth.domain.user.entity.repository.UserRepository
 import entry.dsm.gitauth.equusgithubauth.domain.user.presentation.dto.response.TokenResponse
 import entry.dsm.gitauth.equusgithubauth.global.security.auth.AuthDetailsService
-import entry.dsm.gitauth.equusgithubauth.global.security.auth.exception.RefreshTokenNotFoundException
-import entry.dsm.gitauth.equusgithubauth.global.security.auth.exception.UserNotFoundException
 import entry.dsm.gitauth.equusgithubauth.global.security.jwt.exception.InValidTokenFormat
-import entry.dsm.gitauth.equusgithubauth.global.security.jwt.exception.JwtTokenExpiredException
-import entry.dsm.gitauth.equusgithubauth.global.security.jwt.exception.JwtTokenInvalidException
+import entry.dsm.gitauth.equusgithubauth.global.security.jwt.exception.ExpiredJwtTokenException
+import entry.dsm.gitauth.equusgithubauth.global.security.jwt.exception.InvalidJwtTokenException
 import entry.dsm.gitauth.equusgithubauth.global.security.jwt.exception.NoTokenInHeader
 import io.jsonwebtoken.Claims
 import io.jsonwebtoken.ExpiredJwtException
@@ -20,7 +18,6 @@ import io.jsonwebtoken.security.Keys
 import jakarta.servlet.http.HttpServletRequest
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken
 import org.springframework.security.core.Authentication
-import org.springframework.security.core.userdetails.UserDetails
 import org.springframework.stereotype.Component
 import java.time.LocalDateTime
 import java.util.Date
@@ -82,6 +79,7 @@ class JwtTokenProvider(
 
     fun resolveToken(request: HttpServletRequest): String? {
         val bearerToken = request.getHeader(jwtProperties.header)
+            ?: throw NoTokenInHeader()
         return validateTokenFormat(bearerToken)
     }
 
@@ -109,19 +107,25 @@ class JwtTokenProvider(
     }
 
     private fun getClaims(token: String): Claims {
-        return Jwts.parser()
-            .setSigningKey(Keys.hmacShaKeyFor(jwtProperties.secretKey.toByteArray())) // 생성할 때와 동일한 방식으로 설정
-            .parseClaimsJws(token)
-            .body
+        return try {
+            Jwts.parser()
+                .setSigningKey(Keys.hmacShaKeyFor(jwtProperties.secretKey.toByteArray()))
+                .parseClaimsJws(token)
+                .body
+        } catch (e: ExpiredJwtException) {
+            throw ExpiredJwtTokenException()
+        } catch (e: Exception) {
+            throw InvalidJwtTokenException()
+        }
     }
 
     fun validateToken(token: String): Boolean {
         return try {
             getClaims(token)
             true
-        } catch (e: JwtTokenExpiredException) {
+        } catch (e: ExpiredJwtTokenException) {
             throw e
-        } catch (e: JwtTokenInvalidException) {
+        } catch (e: InvalidJwtTokenException) {
             throw e
         }
     }

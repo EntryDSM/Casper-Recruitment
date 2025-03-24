@@ -2,7 +2,9 @@ package entry.dsm.gitauth.equusgithubauth.domain.auth.presentation.controller
 
 import entry.dsm.gitauth.equusgithubauth.domain.auth.GithubAuthProperties
 import entry.dsm.gitauth.equusgithubauth.domain.auth.command.service.GenerateGithubTokenService
-import entry.dsm.gitauth.equusgithubauth.domain.auth.command.dto.response.GithubAccessTokenResponse
+import entry.dsm.gitauth.equusgithubauth.domain.auth.exception.InvalidAccessTokenException
+import entry.dsm.gitauth.equusgithubauth.domain.auth.exception.InvalidAuthorizationCodeException
+import entry.dsm.gitauth.equusgithubauth.domain.auth.presentation.response.GithubAccessTokenResponse
 import entry.dsm.gitauth.equusgithubauth.domain.user.presentation.dto.response.LoginSuccessResponse
 import entry.dsm.gitauth.equusgithubauth.domain.user.service.UserService
 import org.springframework.web.bind.annotation.GetMapping
@@ -19,17 +21,18 @@ class GithubAuthenticationController(
     private val userService: UserService,
     private val githubAuthProperties: GithubAuthProperties
 ) {
-    // redirect
     @GetMapping
     fun githubAuth(): RedirectView {
         return RedirectView(githubAuthProperties.redirectUrl)
     }
 
-    // code to token
     @GetMapping("/login/oauth2/code/github")
     fun githubCallback(
         @RequestParam("code") code: String,
     ): GithubAccessTokenResponse {
+        if (code.isBlank()) {
+            throw InvalidAuthorizationCodeException()
+        }
         return generateGithubTokenService.execute(code)
     }
 
@@ -37,11 +40,20 @@ class GithubAuthenticationController(
     fun githubLoginSuccess(
         @RequestHeader("Authorization") accessToken: String,
     ): LoginSuccessResponse {
-        return userService.execute(accessToken)
+        if (accessToken.isBlank()) {
+            throw InvalidAccessTokenException()
+        }
+        val token = accessToken.trim().let {
+            if (it.startsWith("Bearer ")) it.substring(7) else it
+        }
+        if (token.isBlank()) {
+            throw InvalidAccessTokenException()
+        }
+        return userService.execute(token)
     }
 
     @GetMapping("/not/authenticated")
     fun githubLoginFailure(): String {
-        return "Not authenticated"
+        return "인증에 실패했습니다. GitHub 로그인을 다시 시도하거나 관리자에게 문의하세요."
     }
 }
