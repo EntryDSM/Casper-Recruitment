@@ -34,7 +34,7 @@ class GithubAuthenticationController(
         @RequestParam("code") code: String,
     ): GithubAccessTokenResponse {
         if (code.isBlank()) {
-            throw InvalidAuthorizationCodeException
+            throw InvalidAuthorizationCodeException()
         }
         return generateGithubTokenService.execute(code)
     }
@@ -44,7 +44,7 @@ class GithubAuthenticationController(
         @RequestHeader("Authorization") accessToken: String,
     ): LoginSuccessResponse {
         if (accessToken.isBlank()) {
-            throw InvalidAccessToken
+            throw InvalidAccessToken()
         }
         val token = if (accessToken.startsWith("Bearer ")) {
             accessToken.substring(7)
@@ -52,7 +52,7 @@ class GithubAuthenticationController(
             accessToken
         }
         if (token.isBlank()) {
-            throw InvalidAccessToken
+            throw InvalidAccessToken()
         }
         return userService.execute(token)
     }
