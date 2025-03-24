@@ -39,7 +39,7 @@ class GithubOAuth2LoginConfig(
                     val defaultResolver =
                         DefaultOAuth2AuthorizationRequestResolver(
                             clientRegistrationRepository(),
-                            githubRegistrationProperties.authorizationRequestBaseUri,
+                            githubRegistrationProperties.authorizationRequestBaseUrl,
                         )
                     defaultResolver.setAuthorizationRequestCustomizer { builder ->
                         builder.scope(githubRegistrationProperties.scope)
