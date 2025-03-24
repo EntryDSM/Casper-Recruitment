@@ -110,10 +110,16 @@ class JwtTokenProvider(
     }
 
     private fun getClaims(token: String): Claims {
-        return Jwts.parser()
-            .setSigningKey(Keys.hmacShaKeyFor(jwtProperties.secretKey.toByteArray())) // 생성할 때와 동일한 방식으로 설정
-            .parseClaimsJws(token)
-            .body
+        return try {
+            Jwts.parser()
+                .setSigningKey(Keys.hmacShaKeyFor(jwtProperties.secretKey.toByteArray()))
+                .parseClaimsJws(token)
+                .body
+        } catch (e: ExpiredJwtException) {
+            throw JwtTokenExpiredException()
+        } catch (e: Exception) {
+            throw JwtTokenInvalidException()
+        }
     }
 
     fun validateToken(token: String): Boolean {
