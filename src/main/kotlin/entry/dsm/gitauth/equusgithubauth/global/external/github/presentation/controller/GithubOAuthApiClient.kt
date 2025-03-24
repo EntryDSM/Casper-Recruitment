@@ -14,7 +14,7 @@ interface GithubOAuthApiClient {
     fun codeToToken(
         @RequestParam("client_id") clientId: String,
         @RequestParam("client_secret") clientSecret: String,
-        @RequestParam("redirect_uri") redirectUri: String,
+        @RequestParam("redirect_url") redirectUrl: String,
         @RequestParam("code") code: String,
     ): LoginAccessTokenResponse
 }
