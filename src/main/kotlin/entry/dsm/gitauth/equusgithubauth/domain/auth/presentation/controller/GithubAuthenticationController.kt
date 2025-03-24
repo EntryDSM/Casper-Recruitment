@@ -21,13 +21,11 @@ class GithubAuthenticationController(
     private val userService: UserService,
     private val githubAuthProperties: GithubAuthProperties
 ) {
-    // redirect
     @GetMapping
     fun githubAuth(): RedirectView {
         return RedirectView(githubAuthProperties.redirectUrl)
     }
 
-    // code to token
     @GetMapping("/login/oauth2/code/github")
     fun githubCallback(
         @RequestParam("code") code: String,
