@@ -6,5 +6,6 @@ import org.springframework.boot.context.properties.ConfigurationProperties
 class GithubAuthProperties(
     val redirectUrl: String,
     val successAuthenticationUrl: String,
-    val failureAuthenticationUrl: String
+    val failureAuthenticationUrl: String,
+    val failure: String
 )
