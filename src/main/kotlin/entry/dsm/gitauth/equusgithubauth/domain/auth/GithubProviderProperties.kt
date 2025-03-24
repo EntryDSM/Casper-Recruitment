@@ -4,8 +4,8 @@ import org.springframework.boot.context.properties.ConfigurationProperties
 
 @ConfigurationProperties(prefix = "spring.security.oauth2.client.provider.github")
 class GithubProviderProperties(
-    val authorizationUri: String,
-    val tokenUri: String,
-    val userInfoUri: String,
+    val authorizationUrl: String,
+    val tokenUrl: String,
+    val userInfoUrl: String,
     val userNameAttribute: String,
 )
