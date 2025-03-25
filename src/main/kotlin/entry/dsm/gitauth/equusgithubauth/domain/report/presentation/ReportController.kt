@@ -8,6 +8,8 @@ import entry.dsm.gitauth.equusgithubauth.domain.report.command.service.UpdateRep
 import entry.dsm.gitauth.equusgithubauth.domain.report.query.dto.response.ReportQueryResponse
 import entry.dsm.gitauth.equusgithubauth.domain.report.query.service.GetAllReportService
 import entry.dsm.gitauth.equusgithubauth.domain.report.query.service.ReportQueryService
+import entry.dsm.gitauth.equusgithubauth.global.security.annotation.OnlyAdmin
+import entry.dsm.gitauth.equusgithubauth.global.security.annotation.OnlyUser
 import org.springframework.http.HttpStatus
 import org.springframework.web.bind.annotation.DeleteMapping
 import org.springframework.web.bind.annotation.GetMapping
@@ -30,6 +32,7 @@ class ReportController(
 ) {
     // Create a new report
     @PostMapping
+    @OnlyUser
     @ResponseStatus(HttpStatus.CREATED)
     fun createReport(
         @RequestBody command: CreateReportCommand,
@@ -39,6 +42,7 @@ class ReportController(
 
     // Retrieve a single report by ID
     @GetMapping("/{reportId}")
+    @OnlyAdmin
     fun getReport(
         @PathVariable reportId: Long,
     ): ReportQueryResponse {
@@ -47,6 +51,7 @@ class ReportController(
 
     // Retrieve all reports
     @GetMapping
+    @OnlyAdmin
     fun getAllReports(): List<ReportQueryResponse> {
         return getAllReportService.getAllReports()
     }

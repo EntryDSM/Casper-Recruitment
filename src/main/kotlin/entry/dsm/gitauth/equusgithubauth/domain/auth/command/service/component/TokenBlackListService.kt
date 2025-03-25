@@ -1,4 +1,4 @@
-package entry.dsm.gitauth.equusgithubauth.domain.auth.service
+package entry.dsm.gitauth.equusgithubauth.domain.auth.command.service.component
 
 import entry.dsm.gitauth.equusgithubauth.global.security.jwt.JwtTokenProvider
 import org.springframework.data.redis.core.RedisTemplate

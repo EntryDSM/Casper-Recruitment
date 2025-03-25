@@ -8,6 +8,7 @@ import entry.dsm.gitauth.equusgithubauth.domain.notice.command.service.UpdateNot
 import entry.dsm.gitauth.equusgithubauth.domain.notice.query.dto.response.NoticeQueryResponse
 import entry.dsm.gitauth.equusgithubauth.domain.notice.query.service.GetAllNoticesService
 import entry.dsm.gitauth.equusgithubauth.domain.notice.query.service.NoticeQueryService
+import entry.dsm.gitauth.equusgithubauth.global.security.annotation.OnlyAdmin
 import jakarta.validation.Valid
 import org.springframework.http.HttpStatus
 import org.springframework.web.bind.annotation.DeleteMapping
@@ -30,6 +31,7 @@ class NoticeController(
     private val noticeQueryService: NoticeQueryService,
 ) {
     @PostMapping
+    @OnlyAdmin
     @ResponseStatus(HttpStatus.CREATED)
     fun createNotice(
         @RequestBody @Valid command: CreateNoticeCommand,
@@ -38,6 +40,7 @@ class NoticeController(
     } // conflict 이슈로 나중에 검증 추가 예정
 
     @PatchMapping("/{noticeId}")
+    @OnlyAdmin
     @ResponseStatus(HttpStatus.NO_CONTENT)
     fun updateNotice(
         @PathVariable noticeId: Long,
@@ -47,6 +50,7 @@ class NoticeController(
     }
 
     @DeleteMapping("/{noticeId}")
+    @OnlyAdmin
     @ResponseStatus(HttpStatus.NO_CONTENT)
     fun deleteNotice(
         @PathVariable noticeId: Long,

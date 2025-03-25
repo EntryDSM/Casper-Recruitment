@@ -15,7 +15,6 @@ spring:
         dialect: org.hibernate.dialect.MySQLDialect
     open-in-view: false
 
-
   security:
     oauth2:
       client:
@@ -63,3 +62,9 @@ oauth:
   google:
     redirect: ${GOOGLE_DIRECT_URL}
 
+email:
+  allowed: ${EMAIL_DOMAIN}
+
+google:
+  client-id: ${GOOGLE_CLIENT_ID}
+  secret: ${GOOGLE_SECRET}

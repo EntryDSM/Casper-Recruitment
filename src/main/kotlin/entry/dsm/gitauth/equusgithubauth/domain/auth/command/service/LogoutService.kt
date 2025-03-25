@@ -1,13 +1,13 @@
-package entry.dsm.gitauth.equusgithubauth.domain.auth.service
+package entry.dsm.gitauth.equusgithubauth.domain.auth.command.service
 
-import entry.dsm.gitauth.equusgithubauth.domain.auth.exception.InvalidAccessTokenException
+
+import entry.dsm.gitauth.equusgithubauth.domain.auth.command.service.component.TokenBlackListService
 import entry.dsm.gitauth.equusgithubauth.domain.user.entity.repository.RefreshTokenRepository
 import entry.dsm.gitauth.equusgithubauth.global.security.jwt.JwtTokenProvider
+import entry.dsm.gitauth.equusgithubauth.global.security.jwt.exception.JwtTokenInvalidException
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
-import org.springframework.data.redis.core.RedisTemplate
 import org.springframework.data.repository.findByIdOrNull
-import java.util.concurrent.TimeUnit
 
 @Service
 class LogoutService(
@@ -18,9 +18,9 @@ class LogoutService(
 
     @Transactional
     fun logout(accessToken: String) {
-        if (!jwtTokenProvider.validateToken(accessToken)) {
-            throw InvalidAccessTokenException
-        }
+
+        jwtTokenProvider.validateToken(accessToken)
+
 
         val userName = jwtTokenProvider.getSubjectFromToken(accessToken)
 

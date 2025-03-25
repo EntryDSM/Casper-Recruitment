@@ -1,4 +1,4 @@
-package entry.dsm.gitauth.equusgithubauth.domain.auth.service
+package entry.dsm.gitauth.equusgithubauth.domain.auth.command.service
 
 import entry.dsm.gitauth.equusgithubauth.domain.user.entity.repository.RefreshTokenRepository
 import entry.dsm.gitauth.equusgithubauth.domain.user.presentation.dto.response.TokenResponse
