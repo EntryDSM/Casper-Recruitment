@@ -1,10 +1,10 @@
 plugins {
-    id("org.jetbrains.kotlin.jvm") version "1.9.25"
-    id("org.jetbrains.kotlin.plugin.spring") version "1.9.25"
-    id("org.springframework.boot") version "3.4.0"
-    id("io.spring.dependency-management") version "1.1.6"
-    id("org.jetbrains.kotlin.plugin.jpa") version "1.9.25"
-    id("org.jlleitschuh.gradle.ktlint").version("12.1.1")
+    id("org.jetbrains.kotlin.jvm") version PluginVersions.kotlin
+    id("org.jetbrains.kotlin.plugin.spring") version PluginVersions.kotlin
+    id("org.springframework.boot") version PluginVersions.springBoot
+    id("io.spring.dependency-management") version PluginVersions.dependencyManagement
+    id("org.jetbrains.kotlin.plugin.jpa") version PluginVersions.kotlin
+    id("org.jlleitschuh.gradle.ktlint") version PluginVersions.ktlint
 }
 
 group = "entry.dsm.gitauth"
@@ -12,7 +12,7 @@ version = "0.0.1-SNAPSHOT"
 
 java {
     toolchain {
-        languageVersion = JavaLanguageVersion.of(17)
+        languageVersion.set(JavaLanguageVersion.of(17))
     }
 }
 
@@ -21,29 +21,31 @@ repositories {
 }
 
 dependencies {
-    implementation("org.springframework.boot:spring-boot-starter")
-    implementation("org.springframework.boot:spring-boot-starter-security")
-    implementation("org.springframework.boot:spring-boot-starter-oauth2-client")
-    implementation("org.springframework.boot:spring-boot-starter-web")
-    implementation("org.jetbrains.kotlin:kotlin-reflect")
+    implementation(Dependencies.springBootStarter)
+    implementation(Dependencies.springBootSecurity)
+    implementation(Dependencies.springBootOAuth2Client)
+    implementation(Dependencies.springBootWeb)
+    implementation(Dependencies.kotlinReflect)
 
-    implementation("io.jsonwebtoken:jjwt-api:0.10.7")
-    runtimeOnly("io.jsonwebtoken:jjwt-impl:0.10.7")
-    runtimeOnly("io.jsonwebtoken:jjwt-jackson:0.10.7")
+    implementation(Dependencies.jjwtApi)
+    runtimeOnly(Dependencies.jjwtImpl)
+    runtimeOnly(Dependencies.jjwtJackson)
 
-    implementation("org.springframework.data:spring-data-redis")
-    implementation("org.springframework.boot:spring-boot-starter-data-redis")
+    implementation(Dependencies.springDataRedis)
+    implementation(Dependencies.springBootDataRedis)
 
-    implementation("org.springframework.boot:spring-boot-starter-data-jpa")
-    implementation("org.projectlombok:lombok")
-    testImplementation("org.springframework.boot:spring-boot-starter-test")
-    testImplementation("org.jetbrains.kotlin:kotlin-test-junit5")
-    runtimeOnly("com.mysql:mysql-connector-j")
-    testRuntimeOnly("org.junit.platform:junit-platform-launcher")
-    implementation("org.springframework.cloud:spring-cloud-starter-openfeign:4.2.0")
+    implementation(Dependencies.springBootDataJpa)
+    implementation(Dependencies.lombok)
 
-    implementation("org.hibernate.validator:hibernate-validator:7.0.2.Final")
-    implementation("jakarta.validation:jakarta.validation-api:3.0.2")
+    testImplementation(Dependencies.springBootTest)
+    testImplementation(Dependencies.kotlinTestJunit5)
+    testRuntimeOnly(Dependencies.junitPlatformLauncher)
+
+    runtimeOnly(Dependencies.mysqlConnector)
+    implementation(Dependencies.springCloudOpenFeign)
+
+    implementation(Dependencies.hibernateValidator)
+    implementation(Dependencies.jakartaValidation)
 }
 
 kotlin {
