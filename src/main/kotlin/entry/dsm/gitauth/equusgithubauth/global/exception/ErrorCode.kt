@@ -27,7 +27,9 @@ enum class ErrorCode(
     NO_TOKEN_IN_HEADER(404, "헤더에서 토큰을 찾을 수 없습니다"),
     INVALID_TOKEN_FORMAT(401, " 잘못된 토큰 형식입니다."),
 
-    EMAIL_IS_NOT_ALLOWED(403, "허용되지 않은 이메일 도메인입니다.")
+    EMAIL_IS_NOT_ALLOWED(403, "허용되지 않은 이메일 도메인입니다."),
+
+    NOT_FOUND_OAUTH_PROVIDER(404, "Oauth Provider을 찾을 수 없습니다.")
 
 
 
