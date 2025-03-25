@@ -18,9 +18,9 @@ class LogoutService(
 
     @Transactional
     fun logout(accessToken: String) {
-        if (!jwtTokenProvider.validateToken(accessToken)) {
-            throw JwtTokenInvalidException()
-        }
+
+        jwtTokenProvider.validateToken(accessToken)
+
 
         val userName = jwtTokenProvider.getSubjectFromToken(accessToken)
 
