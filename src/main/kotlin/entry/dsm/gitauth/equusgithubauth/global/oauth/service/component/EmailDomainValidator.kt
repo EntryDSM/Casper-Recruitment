@@ -1,6 +1,6 @@
 package entry.dsm.gitauth.equusgithubauth.global.oauth.service.component
 
-import entry.dsm.gitauth.equusgithubauth.global.oauth.exception.EmailIsNotAllowed
+import entry.dsm.gitauth.equusgithubauth.global.oauth.exception.EmailDomainNotAllowedException
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.stereotype.Component
 
@@ -10,7 +10,7 @@ class EmailDomainValidator(
 ) {
     fun isAllowed(email: String): Boolean {
         if (!email.endsWith("@$allowedDomain")) {
-            throw EmailIsNotAllowed()
+            throw EmailDomainNotAllowedException()
         }
         return true
     }
