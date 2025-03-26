@@ -8,8 +8,6 @@ import jakarta.persistence.Enumerated
 import jakarta.persistence.Id
 import jakarta.persistence.Table
 import jakarta.validation.constraints.Email
-import jakarta.validation.constraints.NotBlank
-import jakarta.validation.constraints.Pattern
 import java.util.UUID
 
 @Entity
@@ -26,7 +24,6 @@ data class User(
     @Enumerated(EnumType.STRING)
     @Column(name = "role")
     val role: UserRole,
-    val provider: String? = null,  // 구글 로그인 사용자의 provider
+    val provider: String? = null,
     val providerId: String? = null,
-
 )

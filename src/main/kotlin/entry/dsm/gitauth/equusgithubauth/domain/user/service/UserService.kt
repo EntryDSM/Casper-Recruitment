@@ -15,11 +15,12 @@ class UserService(
     private val jwtTokenProvider: JwtTokenProvider,
     private val githubApiClient: GithubApiClient,
     private val validateGithubOrganizationService: ValidateGithubOrganizationService,
-    private val oauthRoleProvider: OauthRoleProvider
+    private val oauthRoleProvider: OauthRoleProvider,
 ) {
     companion object {
         private fun withBearer(accessToken: String) = "Bearer $accessToken"
     }
+
     fun execute(accessToken: String): LoginSuccessResponse {
         val bearerToken = withBearer(accessToken)
         val userInfo = githubApiClient.getUser(bearerToken)
@@ -33,7 +34,7 @@ class UserService(
                 loginId = userInfo.login,
                 name = userInfo.name,
                 email = userInfo.email,
-                role = oauthRoleProvider.getRoleByProvider(provider)
+                role = oauthRoleProvider.getRoleByProvider(provider),
             )
 
         userRepository.save(user)

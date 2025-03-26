@@ -1,22 +1,20 @@
 package entry.dsm.gitauth.equusgithubauth.global.oauth.service.component
 
 import entry.dsm.gitauth.equusgithubauth.domain.user.entity.User
-import entry.dsm.gitauth.equusgithubauth.domain.user.entity.enums.UserRole
 import entry.dsm.gitauth.equusgithubauth.domain.user.entity.repository.UserRepository
 import org.springframework.stereotype.Component
-import kotlin.reflect.jvm.internal.impl.descriptors.Visibilities.Private
 
 @Component
 class GoogleOauthUserService(
     private val userRepository: UserRepository,
-    private val oauthRoleProvider: OauthRoleProvider
+    private val oauthRoleProvider: OauthRoleProvider,
 ) {
     fun findOrCreateOAuthUser(
         loginId: String,
         email: String,
         name: String,
         provider: String,
-        providerId: String
+        providerId: String,
     ): User {
         return userRepository.findByLoginId(loginId) ?: run {
             User(
@@ -25,7 +23,7 @@ class GoogleOauthUserService(
                 name = name,
                 provider = provider,
                 providerId = providerId,
-                role = oauthRoleProvider.getRoleByProvider(provider)
+                role = oauthRoleProvider.getRoleByProvider(provider),
             ).also { userRepository.save(it) }
         }
     }

@@ -9,11 +9,12 @@ import org.springframework.stereotype.Service
 @Service
 class OauthReissueService(
     private val refreshTokenRepository: RefreshTokenRepository,
-    private val jwtTokenProvider: JwtTokenProvider
+    private val jwtTokenProvider: JwtTokenProvider,
 ) {
     fun reissue(refreshToken: String): TokenResponse {
-        val storedToken = refreshTokenRepository.findByRefreshToken(refreshToken)
-            ?: throw RefreshTokenNotFoundException()
+        val storedToken =
+            refreshTokenRepository.findByRefreshToken(refreshToken)
+                ?: throw RefreshTokenNotFoundException()
 
         return jwtTokenProvider.reissueToken(storedToken)
     }

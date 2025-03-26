@@ -9,12 +9,12 @@ class CustomOAuth2AuthenticationFailureHandler : AuthenticationFailureHandler {
     override fun onAuthenticationFailure(
         request: HttpServletRequest,
         response: HttpServletResponse,
-        exception: AuthenticationException
+        exception: AuthenticationException,
     ) {
         response.contentType = "application/json"
         response.status = HttpServletResponse.SC_UNAUTHORIZED
         response.writer.write(
-            """{error: OAuth2 로그인 실패, message: ${exception.message}}"""
+            """{error: OAuth2 로그인 실패, message: ${exception.message}}""",
         )
     }
 }

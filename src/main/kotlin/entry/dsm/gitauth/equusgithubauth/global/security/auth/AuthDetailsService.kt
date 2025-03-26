@@ -19,4 +19,3 @@ class AuthDetailsService(
         return CustomOauth2UserDetails(user, emptyMap())
     }
 }
-
