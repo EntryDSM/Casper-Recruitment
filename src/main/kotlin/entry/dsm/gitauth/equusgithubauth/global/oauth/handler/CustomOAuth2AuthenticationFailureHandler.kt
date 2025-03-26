@@ -14,7 +14,7 @@ class CustomOAuth2AuthenticationFailureHandler : AuthenticationFailureHandler {
         response.contentType = "application/json"
         response.status = HttpServletResponse.SC_UNAUTHORIZED
         response.writer.write(
-            """{error: OAuth2 로그인 실패, message: ${exception.message}}""",
+            """{error: OAuth2 로그인 실패, message: ${exception.message}}"""
         )
     }
 }
