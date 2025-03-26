@@ -24,7 +24,7 @@ class UserService(
         val bearerToken = withBearer(accessToken)
         val userInfo = githubApiClient.getUser(bearerToken)
         val tokens = jwtTokenProvider.generateToken(userInfo.login)
-        val isMember = validateGithubOrganizationService.execute(accessToken)
+        val isMember = validateGithubOrganizationService.execute(bearerToken)
 
         val provider = "GITHUB" // 지금 GitHub OAuth 로직에는 provider가 없으므로 하드코딩
 
