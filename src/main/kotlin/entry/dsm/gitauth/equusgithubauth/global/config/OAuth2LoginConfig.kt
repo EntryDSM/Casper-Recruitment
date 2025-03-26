@@ -23,7 +23,9 @@ class OAuth2LoginConfig(
     private val githubProviderProperties: GithubProviderProperties,
     private val githubAuthProperties: GithubAuthProperties,
     @Value("\${google.client-id}") private val googleClientId: String,
-    @Value("\${google.secret}") private val googleSecret: String
+    @Value("\${google.secret}") private val googleSecret: String,
+    @Value("\${google.uri}") private val googleUri: String
+
 ) {
     companion object {
         private const val GITHUB_REGISTRATION_ID = "github"
@@ -81,6 +83,7 @@ class OAuth2LoginConfig(
         val googleRegistration = CommonOAuth2Provider.GOOGLE.getBuilder(GOOGLE_REGISTRATION_ID)
             .clientId(googleClientId)
             .clientSecret(googleSecret)
+            .redirectUri(googleUri)
             .scope(
                 "https://www.googleapis.com/auth/userinfo.email",
                 "https://www.googleapis.com/auth/userinfo.profile"
