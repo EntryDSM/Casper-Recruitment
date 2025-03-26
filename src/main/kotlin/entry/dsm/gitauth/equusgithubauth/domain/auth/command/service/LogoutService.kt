@@ -4,7 +4,6 @@ package entry.dsm.gitauth.equusgithubauth.domain.auth.command.service
 import entry.dsm.gitauth.equusgithubauth.domain.auth.command.service.component.TokenBlackListService
 import entry.dsm.gitauth.equusgithubauth.domain.user.entity.repository.RefreshTokenRepository
 import entry.dsm.gitauth.equusgithubauth.global.security.jwt.JwtTokenProvider
-import entry.dsm.gitauth.equusgithubauth.global.security.jwt.exception.JwtTokenInvalidException
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 import org.springframework.data.repository.findByIdOrNull
