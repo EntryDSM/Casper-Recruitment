@@ -68,3 +68,4 @@ email:
 google:
   client-id: ${GOOGLE_CLIENT_ID}
   secret: ${GOOGLE_SECRET}
+  uri: ${GOOGLE_REDIRECT_URI}

@@ -26,7 +26,7 @@ class SecurityConfig(
     private val jwtTokenProvider: JwtTokenProvider,
     private val customOauth2UserService: GoogleOauthService,
     private val objectMapper: ObjectMapper,
-    private val githubOAuth2LoginConfig: OAuth2LoginConfig,
+    private val oAuth2LoginConfig: OAuth2LoginConfig,
 ) {
 
     @Bean
@@ -62,12 +62,12 @@ class SecurityConfig(
             }
 
 
-        githubOAuth2LoginConfig.configure(http)
+        oAuth2LoginConfig.configure(http)
 
         http
             .oauth2Login { oauth ->
                 oauth.loginPage("/oauth-login/login")
-                    .clientRegistrationRepository(githubOAuth2LoginConfig.clientRegistrationRepository())
+                    .clientRegistrationRepository(oAuth2LoginConfig.clientRegistrationRepository())
                     .userInfoEndpoint { userInfo ->
                         userInfo.userService(customOauth2UserService)
                     }
