@@ -7,7 +7,7 @@ import org.springframework.security.core.AuthenticationException
 import org.springframework.security.web.authentication.AuthenticationFailureHandler
 
 class GithubAuthenticationFailureHandler(
-    private val githubAuthProperties: GithubAuthProperties
+    private val githubAuthProperties: GithubAuthProperties,
 ) : AuthenticationFailureHandler {
     override fun onAuthenticationFailure(
         request: HttpServletRequest,

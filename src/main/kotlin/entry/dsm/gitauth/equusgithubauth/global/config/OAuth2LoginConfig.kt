@@ -23,7 +23,8 @@ class OAuth2LoginConfig(
     private val githubProviderProperties: GithubProviderProperties,
     private val githubAuthProperties: GithubAuthProperties,
     @Value("\${google.client-id}") private val googleClientId: String,
-    @Value("\${google.secret}") private val googleSecret: String
+    @Value("\${google.secret}") private val googleSecret: String,
+    @Value("\${google.uri}") private val googleUri: String,
 ) {
     companion object {
         private const val GITHUB_REGISTRATION_ID = "github"
@@ -42,13 +43,15 @@ class OAuth2LoginConfig(
                 .successHandler(githubAuthenticationSuccessHandler())
                 .failureHandler(githubAuthenticationFailureHandler())
                 .authorizationEndpoint { authorizationEndpoint ->
-                    val defaultResolver = DefaultOAuth2AuthorizationRequestResolver(
-                        clientRegistrationRepository(),
-                        "/oauth2/authorization"
-                    )
+                    val defaultResolver =
+                        DefaultOAuth2AuthorizationRequestResolver(
+                            clientRegistrationRepository(),
+                            "/oauth2/authorization",
+                        )
                     defaultResolver.setAuthorizationRequestCustomizer { builder ->
-                        val clientRegistration = clientRegistrationRepository()
-                            .findByRegistrationId(builder.build().clientId)
+                        val clientRegistration =
+                            clientRegistrationRepository()
+                                .findByRegistrationId(builder.build().clientId)
                         if (clientRegistration?.registrationId == GITHUB_REGISTRATION_ID) {
                             // GitHub OAuth인 경우에만 read:org 추가
                             builder.scope("read:org")
@@ -61,31 +64,34 @@ class OAuth2LoginConfig(
 
     @Bean
     fun clientRegistrationRepository(): ClientRegistrationRepository {
-        val githubRegistration = ClientRegistration
-            .withRegistrationId(GITHUB_REGISTRATION_ID)
-            .apply {
-                clientId(githubRegistrationProperties.clientId)
-                clientSecret(githubRegistrationProperties.clientSecret)
-                clientAuthenticationMethod(ClientAuthenticationMethod.CLIENT_SECRET_BASIC)
-                authorizationGrantType(AuthorizationGrantType.AUTHORIZATION_CODE)
-                redirectUri(githubRegistrationProperties.redirectUrl)
-                scope(githubRegistrationProperties.scope)
-                authorizationUri(githubProviderProperties.authorizationUrl)
-                tokenUri(githubProviderProperties.tokenUrl)
-                userInfoUri(githubProviderProperties.userInfoUrl)
-                userNameAttributeName(githubProviderProperties.userNameAttribute)
-                clientName(githubRegistrationProperties.clientName)
-            }
-            .build()
+        val githubRegistration =
+            ClientRegistration
+                .withRegistrationId(GITHUB_REGISTRATION_ID)
+                .apply {
+                    clientId(githubRegistrationProperties.clientId)
+                    clientSecret(githubRegistrationProperties.clientSecret)
+                    clientAuthenticationMethod(ClientAuthenticationMethod.CLIENT_SECRET_BASIC)
+                    authorizationGrantType(AuthorizationGrantType.AUTHORIZATION_CODE)
+                    redirectUri(githubRegistrationProperties.redirectUrl)
+                    scope(githubRegistrationProperties.scope)
+                    authorizationUri(githubProviderProperties.authorizationUrl)
+                    tokenUri(githubProviderProperties.tokenUrl)
+                    userInfoUri(githubProviderProperties.userInfoUrl)
+                    userNameAttributeName(githubProviderProperties.userNameAttribute)
+                    clientName(githubRegistrationProperties.clientName)
+                }
+                .build()
 
-        val googleRegistration = CommonOAuth2Provider.GOOGLE.getBuilder(GOOGLE_REGISTRATION_ID)
-            .clientId(googleClientId)
-            .clientSecret(googleSecret)
-            .scope(
-                "https://www.googleapis.com/auth/userinfo.email",
-                "https://www.googleapis.com/auth/userinfo.profile"
-            )
-            .build()
+        val googleRegistration =
+            CommonOAuth2Provider.GOOGLE.getBuilder(GOOGLE_REGISTRATION_ID)
+                .clientId(googleClientId)
+                .clientSecret(googleSecret)
+                .redirectUri(googleUri)
+                .scope(
+                    "https://www.googleapis.com/auth/userinfo.email",
+                    "https://www.googleapis.com/auth/userinfo.profile",
+                )
+                .build()
 
         return InMemoryClientRegistrationRepository(githubRegistration, googleRegistration)
     }

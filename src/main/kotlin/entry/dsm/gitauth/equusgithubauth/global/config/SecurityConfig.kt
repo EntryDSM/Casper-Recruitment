@@ -21,14 +21,12 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 @EnableWebSecurity
 @EnableMethodSecurity
 class SecurityConfig(
-
     private val corsConfig: CorsConfig,
     private val jwtTokenProvider: JwtTokenProvider,
     private val customOauth2UserService: GoogleOauthService,
     private val objectMapper: ObjectMapper,
-    private val githubOAuth2LoginConfig: OAuth2LoginConfig,
+    private val oAuth2LoginConfig: OAuth2LoginConfig,
 ) {
-
     @Bean
     fun webSecurityCustomizer(): WebSecurityCustomizer {
         // security를 적용하지 않을 리소스
@@ -46,14 +44,12 @@ class SecurityConfig(
             .cors { it.configurationSource(corsConfig.corsConfigurationSource()) }
             .formLogin { it.disable() }
             .sessionManagement { it.sessionCreationPolicy(SessionCreationPolicy.STATELESS) }
-
             .authorizeHttpRequests { auth ->
                 auth
                     .requestMatchers(
                         "/", "/login", "/oauth2/**", "/api/github/auth", "/api/github/auth/**",
-                        "/oauth2/authorize/**", "/error", "/notice/**", "/notice", "/reports"
+                        "/oauth2/authorize/**", "/error", "/notice/**", "/notice", "/reports",
                     ).permitAll()
-
                     .requestMatchers(HttpMethod.GET, "reports", "notice").permitAll()
                     .requestMatchers("/api/**").permitAll()
                     .requestMatchers("/oauth-login/admin").hasRole("ADMIN")
@@ -61,13 +57,12 @@ class SecurityConfig(
                     .anyRequest().authenticated()
             }
 
-
-        githubOAuth2LoginConfig.configure(http)
+        oAuth2LoginConfig.configure(http)
 
         http
             .oauth2Login { oauth ->
                 oauth.loginPage("/oauth-login/login")
-                    .clientRegistrationRepository(githubOAuth2LoginConfig.clientRegistrationRepository())
+                    .clientRegistrationRepository(oAuth2LoginConfig.clientRegistrationRepository())
                     .userInfoEndpoint { userInfo ->
                         userInfo.userService(customOauth2UserService)
                     }
@@ -81,6 +76,4 @@ class SecurityConfig(
 
         return http.build()
     }
-
-
 }

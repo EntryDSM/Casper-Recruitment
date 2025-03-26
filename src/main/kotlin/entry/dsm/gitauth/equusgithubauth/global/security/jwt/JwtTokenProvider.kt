@@ -1,13 +1,12 @@
 package entry.dsm.gitauth.equusgithubauth.global.security.jwt
 
-
 import entry.dsm.gitauth.equusgithubauth.domain.user.entity.RefreshToken
 import entry.dsm.gitauth.equusgithubauth.domain.user.entity.repository.RefreshTokenRepository
 import entry.dsm.gitauth.equusgithubauth.domain.user.entity.repository.UserRepository
 import entry.dsm.gitauth.equusgithubauth.domain.user.presentation.dto.response.TokenResponse
 import entry.dsm.gitauth.equusgithubauth.global.security.auth.AuthDetailsService
-import entry.dsm.gitauth.equusgithubauth.global.security.jwt.exception.InValidTokenFormat
 import entry.dsm.gitauth.equusgithubauth.global.security.jwt.exception.ExpiredJwtTokenException
+import entry.dsm.gitauth.equusgithubauth.global.security.jwt.exception.InValidTokenFormat
 import entry.dsm.gitauth.equusgithubauth.global.security.jwt.exception.InvalidJwtTokenException
 import entry.dsm.gitauth.equusgithubauth.global.security.jwt.exception.NoTokenInHeader
 import io.jsonwebtoken.Claims
@@ -27,7 +26,7 @@ class JwtTokenProvider(
     private val jwtProperties: JwtProperties,
     private val userRepository: UserRepository,
     private val authDetailsService: AuthDetailsService,
-    private val refreshTokenRepository: RefreshTokenRepository
+    private val refreshTokenRepository: RefreshTokenRepository,
 ) {
     fun generateToken(loginId: String): TokenResponse {
         return TokenResponse(
@@ -50,17 +49,17 @@ class JwtTokenProvider(
     fun createRefreshToken(loginId: String): String {
         val refreshToken = createToken(loginId, REFRESH_TOKEN, jwtProperties.refreshExp)
 
-        val refreshTokenEntity = RefreshToken(
-            loginId = loginId,
-            refreshToken = refreshToken,
-            tokenExpiration = jwtProperties.refreshExp
-        )
+        val refreshTokenEntity =
+            RefreshToken(
+                loginId = loginId,
+                refreshToken = refreshToken,
+                tokenExpiration = jwtProperties.refreshExp,
+            )
 
         refreshTokenRepository.save(refreshTokenEntity)
 
         return refreshToken
     }
-
 
     private fun createToken(
         loginId: String,
@@ -77,8 +76,9 @@ class JwtTokenProvider(
     }
 
     fun resolveToken(request: HttpServletRequest): String? {
-        val bearerToken = request.getHeader(jwtProperties.header)
-            ?: throw NoTokenInHeader()
+        val bearerToken =
+            request.getHeader(jwtProperties.header)
+                ?: throw NoTokenInHeader()
         return validateTokenFormat(bearerToken)
     }
 
@@ -96,7 +96,7 @@ class JwtTokenProvider(
             accessToken = newAccessToken,
             refreshToken = newRefreshToken,
             accessTokenExpiration = LocalDateTime.now().plusSeconds(jwtProperties.accessExp),
-            refreshTokenExpiration = LocalDateTime.now().plusSeconds(jwtProperties.refreshExp)
+            refreshTokenExpiration = LocalDateTime.now().plusSeconds(jwtProperties.refreshExp),
         )
     }
 
@@ -143,5 +143,4 @@ class JwtTokenProvider(
     fun getSubjectFromToken(token: String): String {
         return getClaims(token).subject
     }
-
 }

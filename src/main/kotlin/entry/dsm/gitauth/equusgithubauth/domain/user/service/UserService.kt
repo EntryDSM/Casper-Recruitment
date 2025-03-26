@@ -15,16 +15,17 @@ class UserService(
     private val jwtTokenProvider: JwtTokenProvider,
     private val githubApiClient: GithubApiClient,
     private val validateGithubOrganizationService: ValidateGithubOrganizationService,
-    private val oauthRoleProvider: OauthRoleProvider
+    private val oauthRoleProvider: OauthRoleProvider,
 ) {
     companion object {
         private fun withBearer(accessToken: String) = "Bearer $accessToken"
     }
+
     fun execute(accessToken: String): LoginSuccessResponse {
         val bearerToken = withBearer(accessToken)
         val userInfo = githubApiClient.getUser(bearerToken)
         val tokens = jwtTokenProvider.generateToken(userInfo.login)
-        val isMember = validateGithubOrganizationService.execute(accessToken)
+        val isMember = validateGithubOrganizationService.execute(bearerToken)
 
         val provider = "GITHUB" // 지금 GitHub OAuth 로직에는 provider가 없으므로 하드코딩
 
@@ -33,7 +34,7 @@ class UserService(
                 loginId = userInfo.login,
                 name = userInfo.name,
                 email = userInfo.email,
-                role = oauthRoleProvider.getRoleByProvider(provider)
+                role = oauthRoleProvider.getRoleByProvider(provider),
             )
 
         userRepository.save(user)

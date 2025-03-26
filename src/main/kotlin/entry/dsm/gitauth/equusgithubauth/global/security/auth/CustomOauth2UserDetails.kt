@@ -1,6 +1,5 @@
 package entry.dsm.gitauth.equusgithubauth.global.security.auth
 
-
 import entry.dsm.gitauth.equusgithubauth.domain.user.entity.User
 import org.springframework.security.core.GrantedAuthority
 import org.springframework.security.core.authority.SimpleGrantedAuthority
@@ -9,9 +8,8 @@ import org.springframework.security.oauth2.core.user.OAuth2User
 
 class CustomOauth2UserDetails(
     private val user: User,
-    private val attributes: Map<String, Any>
+    private val attributes: Map<String, Any>,
 ) : UserDetails, OAuth2User {
-
     override fun getAttributes(): Map<String, Any> {
         return attributes
     }
@@ -29,7 +27,6 @@ class CustomOauth2UserDetails(
     override fun getPassword(): String {
         return ""
     }
-
 
     override fun getUsername(): String {
         return user.loginId

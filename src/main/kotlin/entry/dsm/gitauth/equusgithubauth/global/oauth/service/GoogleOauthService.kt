@@ -19,44 +19,44 @@ import org.springframework.stereotype.Service
 class GoogleOauthService(
     private val jwtTokenProvider: JwtTokenProvider,
     private val googleOauthUserService: GoogleOauthUserService,
-    private val emailDomainValidator: EmailDomainValidator
+    private val emailDomainValidator: EmailDomainValidator,
 ) : DefaultOAuth2UserService() {
-
     override fun loadUser(userRequest: OAuth2UserRequest): OAuth2User {
         val oAuth2User = super.loadUser(userRequest)
         val provider = userRequest.clientRegistration.registrationId
 
-        val oAuth2UserInfo: OAuth2UserInfo = when(provider) {
-            OauthType.GOOGLE.provider -> GoogleUserDetails(oAuth2User.attributes)
-            else -> throw UnsupportedProviderException(provider)
-        }
-
+        val oAuth2UserInfo: OAuth2UserInfo =
+            when (provider) {
+                OauthType.GOOGLE.provider -> GoogleUserDetails(oAuth2User.attributes)
+                else -> throw UnsupportedProviderException(provider)
+            }
 
         val email = oAuth2UserInfo.getEmail()
 
         // 이메일 검증 학교 도메인 외 로그인 못함
         emailDomainValidator.isAllowed(email)
 
-
         val loginId = "$provider${oAuth2UserInfo.getProviderId()}"
 
-        val user = googleOauthUserService.findOrCreateOAuthUser(
-            loginId = loginId,
-            email = oAuth2UserInfo.getEmail(),
-            name = oAuth2UserInfo.getName(),
-            provider = provider,
-            providerId = oAuth2UserInfo.getProviderId()
-        )
+        val user =
+            googleOauthUserService.findOrCreateOAuthUser(
+                loginId = loginId,
+                email = oAuth2UserInfo.getEmail(),
+                name = oAuth2UserInfo.getName(),
+                provider = provider,
+                providerId = oAuth2UserInfo.getProviderId(),
+            )
 
         val tokenResponse: TokenResponse = jwtTokenProvider.generateToken(loginId)
 
         // OAuth2User의 attributes에 토큰 정보를 추가하여 클라이언트 전달에 사용
-        val updatedAttributes = oAuth2User.attributes.toMutableMap().apply {
-            put(JwtConstants.ACCESS_TOKEN, tokenResponse.accessToken)
-            put(JwtConstants.ACCESS_TOKEN_EXPIRATION, tokenResponse.accessTokenExpiration.toString())
-            put(JwtConstants.REFRESH_TOKEN, tokenResponse.refreshToken)
-            put(JwtConstants.REFRESH_TOKEN_EXPIRATION, tokenResponse.refreshTokenExpiration.toString())
-        }
+        val updatedAttributes =
+            oAuth2User.attributes.toMutableMap().apply {
+                put(JwtConstants.ACCESS_TOKEN, tokenResponse.accessToken)
+                put(JwtConstants.ACCESS_TOKEN_EXPIRATION, tokenResponse.accessTokenExpiration.toString())
+                put(JwtConstants.REFRESH_TOKEN, tokenResponse.refreshToken)
+                put(JwtConstants.REFRESH_TOKEN_EXPIRATION, tokenResponse.refreshTokenExpiration.toString())
+            }
 
         return CustomOauth2UserDetails(user, updatedAttributes)
     }

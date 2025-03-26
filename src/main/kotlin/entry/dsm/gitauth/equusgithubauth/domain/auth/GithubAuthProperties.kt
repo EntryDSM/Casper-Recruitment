@@ -7,5 +7,5 @@ class GithubAuthProperties(
     val redirectUrl: String,
     val successAuthenticationUrl: String,
     val failureAuthenticationUrl: String,
-    val failure: String
+    val failure: String,
 )

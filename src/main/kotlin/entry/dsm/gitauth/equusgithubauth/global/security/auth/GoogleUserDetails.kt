@@ -3,9 +3,8 @@ package entry.dsm.gitauth.equusgithubauth.global.security.auth
 import entry.dsm.gitauth.equusgithubauth.global.oauth.OAuth2UserInfo
 
 data class GoogleUserDetails(
-    private val attributes: Map<String, Any>
+    private val attributes: Map<String, Any>,
 ) : OAuth2UserInfo {
-
     override fun getProvider(): String {
         return "google"
     }

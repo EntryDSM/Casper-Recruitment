@@ -9,5 +9,4 @@ class GithubRegistrationProperties(
     val redirectUrl: String,
     val scope: String,
     val clientName: String,
-    val authorizationRequestBaseUrl: String
 )

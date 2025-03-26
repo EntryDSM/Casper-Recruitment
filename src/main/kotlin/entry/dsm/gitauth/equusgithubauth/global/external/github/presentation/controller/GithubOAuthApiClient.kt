@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.RequestParam
 
 @FeignClient(
     name = "github-oauth-api-client",
-    url = "\${spring.security.oauth2.client.registration.github.base-url}"
+    url = "\${spring.security.oauth2.client.registration.github.base-url}",
 )
 interface GithubOAuthApiClient {
     @PostMapping("/login/oauth/access_token", consumes = ["application/json"], produces = ["application/json"])
