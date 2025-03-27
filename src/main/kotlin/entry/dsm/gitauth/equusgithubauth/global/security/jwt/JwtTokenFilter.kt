@@ -14,10 +14,9 @@ class JwtTokenFilter(
             "/api/github/auth",
             "/oauth2/authorization/github",
             "/login/oauth2/code/github",
-
             "/api/google/auth",
             "/login/oauth2/code/google",
-            "/oauth2/authorization/google"
+            "/oauth2/authorization/google",
         ),
 ) : OncePerRequestFilter() {
     override fun doFilterInternal(
