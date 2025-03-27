@@ -48,15 +48,16 @@ class OAuth2LoginConfig(
                             clientRegistrationRepository(),
                             "/oauth2/authorization",
                         )
+
                     defaultResolver.setAuthorizationRequestCustomizer { builder ->
-                        val clientRegistration =
-                            clientRegistrationRepository()
-                                .findByRegistrationId(builder.build().clientId)
-                        if (clientRegistration?.registrationId == GITHUB_REGISTRATION_ID) {
-                            // GitHub OAuth인 경우에만 read:org 추가
-                            builder.scope("read:org")
+                        val requestUri = builder.build().authorizationRequestUri
+                        val registrationId = requestUri.substringAfterLast("/") // "google" or "github" 추출
+
+                        if (registrationId == GITHUB_REGISTRATION_ID) {
+                            builder.scope("read:org") // GitHub일 때만 read:org 추가
                         }
                     }
+
                     authorizationEndpoint.authorizationRequestResolver(defaultResolver)
                 }
         }
@@ -67,19 +68,17 @@ class OAuth2LoginConfig(
         val githubRegistration =
             ClientRegistration
                 .withRegistrationId(GITHUB_REGISTRATION_ID)
-                .apply {
-                    clientId(githubRegistrationProperties.clientId)
-                    clientSecret(githubRegistrationProperties.clientSecret)
-                    clientAuthenticationMethod(ClientAuthenticationMethod.CLIENT_SECRET_BASIC)
-                    authorizationGrantType(AuthorizationGrantType.AUTHORIZATION_CODE)
-                    redirectUri(githubRegistrationProperties.redirectUrl)
-                    scope(githubRegistrationProperties.scope)
-                    authorizationUri(githubProviderProperties.authorizationUrl)
-                    tokenUri(githubProviderProperties.tokenUrl)
-                    userInfoUri(githubProviderProperties.userInfoUrl)
-                    userNameAttributeName(githubProviderProperties.userNameAttribute)
-                    clientName(githubRegistrationProperties.clientName)
-                }
+                .clientId(githubRegistrationProperties.clientId)
+                .clientSecret(githubRegistrationProperties.clientSecret)
+                .clientAuthenticationMethod(ClientAuthenticationMethod.CLIENT_SECRET_BASIC)
+                .authorizationGrantType(AuthorizationGrantType.AUTHORIZATION_CODE)
+                .redirectUri(githubRegistrationProperties.redirectUrl)
+                .scope(githubRegistrationProperties.scope)
+                .authorizationUri(githubProviderProperties.authorizationUrl)
+                .tokenUri(githubProviderProperties.tokenUrl)
+                .userInfoUri(githubProviderProperties.userInfoUrl)
+                .userNameAttributeName(githubProviderProperties.userNameAttribute)
+                .clientName(githubRegistrationProperties.clientName)
                 .build()
 
         val googleRegistration =
