@@ -12,9 +12,9 @@ class CustomErrorController : ErrorController {
 
     @RequestMapping("/error")
     fun handleError(request: HttpServletRequest): ResponseEntity<Map<String, Any>> {
-        val status = request.getAttribute("javax.servlet.error.status_code") as? Int
+          val status = request.getAttribute("jakarta.servlet.error.status_code") as? Int
             ?: HttpStatus.INTERNAL_SERVER_ERROR.value()
-        val message = request.getAttribute("javax.servlet.error.message")?.toString()
+          val message = request.getAttribute("jakarta.servlet.error.message")?.toString()
             ?: "알 수 없는 오류가 발생했습니다."
 
         val errorResponse = mapOf(
