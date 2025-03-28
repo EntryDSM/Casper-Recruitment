@@ -2,6 +2,7 @@ package entry.dsm.gitauth.equusgithubauth.global.oauth.service.component
 
 import entry.dsm.gitauth.equusgithubauth.global.oauth.exception.EmailDomainNotAllowedException
 import org.springframework.beans.factory.annotation.Value
+import org.springframework.security.oauth2.core.OAuth2AuthenticationException
 import org.springframework.stereotype.Component
 
 @Component

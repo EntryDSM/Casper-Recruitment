@@ -1,34 +1,42 @@
 package entry.dsm.gitauth.equusgithubauth.global.oauth.handler
 
 import com.fasterxml.jackson.databind.ObjectMapper
-import entry.dsm.gitauth.equusgithubauth.global.oauth.JwtConstants
+import entry.dsm.gitauth.equusgithubauth.domain.user.presentation.dto.response.TokenResponse
+import entry.dsm.gitauth.equusgithubauth.global.oauth.service.component.OauthTokenService
 import entry.dsm.gitauth.equusgithubauth.global.security.auth.CustomOauth2UserDetails
 import jakarta.servlet.http.HttpServletRequest
 import jakarta.servlet.http.HttpServletResponse
+import org.springframework.http.MediaType
 import org.springframework.security.core.Authentication
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler
+import org.springframework.stereotype.Component
 
+@Component
 class CustomOAuth2AuthenticationSuccessHandler(
     private val objectMapper: ObjectMapper,
+    private val oauthTokenService: OauthTokenService
 ) : AuthenticationSuccessHandler {
+
     override fun onAuthenticationSuccess(
         request: HttpServletRequest,
         response: HttpServletResponse,
-        authentication: Authentication,
+        authentication: Authentication
     ) {
-        // CustomOauth2UserDetails에 저장된 attributes에서 토큰 정보 추출
+        // CustomOauth2UserDetails에서 loginId 추출
         val oauthUser = authentication.principal as? CustomOauth2UserDetails
-        val tokenInfo =
-            oauthUser?.attributes?.let { attributes ->
-                mapOf(
-                    JwtConstants.ACCESS_TOKEN to attributes[JwtConstants.ACCESS_TOKEN],
-                    JwtConstants.ACCESS_TOKEN_EXPIRATION to attributes[JwtConstants.ACCESS_TOKEN_EXPIRATION],
-                    JwtConstants.REFRESH_TOKEN to attributes[JwtConstants.REFRESH_TOKEN],
-                    JwtConstants.REFRESH_TOKEN_EXPIRATION to attributes[JwtConstants.REFRESH_TOKEN_EXPIRATION],
-                )
-            }
-        response.contentType = "application/json"
+            ?: throw IllegalStateException("Authentication principal must be CustomOauth2UserDetails")
+
+
+        val loginId = oauthUser.username
+
+
+        val tokenResponse: TokenResponse = oauthTokenService.generateTokenResponse(loginId)
+
+
+        response.status = HttpServletResponse.SC_OK
+        response.contentType = MediaType.APPLICATION_JSON_VALUE
         response.characterEncoding = "UTF-8"
-        response.writer.write(objectMapper.writeValueAsString(tokenInfo))
+        response.writer.write(objectMapper.writeValueAsString(tokenResponse))
+        response.writer.flush()
     }
 }
