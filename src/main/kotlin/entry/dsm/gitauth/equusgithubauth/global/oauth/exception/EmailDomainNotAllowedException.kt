@@ -1,5 +1,6 @@
 package entry.dsm.gitauth.equusgithubauth.global.oauth.exception
 
-import org.springframework.security.core.AuthenticationException
+import entry.dsm.gitauth.equusgithubauth.global.exception.CustomException
+import entry.dsm.gitauth.equusgithubauth.global.exception.ErrorCode
 
-class EmailDomainNotAllowedException : AuthenticationException("허용되지 않은 이메일 도메인입니다")
+class EmailDomainNotAllowedException : CustomException(ErrorCode.EMAIL_DOMAIN_IN_NOT_ALLOWED_EXCEPTION)
