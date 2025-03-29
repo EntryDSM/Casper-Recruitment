@@ -2,8 +2,6 @@ package entry.dsm.gitauth.equusgithubauth.global.oauth.service
 
 import entry.dsm.gitauth.equusgithubauth.domain.auth.enums.OauthType
 import entry.dsm.gitauth.equusgithubauth.domain.auth.exception.UnsupportedProviderException
-import entry.dsm.gitauth.equusgithubauth.domain.user.presentation.dto.response.TokenResponse
-import entry.dsm.gitauth.equusgithubauth.global.oauth.JwtConstants
 import entry.dsm.gitauth.equusgithubauth.global.oauth.OAuth2UserInfo
 import entry.dsm.gitauth.equusgithubauth.global.oauth.service.component.EmailDomainValidator
 import entry.dsm.gitauth.equusgithubauth.global.oauth.service.component.GoogleOauthUserService
@@ -47,17 +45,6 @@ class GoogleOauthService(
                 providerId = oAuth2UserInfo.getProviderId(),
             )
 
-        val tokenResponse: TokenResponse = jwtTokenProvider.generateToken(loginId)
-
-        // OAuth2User의 attributes에 토큰 정보를 추가하여 클라이언트 전달에 사용
-        val updatedAttributes =
-            oAuth2User.attributes.toMutableMap().apply {
-                put(JwtConstants.ACCESS_TOKEN, tokenResponse.accessToken)
-                put(JwtConstants.ACCESS_TOKEN_EXPIRATION, tokenResponse.accessTokenExpiration.toString())
-                put(JwtConstants.REFRESH_TOKEN, tokenResponse.refreshToken)
-                put(JwtConstants.REFRESH_TOKEN_EXPIRATION, tokenResponse.refreshTokenExpiration.toString())
-            }
-
-        return CustomOauth2UserDetails(user, updatedAttributes)
+        return CustomOauth2UserDetails(user, oAuth2User.attributes)
     }
 }

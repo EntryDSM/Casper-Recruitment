@@ -1,6 +1,5 @@
 package entry.dsm.gitauth.equusgithubauth.global.config
 
-import com.fasterxml.jackson.databind.ObjectMapper
 import entry.dsm.gitauth.equusgithubauth.global.oauth.handler.CustomOAuth2AuthenticationFailureHandler
 import entry.dsm.gitauth.equusgithubauth.global.oauth.handler.CustomOAuth2AuthenticationSuccessHandler
 import entry.dsm.gitauth.equusgithubauth.global.oauth.service.GoogleOauthService
@@ -24,15 +23,14 @@ class SecurityConfig(
     private val corsConfig: CorsConfig,
     private val jwtTokenProvider: JwtTokenProvider,
     private val customOauth2UserService: GoogleOauthService,
-    private val objectMapper: ObjectMapper,
     private val oAuth2LoginConfig: OAuth2LoginConfig,
+    private val customOAuth2AuthenticationFailureHandler: CustomOAuth2AuthenticationFailureHandler,
+    private val customOAuth2AuthenticationSuccessHandler: CustomOAuth2AuthenticationSuccessHandler,
 ) {
     @Bean
     fun webSecurityCustomizer(): WebSecurityCustomizer {
-        // security를 적용하지 않을 리소스
         return WebSecurityCustomizer { web ->
             web.ignoring()
-                // error endpoint를 열어줘야 함, favicon.ico 추가!
                 .requestMatchers("/error", "/favicon.ico")
         }
     }
@@ -47,8 +45,13 @@ class SecurityConfig(
             .authorizeHttpRequests { auth ->
                 auth
                     .requestMatchers(
-                        "/", "/login", "/oauth2/**", "/api/github/auth", "/api/github/auth/**",
-                        "/oauth2/authorize/**", "/error", "/notice/**", "/notice", "/reports",
+                        "/",
+                        "/login",
+                        "/oauth2/**",
+                        "/api/github/auth",
+                        "/api/github/auth/**",
+                        "/oauth2/authorize/**",
+                        "/error",
                     ).permitAll()
                     .requestMatchers(HttpMethod.GET, "reports", "notice").permitAll()
                     .requestMatchers("/api/**").permitAll()
@@ -66,12 +69,11 @@ class SecurityConfig(
                     .userInfoEndpoint { userInfo ->
                         userInfo.userService(customOauth2UserService)
                     }
-                    .successHandler(CustomOAuth2AuthenticationSuccessHandler(objectMapper))
-                    .failureHandler(CustomOAuth2AuthenticationFailureHandler())
+                    .successHandler(customOAuth2AuthenticationSuccessHandler)
+                    .failureHandler(customOAuth2AuthenticationFailureHandler)
                     .permitAll()
             }
 
-        // JwtTokenFilter를 OAuth 설정과 별도로 등록
         http.addFilterBefore(JwtTokenFilter(jwtTokenProvider), UsernamePasswordAuthenticationFilter::class.java)
 
         return http.build()

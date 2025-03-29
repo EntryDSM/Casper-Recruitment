@@ -1,5 +1,6 @@
 package entry.dsm.gitauth.equusgithubauth.global.oauth.service.component
 
+import entry.dsm.gitauth.equusgithubauth.global.exception.CustomOauth2AuthenticationException
 import entry.dsm.gitauth.equusgithubauth.global.oauth.exception.EmailDomainNotAllowedException
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.stereotype.Component
@@ -10,7 +11,8 @@ class EmailDomainValidator(
 ) {
     fun isAllowed(email: String): Boolean {
         if (!email.endsWith("@$allowedDomain")) {
-            throw EmailDomainNotAllowedException()
+            // EmailDomainNotAllowedException 대신 CustomOauth2AuthenticationException을 던짐
+            throw CustomOauth2AuthenticationException("허용되지 않은 이메일 도메인입니다.", EmailDomainNotAllowedException())
         }
         return true
     }
