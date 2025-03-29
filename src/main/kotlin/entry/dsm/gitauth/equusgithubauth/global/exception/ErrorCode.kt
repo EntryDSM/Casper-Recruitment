@@ -31,5 +31,5 @@ enum class ErrorCode(
 
     NOT_FOUND_OAUTH_PROVIDER(404, "Oauth Provider을 찾을 수 없습니다."),
 
-    INTERNAL_SERVER_ERROR(500, "서버에 에러가 발생하였습니다.")
+    INTERNAL_SERVER_ERROR(500, "서버에 에러가 발생하였습니다."),
 }

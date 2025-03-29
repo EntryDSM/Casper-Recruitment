@@ -14,24 +14,21 @@ import org.springframework.stereotype.Component
 @Component
 class CustomOAuth2AuthenticationSuccessHandler(
     private val objectMapper: ObjectMapper,
-    private val oauthTokenService: OauthTokenService
+    private val oauthTokenService: OauthTokenService,
 ) : AuthenticationSuccessHandler {
-
     override fun onAuthenticationSuccess(
         request: HttpServletRequest,
         response: HttpServletResponse,
-        authentication: Authentication
+        authentication: Authentication,
     ) {
         // CustomOauth2UserDetails에서 loginId 추출
-        val oauthUser = authentication.principal as? CustomOauth2UserDetails
-            ?: throw IllegalStateException("Authentication principal must be CustomOauth2UserDetails")
-
+        val oauthUser =
+            authentication.principal as? CustomOauth2UserDetails
+                ?: throw IllegalStateException("Authentication principal must be CustomOauth2UserDetails")
 
         val loginId = oauthUser.username
 
-
         val tokenResponse: TokenResponse = oauthTokenService.generateTokenResponse(loginId)
-
 
         response.status = HttpServletResponse.SC_OK
         response.contentType = MediaType.APPLICATION_JSON_VALUE

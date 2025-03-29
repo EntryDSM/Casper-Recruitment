@@ -13,7 +13,6 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity
 import org.springframework.security.config.annotation.web.configuration.WebSecurityCustomizer
 import org.springframework.security.config.http.SessionCreationPolicy
-import org.springframework.security.oauth2.client.web.OAuth2LoginAuthenticationFilter
 import org.springframework.security.web.SecurityFilterChain
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter
 
@@ -26,9 +25,8 @@ class SecurityConfig(
     private val customOauth2UserService: GoogleOauthService,
     private val oAuth2LoginConfig: OAuth2LoginConfig,
     private val customOAuth2AuthenticationFailureHandler: CustomOAuth2AuthenticationFailureHandler,
-    private val customOAuth2AuthenticationSuccessHandler: CustomOAuth2AuthenticationSuccessHandler
+    private val customOAuth2AuthenticationSuccessHandler: CustomOAuth2AuthenticationSuccessHandler,
 ) {
-
     @Bean
     fun webSecurityCustomizer(): WebSecurityCustomizer {
         return WebSecurityCustomizer { web ->
@@ -47,8 +45,13 @@ class SecurityConfig(
             .authorizeHttpRequests { auth ->
                 auth
                     .requestMatchers(
-                        "/", "/login", "/oauth2/**", "/api/github/auth", "/api/github/auth/**",
-                        "/oauth2/authorize/**", "/error"
+                        "/",
+                        "/login",
+                        "/oauth2/**",
+                        "/api/github/auth",
+                        "/api/github/auth/**",
+                        "/oauth2/authorize/**",
+                        "/error",
                     ).permitAll()
                     .requestMatchers(HttpMethod.GET, "reports", "notice").permitAll()
                     .requestMatchers("/api/**").permitAll()
@@ -57,12 +60,7 @@ class SecurityConfig(
                     .anyRequest().authenticated()
             }
 
-
-
         oAuth2LoginConfig.configure(http)
-
-
-
 
         http
             .oauth2Login { oauth ->
@@ -75,7 +73,6 @@ class SecurityConfig(
                     .failureHandler(customOAuth2AuthenticationFailureHandler)
                     .permitAll()
             }
-
 
         http.addFilterBefore(JwtTokenFilter(jwtTokenProvider), UsernamePasswordAuthenticationFilter::class.java)
 
