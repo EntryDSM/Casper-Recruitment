@@ -30,4 +30,6 @@ enum class ErrorCode(
     EMAIL_DOMAIN_IN_NOT_ALLOWED_EXCEPTION(401, "허용되지 않은 이메일 도메인입니다."),
 
     NOT_FOUND_OAUTH_PROVIDER(404, "Oauth Provider을 찾을 수 없습니다."),
+
+    INTERNAL_SERVER_ERROR(500, "서버에 에러가 발생하였습니다.")
 }
