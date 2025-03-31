@@ -32,7 +32,6 @@ class ReportController(
 ) {
     // Create a new report
     @PostMapping
-    @OnlyUser
     @ResponseStatus(HttpStatus.CREATED)
     fun createReport(
         @RequestBody command: CreateReportCommand,
