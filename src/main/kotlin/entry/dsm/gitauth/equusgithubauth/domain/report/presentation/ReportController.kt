@@ -9,7 +9,6 @@ import entry.dsm.gitauth.equusgithubauth.domain.report.query.dto.response.Report
 import entry.dsm.gitauth.equusgithubauth.domain.report.query.service.GetAllReportService
 import entry.dsm.gitauth.equusgithubauth.domain.report.query.service.ReportQueryService
 import entry.dsm.gitauth.equusgithubauth.global.security.annotation.OnlyAdmin
-import entry.dsm.gitauth.equusgithubauth.global.security.annotation.OnlyUser
 import org.springframework.http.HttpStatus
 import org.springframework.web.bind.annotation.DeleteMapping
 import org.springframework.web.bind.annotation.GetMapping

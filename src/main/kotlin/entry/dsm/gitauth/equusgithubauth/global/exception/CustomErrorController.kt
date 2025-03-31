@@ -3,14 +3,12 @@ package entry.dsm.gitauth.equusgithubauth.global.exception
 import jakarta.servlet.http.HttpServletRequest
 import org.springframework.boot.web.servlet.error.ErrorController
 import org.springframework.http.HttpStatus
-import org.springframework.http.MediaType
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RestController
 
 @RestController
 class CustomErrorController : ErrorController {
-
     companion object {
         private const val DEFAULT_ERROR_MESSAGE = "알 수 없는 오류가 발생했습니다."
         private const val ERROR_TITLE = "서버 오류"
