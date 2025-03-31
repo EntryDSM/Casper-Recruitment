@@ -60,6 +60,7 @@ jwt:
 oauth:
   google:
     redirect: ${GOOGLE_DIRECT_URL}
+    redirect2: ${FRONT_DIRECT_URL}
 
 email:
   allowed: ${EMAIL_DOMAIN}
