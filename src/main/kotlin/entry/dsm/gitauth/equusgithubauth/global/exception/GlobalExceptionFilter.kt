@@ -9,23 +9,24 @@ import java.io.IOException
 import java.time.LocalDateTime
 
 class GlobalExceptionFilter(
-    private val objectMapper: ObjectMapper
+    private val objectMapper: ObjectMapper,
 ) : OncePerRequestFilter() {
     override fun doFilterInternal(
         request: HttpServletRequest,
         response: HttpServletResponse,
-        filterChain: FilterChain
+        filterChain: FilterChain,
     ) {
         try {
             filterChain.doFilter(request, response)
         } catch (e: CustomException) {
-            val errorResponse = ErrorResponse(
-                statusCode = e.statusCode,
-                message = e.message,
-                timestamp = LocalDateTime.now(),
-                path = request.requestURI,
-                method = request.method
-            )
+            val errorResponse =
+                ErrorResponse(
+                    statusCode = e.statusCode,
+                    message = e.message,
+                    timestamp = LocalDateTime.now(),
+                    path = request.requestURI,
+                    method = request.method,
+                )
             writeErrorResponse(response, e.statusCode, errorResponse)
         }
     }
@@ -34,7 +35,7 @@ class GlobalExceptionFilter(
     private fun writeErrorResponse(
         response: HttpServletResponse,
         status: Int,
-        errorResponse: ErrorResponse
+        errorResponse: ErrorResponse,
     ) {
         response.status = status
         response.contentType = "application/json"

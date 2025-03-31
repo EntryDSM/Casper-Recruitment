@@ -18,7 +18,6 @@ import java.time.LocalDateTime
 class CustomOAuth2AuthenticationFailureHandler(
     private val objectMapper: ObjectMapper,
 ) : AuthenticationFailureHandler {
-
     companion object {
         private const val DEFAULT_OAUTH_ERROR_MESSAGE = "OAuth2 인증 실패"
         private const val UNKNOWN_ERROR_MESSAGE = "Unknown error"
