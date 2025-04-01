@@ -20,6 +20,7 @@ class UserService(
 ) {
     companion object {
         private fun withBearer(accessToken: String) = "Bearer $accessToken"
+        private const val GITHUB = "GITHUB"
     }
 
     fun execute(accessToken: String): LoginSuccessResponse {
@@ -31,7 +32,7 @@ class UserService(
             throw UnAuthorizedOrgAccessException()
         }
 
-        val provider = "GITHUB" // 지금 GitHub OAuth 로직에는 provider가 없으므로 하드코딩
+        val provider = GITHUB // 지금 GitHub OAuth 로직에는 provider가 없으므로 하드코딩
 
         val user =
             User(
