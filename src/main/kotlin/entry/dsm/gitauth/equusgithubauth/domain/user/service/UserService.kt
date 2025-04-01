@@ -1,6 +1,7 @@
 package entry.dsm.gitauth.equusgithubauth.domain.user.service
 
 import entry.dsm.gitauth.equusgithubauth.domain.auth.command.service.ValidateGithubOrganizationService
+import entry.dsm.gitauth.equusgithubauth.domain.auth.exception.UnAuthorizedOrgAccessException
 import entry.dsm.gitauth.equusgithubauth.domain.user.entity.User
 import entry.dsm.gitauth.equusgithubauth.domain.user.entity.repository.UserRepository
 import entry.dsm.gitauth.equusgithubauth.domain.user.presentation.dto.response.LoginSuccessResponse
@@ -19,15 +20,19 @@ class UserService(
 ) {
     companion object {
         private fun withBearer(accessToken: String) = "Bearer $accessToken"
+        private const val GITHUB = "GITHUB"
     }
 
     fun execute(accessToken: String): LoginSuccessResponse {
         val bearerToken = withBearer(accessToken)
         val userInfo = githubApiClient.getUser(bearerToken)
         val tokens = jwtTokenProvider.generateToken(userInfo.login)
-        val isMember = validateGithubOrganizationService.execute(bearerToken)
 
-        val provider = "GITHUB" // 지금 GitHub OAuth 로직에는 provider가 없으므로 하드코딩
+        if (!validateGithubOrganizationService.execute(bearerToken)) {
+            throw UnAuthorizedOrgAccessException()
+        }
+
+        val provider = GITHUB // 지금 GitHub OAuth 로직에는 provider가 없으므로 하드코딩
 
         val user =
             User(
@@ -39,7 +44,6 @@ class UserService(
 
         userRepository.save(user)
         return LoginSuccessResponse(
-            isMember,
             tokens.accessToken,
             tokens.accessTokenExpiration,
             tokens.refreshToken,

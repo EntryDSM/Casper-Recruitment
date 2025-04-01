@@ -34,4 +34,5 @@ enum class ErrorCode(
     INTERNAL_SERVER_ERROR(500, "서버에 에러가 발생하였습니다."),
 
     AUTHENTICATION_PRINCIPAL_MISMATCH(403, "인증 주체 불일치"),
+    UNAUTHORIZED_ORG_ACCESS(403, "조직에 가입된 사용자만 접근 가능합니다."),
 }
