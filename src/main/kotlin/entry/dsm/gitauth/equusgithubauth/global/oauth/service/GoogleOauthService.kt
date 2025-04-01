@@ -15,7 +15,6 @@ import org.springframework.stereotype.Service
 
 @Service
 class GoogleOauthService(
-    private val jwtTokenProvider: JwtTokenProvider,
     private val googleOauthUserService: GoogleOauthUserService,
     private val emailDomainValidator: EmailDomainValidator,
 ) : DefaultOAuth2UserService() {
