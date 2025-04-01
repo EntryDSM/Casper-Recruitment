@@ -39,7 +39,6 @@ class UserService(
 
         userRepository.save(user)
         return LoginSuccessResponse(
-            isMember,
             tokens.accessToken,
             tokens.accessTokenExpiration,
             tokens.refreshToken,
