@@ -20,6 +20,7 @@ class UserService(
 ) {
     companion object {
         private fun withBearer(accessToken: String) = "Bearer $accessToken"
+
         private const val GITHUB = "GITHUB"
     }
 
