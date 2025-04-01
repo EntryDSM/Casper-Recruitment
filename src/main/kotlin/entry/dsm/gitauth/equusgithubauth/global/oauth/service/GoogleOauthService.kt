@@ -7,7 +7,6 @@ import entry.dsm.gitauth.equusgithubauth.global.oauth.service.component.EmailDom
 import entry.dsm.gitauth.equusgithubauth.global.oauth.service.component.GoogleOauthUserService
 import entry.dsm.gitauth.equusgithubauth.global.security.auth.CustomOauth2UserDetails
 import entry.dsm.gitauth.equusgithubauth.global.security.auth.GoogleUserDetails
-import entry.dsm.gitauth.equusgithubauth.global.security.jwt.JwtTokenProvider
 import org.springframework.security.oauth2.client.userinfo.DefaultOAuth2UserService
 import org.springframework.security.oauth2.client.userinfo.OAuth2UserRequest
 import org.springframework.security.oauth2.core.user.OAuth2User
