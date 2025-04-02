@@ -8,7 +8,7 @@ import jakarta.persistence.Id
 import jakarta.persistence.JoinColumn
 import jakarta.persistence.ManyToOne
 
-@Entity(name = "notice_description")
+@Entity(name = "notice_descriptions")
 class NoticeDescription(
     @Id
     @GeneratedValue
