@@ -14,6 +14,5 @@ abstract class BaseEntity(
     @UuidGenerator(style = Style.RANDOM)
     @GeneratedValue
     @Column(columnDefinition = "BINARY(16)", nullable = false)
-    val id: UUID?
-): BaseTimeEntity()
-
+    val id: UUID?,
+) : BaseTimeEntity()

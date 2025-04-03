@@ -7,14 +7,14 @@ import jakarta.persistence.MappedSuperclass
 import org.hibernate.annotations.UuidGenerator
 import org.hibernate.annotations.UuidGenerator.Style
 import java.util.UUID
+
 @MappedSuperclass
 abstract class BaseUUIDEntity(
-    id: UUID?
+    id: UUID?,
 ) {
     @Id
     @UuidGenerator(style = Style.RANDOM)
     @GeneratedValue
     @Column(columnDefinition = "BINARY(16)", nullable = false)
-    val id: UUID? = if (id == UUID(0,0)) null else id
-
+    val id: UUID? = if (id == UUID(0, 0)) null else id
 }

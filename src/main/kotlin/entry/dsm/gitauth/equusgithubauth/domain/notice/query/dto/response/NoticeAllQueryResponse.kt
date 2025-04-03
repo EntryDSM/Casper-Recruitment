@@ -7,16 +7,16 @@ data class NoticeAllQueryResponse(
     val title: String,
     val keyWord: List<String>,
     val isFocusRecruit: Boolean,
-    val isImportant: Boolean
+    val isImportant: Boolean,
 ) {
-    companion object{
-        fun from(notice: Notice) : NoticeAllQueryResponse =
+    companion object {
+        fun from(notice: Notice): NoticeAllQueryResponse =
             NoticeAllQueryResponse(
                 noticeId = notice.noticeId,
                 title = notice.title,
                 keyWord = notice.keyWord,
                 isFocusRecruit = notice.isFocusRecruit,
-                isImportant = notice.isImportant
+                isImportant = notice.isImportant,
             )
     }
 }
