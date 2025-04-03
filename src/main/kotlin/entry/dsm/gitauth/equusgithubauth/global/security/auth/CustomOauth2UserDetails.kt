@@ -19,9 +19,7 @@ class CustomOauth2UserDetails(
     }
 
     override fun getAuthorities(): Collection<GrantedAuthority> {
-        val authorities: MutableCollection<GrantedAuthority> = ArrayList()
-        authorities.add(SimpleGrantedAuthority("ROLE_" + user.role.name))
-        return authorities
+        return listOf(SimpleGrantedAuthority("ROLE_" + user.role.name))
     }
 
     override fun getPassword(): String {
