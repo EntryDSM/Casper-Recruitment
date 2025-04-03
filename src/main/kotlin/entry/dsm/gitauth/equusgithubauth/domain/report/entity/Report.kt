@@ -13,7 +13,7 @@ import jakarta.persistence.Id
 import jakarta.persistence.JoinColumn
 import jakarta.persistence.ManyToOne
 
-@Entity(name = "report")
+@Entity(name = "reports")
 class Report(
     @Id
     @GeneratedValue

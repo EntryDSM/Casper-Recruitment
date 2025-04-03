@@ -5,6 +5,7 @@ import entry.dsm.gitauth.equusgithubauth.domain.notice.command.dto.request.Updat
 import entry.dsm.gitauth.equusgithubauth.domain.notice.command.service.CreateNoticeService
 import entry.dsm.gitauth.equusgithubauth.domain.notice.command.service.DeleteNoticeService
 import entry.dsm.gitauth.equusgithubauth.domain.notice.command.service.UpdateNoticeService
+import entry.dsm.gitauth.equusgithubauth.domain.notice.query.dto.response.NoticeAllQueryResponse
 import entry.dsm.gitauth.equusgithubauth.domain.notice.query.dto.response.NoticeQueryResponse
 import entry.dsm.gitauth.equusgithubauth.domain.notice.query.service.GetAllNoticesService
 import entry.dsm.gitauth.equusgithubauth.domain.notice.query.service.NoticeQueryService
@@ -59,7 +60,7 @@ class NoticeController(
     }
 
     @GetMapping
-    fun getAllNotices(): List<NoticeQueryResponse> {
+    fun getAllNotices(): List<NoticeAllQueryResponse> {
         return getAllNoticesService.getAllNotices()
     }
 
