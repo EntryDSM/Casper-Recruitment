@@ -7,7 +7,6 @@ import entry.dsm.gitauth.equusgithubauth.domain.user.entity.enums.UserRole
 import entry.dsm.gitauth.equusgithubauth.domain.user.entity.repository.UserRepository
 import entry.dsm.gitauth.equusgithubauth.domain.user.presentation.dto.response.LoginSuccessResponse
 import entry.dsm.gitauth.equusgithubauth.global.external.github.presentation.controller.GithubApiClient
-import entry.dsm.gitauth.equusgithubauth.global.oauth.service.component.OauthRoleProvider
 import entry.dsm.gitauth.equusgithubauth.global.security.jwt.JwtTokenProvider
 import org.springframework.stereotype.Service
 
