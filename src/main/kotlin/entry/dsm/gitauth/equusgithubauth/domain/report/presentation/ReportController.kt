@@ -57,7 +57,7 @@ class ReportController(
 
     // Update an existing report
     @PatchMapping
-    @ResponseStatus(HttpStatus.NO_CONTENT)
+    @ResponseStatus(HttpStatus.OK)
     fun updateReport(
         @RequestBody command: UpdateReportCommand,
     ) {
