@@ -12,12 +12,9 @@ class UpdateNoticeService(
     private val noticeRepository: NoticeRepository,
 ) {
     @Transactional
-    fun updateNotice(
-        noticeId: Long,
-        command: UpdateNoticeCommand,
-    ) {
+    fun updateNotice(command: UpdateNoticeCommand) {
         val notice =
-            noticeRepository.findByIdOrNull(noticeId)
+            noticeRepository.findByIdOrNull(command.noticeId)
                 ?: throw NoticeNotFoundException
         notice.update(command)
     }

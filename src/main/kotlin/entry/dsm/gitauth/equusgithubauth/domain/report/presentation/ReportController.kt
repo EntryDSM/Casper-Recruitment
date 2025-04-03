@@ -56,13 +56,12 @@ class ReportController(
     }
 
     // Update an existing report
-    @PatchMapping("/{reportId}")
+    @PatchMapping
     @ResponseStatus(HttpStatus.NO_CONTENT)
     fun updateReport(
-        @PathVariable reportId: Long,
         @RequestBody command: UpdateReportCommand,
     ) {
-        updateReportService.updateReport(reportId, command)
+        updateReportService.updateReport(command)
     }
 
     // Delete a report by ID
