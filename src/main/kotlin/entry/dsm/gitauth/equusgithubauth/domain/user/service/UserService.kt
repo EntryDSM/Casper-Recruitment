@@ -3,6 +3,7 @@ package entry.dsm.gitauth.equusgithubauth.domain.user.service
 import entry.dsm.gitauth.equusgithubauth.domain.auth.command.service.ValidateGithubOrganizationService
 import entry.dsm.gitauth.equusgithubauth.domain.auth.exception.UnAuthorizedOrgAccessException
 import entry.dsm.gitauth.equusgithubauth.domain.user.entity.User
+import entry.dsm.gitauth.equusgithubauth.domain.user.entity.enums.UserRole
 import entry.dsm.gitauth.equusgithubauth.domain.user.entity.repository.UserRepository
 import entry.dsm.gitauth.equusgithubauth.domain.user.presentation.dto.response.LoginSuccessResponse
 import entry.dsm.gitauth.equusgithubauth.global.external.github.presentation.controller.GithubApiClient
@@ -20,8 +21,6 @@ class UserService(
 ) {
     companion object {
         private fun withBearer(accessToken: String) = "Bearer $accessToken"
-
-        private const val GITHUB = "GITHUB"
     }
 
     fun execute(accessToken: String): LoginSuccessResponse {
@@ -33,14 +32,13 @@ class UserService(
             throw UnAuthorizedOrgAccessException()
         }
 
-        val provider = GITHUB // 지금 GitHub OAuth 로직에는 provider가 없으므로 하드코딩
 
         val user =
             User(
                 loginId = userInfo.login,
                 name = userInfo.name,
                 email = userInfo.email,
-                role = oauthRoleProvider.getRoleByProvider(provider),
+                role = UserRole.ADMIN
             )
 
         userRepository.save(user)
