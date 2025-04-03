@@ -14,11 +14,10 @@ class UpdateReportService(
 ) {
     @Transactional
     fun updateReport(
-        reportId: Long,
-        command: UpdateReportCommand,
+        command: UpdateReportCommand
     ): Report {
         val report =
-            reportRepository.findByIdOrNull(reportId)
+            reportRepository.findByIdOrNull(command.reportId)
                 ?: throw ReportNotFoundException
 
         report.apply {
