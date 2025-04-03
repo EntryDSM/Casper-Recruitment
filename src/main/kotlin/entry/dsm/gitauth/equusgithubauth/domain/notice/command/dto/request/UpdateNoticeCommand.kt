@@ -5,6 +5,7 @@ import jakarta.validation.constraints.NotBlank
 import jakarta.validation.constraints.Size
 
 data class UpdateNoticeCommand(
+    val noticeId: Long,
     @NotBlank(message = "제목은 비워둘 수 없습니다")
     @Size(min = 5, max = 100, message = "제목은 최소 5글자, 최대 100글자까지 가능합니다")
     val title: String,

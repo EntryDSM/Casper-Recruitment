@@ -40,14 +40,13 @@ class NoticeController(
         createNoticeService.createNotice(command)
     } // conflict 이슈로 나중에 검증 추가 예정
 
-    @PatchMapping("/{noticeId}")
+    @PatchMapping
     @OnlyAdmin
-    @ResponseStatus(HttpStatus.NO_CONTENT)
+    @ResponseStatus(HttpStatus.OK)
     fun updateNotice(
-        @PathVariable noticeId: Long,
         @RequestBody command: UpdateNoticeCommand,
     ) {
-        updateNoticeService.updateNotice(noticeId, command)
+        updateNoticeService.updateNotice(command)
     }
 
     @DeleteMapping("/{noticeId}")
