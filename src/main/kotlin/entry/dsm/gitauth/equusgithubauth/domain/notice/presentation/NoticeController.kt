@@ -23,7 +23,7 @@ import org.springframework.web.bind.annotation.ResponseStatus
 import org.springframework.web.bind.annotation.RestController
 
 @RestController
-@RequestMapping("/notice")
+@RequestMapping("/notices")
 class NoticeController(
     private val createNoticeService: CreateNoticeService,
     private val updateNoticeService: UpdateNoticeService,
