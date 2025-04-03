@@ -5,6 +5,7 @@ import entry.dsm.gitauth.equusgithubauth.domain.report.command.dto.request.Updat
 import entry.dsm.gitauth.equusgithubauth.domain.report.command.service.CreateReportService
 import entry.dsm.gitauth.equusgithubauth.domain.report.command.service.DeleteReportService
 import entry.dsm.gitauth.equusgithubauth.domain.report.command.service.UpdateReportService
+import entry.dsm.gitauth.equusgithubauth.domain.report.query.dto.response.ReportAllQueryResponse
 import entry.dsm.gitauth.equusgithubauth.domain.report.query.dto.response.ReportQueryResponse
 import entry.dsm.gitauth.equusgithubauth.domain.report.query.service.GetAllReportService
 import entry.dsm.gitauth.equusgithubauth.domain.report.query.service.ReportQueryService
@@ -50,7 +51,7 @@ class ReportController(
     // Retrieve all reports
     @GetMapping
     @OnlyAdmin
-    fun getAllReports(): List<ReportQueryResponse> {
+    fun getAllReports(): List<ReportAllQueryResponse> {
         return getAllReportService.getAllReports()
     }
 
