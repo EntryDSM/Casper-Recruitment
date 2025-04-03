@@ -13,7 +13,7 @@ import java.time.LocalDateTime
 abstract class BaseTimeEntity {
 
     @CreatedDate
-    var createAt: LocalDateTime = LocalDateTime.now()
+    private var createAt: LocalDateTime = LocalDateTime.now()
     @LastModifiedDate
-    var modifiedAt: LocalDateTime = LocalDateTime.now()
+    private var modifiedAt: LocalDateTime = LocalDateTime.now()
 }
