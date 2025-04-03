@@ -30,13 +30,12 @@ class UserService(
             throw UnAuthorizedOrgAccessException()
         }
 
-
         val user =
             User(
                 loginId = userInfo.login,
                 name = userInfo.name,
                 email = userInfo.email,
-                role = UserRole.ADMIN
+                role = UserRole.ADMIN,
             )
 
         userRepository.save(user)

@@ -13,7 +13,6 @@ import java.util.UUID
 @Entity
 @Table(name = "users")
 class User(
-
     @Id
     @Column(name = "id", nullable = false)
     val id: UUID = UUID.randomUUID(),
