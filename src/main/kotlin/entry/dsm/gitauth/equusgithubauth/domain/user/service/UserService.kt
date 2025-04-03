@@ -17,7 +17,6 @@ class UserService(
     private val jwtTokenProvider: JwtTokenProvider,
     private val githubApiClient: GithubApiClient,
     private val validateGithubOrganizationService: ValidateGithubOrganizationService,
-    private val oauthRoleProvider: OauthRoleProvider,
 ) {
     companion object {
         private fun withBearer(accessToken: String) = "Bearer $accessToken"
