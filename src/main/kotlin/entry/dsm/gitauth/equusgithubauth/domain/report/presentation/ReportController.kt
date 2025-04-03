@@ -59,7 +59,7 @@ class ReportController(
     @PatchMapping
     @ResponseStatus(HttpStatus.NO_CONTENT)
     fun updateReport(
-        @RequestBody command: UpdateReportCommand
+        @RequestBody command: UpdateReportCommand,
     ) {
         updateReportService.updateReport(command)
     }
