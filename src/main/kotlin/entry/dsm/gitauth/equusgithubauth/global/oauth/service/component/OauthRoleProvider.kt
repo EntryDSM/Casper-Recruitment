@@ -7,6 +7,6 @@ import org.springframework.stereotype.Component
 @Component
 class OauthRoleProvider {
     fun getRoleByProvider(provider: String): UserRole {
-        return if (provider != OauthType.GITHUB.provider) UserRole.ADMIN else UserRole.USER
+        return if (provider == OauthType.GITHUB.provider) UserRole.ADMIN else UserRole.USER
     }
 }
