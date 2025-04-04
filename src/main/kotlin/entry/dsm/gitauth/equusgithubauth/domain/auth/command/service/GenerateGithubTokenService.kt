@@ -1,6 +1,6 @@
 package entry.dsm.gitauth.equusgithubauth.domain.auth.command.service
 
-import entry.dsm.gitauth.equusgithubauth.domain.auth.GithubRegistrationProperties
+import entry.dsm.gitauth.equusgithubauth.global.oauth.properties.GithubRegistrationProperties
 import entry.dsm.gitauth.equusgithubauth.domain.auth.command.dto.response.GithubAccessTokenResponse
 import entry.dsm.gitauth.equusgithubauth.domain.auth.exception.GitHubOAuthException
 import entry.dsm.gitauth.equusgithubauth.global.external.github.presentation.controller.GithubOAuthApiClient
