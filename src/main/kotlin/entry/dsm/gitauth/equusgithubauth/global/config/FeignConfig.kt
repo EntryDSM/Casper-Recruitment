@@ -1,7 +1,7 @@
 package entry.dsm.gitauth.equusgithubauth.global.config
 
-import entry.dsm.gitauth.equusgithubauth.domain.auth.GithubProviderProperties
-import entry.dsm.gitauth.equusgithubauth.domain.auth.GithubRegistrationProperties
+import entry.dsm.gitauth.equusgithubauth.global.oauth.properties.GithubProviderProperties
+import entry.dsm.gitauth.equusgithubauth.global.oauth.properties.GithubRegistrationProperties
 import entry.dsm.gitauth.equusgithubauth.global.security.jwt.JwtProperties
 import org.springframework.boot.context.properties.EnableConfigurationProperties
 import org.springframework.cloud.openfeign.EnableFeignClients

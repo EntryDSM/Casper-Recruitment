@@ -1,4 +1,4 @@
-package entry.dsm.gitauth.equusgithubauth.domain.auth
+package entry.dsm.gitauth.equusgithubauth.global.oauth.properties
 
 import org.springframework.boot.context.properties.ConfigurationProperties
 
