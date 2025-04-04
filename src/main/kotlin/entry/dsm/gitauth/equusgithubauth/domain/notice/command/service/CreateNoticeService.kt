@@ -17,7 +17,7 @@ class CreateNoticeService(
             Notice(
                 noticeId = command.noticeId,
                 title = command.title,
-                keyWord = command.keyWord,
+                keyWord = command.keyWord.toMutableList(),
                 titleImageUrl = command.titleImageUrl,
                 descriptions = mutableListOf(),
                 isFocusRecruit = command.isFocusRecruit,
