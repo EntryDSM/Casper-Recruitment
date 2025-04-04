@@ -21,11 +21,11 @@ class Notice(
     val noticeId: Long,
     @Column(name = "title", nullable = false)
     var title: String,
-    @ElementCollection
+    @ElementCollection(fetch = FetchType.EAGER)
     @CollectionTable(name = "notice_keywords", joinColumns = [JoinColumn(name = "notice_id")])
     @Column(name = "key_word", nullable = false)
-    var keyWord: List<String>,
-    @Column(name = "title_image_url", nullable = false)
+    var keyWord: MutableList<String> = mutableListOf(),
+    @Column(name = "title_image_url")
     var titleImageUrl: String,
     @OneToMany(mappedBy = "notice", cascade = [CascadeType.ALL], orphanRemoval = true)
     var descriptions: MutableList<NoticeDescription> = mutableListOf(),
@@ -38,7 +38,7 @@ class Notice(
 ) {
     fun update(command: UpdateNoticeCommand) {
         title = command.title
-        keyWord = command.keyWord
+        keyWord = command.keyWord.toMutableList()
         titleImageUrl = command.titleImageUrl
         isFocusRecruit = command.isFocusRecruit
         isImportant = command.isImportant
