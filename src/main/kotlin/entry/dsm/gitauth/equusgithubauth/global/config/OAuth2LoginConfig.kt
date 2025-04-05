@@ -1,10 +1,10 @@
 package entry.dsm.gitauth.equusgithubauth.global.config
 
+import entry.dsm.gitauth.equusgithubauth.global.oauth.handler.GithubAuthenticationFailureHandler
+import entry.dsm.gitauth.equusgithubauth.global.oauth.handler.GithubAuthenticationSuccessHandler
 import entry.dsm.gitauth.equusgithubauth.global.oauth.properties.GithubAuthProperties
 import entry.dsm.gitauth.equusgithubauth.global.oauth.properties.GithubProviderProperties
 import entry.dsm.gitauth.equusgithubauth.global.oauth.properties.GithubRegistrationProperties
-import entry.dsm.gitauth.equusgithubauth.global.oauth.handler.GithubAuthenticationFailureHandler
-import entry.dsm.gitauth.equusgithubauth.global.oauth.handler.GithubAuthenticationSuccessHandler
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
