@@ -11,7 +11,7 @@ import org.springframework.stereotype.Service
 class GitHubOauthService(
     private val githubOAuthApiClient: GithubOAuthApiClient,
     private val githubRegistrationProperties: GithubRegistrationProperties,
-    private val userService: UserService
+    private val userService: UserService,
 ) {
     fun execute(code: String): LoginSuccessResponse {
         try {
