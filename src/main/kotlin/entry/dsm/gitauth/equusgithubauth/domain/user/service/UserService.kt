@@ -30,15 +30,20 @@ class UserService(
             throw UnAuthorizedOrgAccessException()
         }
 
-        val user =
-            User(
-                loginId = userInfo.login,
-                name = userInfo.name,
-                email = userInfo.email,
-                role = UserRole.ADMIN,
-            )
+        val existUser = userRepository.findByLoginId(userInfo.login)
 
-        userRepository.save(user)
+        if (existUser == null) {
+            val user =
+                User(
+                    loginId = userInfo.login,
+                    name = userInfo.name,
+                    email = userInfo.email,
+                    role = UserRole.ADMIN,
+                )
+
+            userRepository.save(user)
+        }
+
         return LoginSuccessResponse(
             tokens.accessToken,
             tokens.accessTokenExpiration,
