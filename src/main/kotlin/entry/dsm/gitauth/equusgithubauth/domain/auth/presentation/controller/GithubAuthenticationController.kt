@@ -1,8 +1,7 @@
 package entry.dsm.gitauth.equusgithubauth.domain.auth.presentation.controller
 
 import entry.dsm.gitauth.equusgithubauth.domain.auth.command.dto.response.GithubAccessTokenResponse
-import entry.dsm.gitauth.equusgithubauth.domain.auth.command.service.GenerateGithubTokenService
-import entry.dsm.gitauth.equusgithubauth.domain.auth.exception.InvalidAccessTokenException
+import entry.dsm.gitauth.equusgithubauth.domain.auth.command.service.GitHubOauthService
 import entry.dsm.gitauth.equusgithubauth.domain.auth.exception.InvalidAuthorizationCodeException
 import entry.dsm.gitauth.equusgithubauth.domain.user.presentation.dto.response.LoginSuccessResponse
 import entry.dsm.gitauth.equusgithubauth.domain.user.service.UserService
@@ -34,23 +33,6 @@ class GithubAuthenticationController(
             throw InvalidAuthorizationCodeException()
         }
         return generateGithubTokenService.execute(code)
-    }
-
-    @GetMapping("/authentication")
-    fun githubLoginSuccess(
-        @RequestHeader("Authorization") accessToken: String,
-    ): LoginSuccessResponse {
-        if (accessToken.isBlank()) {
-            throw InvalidAccessTokenException()
-        }
-        val token =
-            accessToken.trim().let {
-                if (it.startsWith("Bearer ")) it.substring(7) else it
-            }
-        if (token.isBlank()) {
-            throw InvalidAccessTokenException()
-        }
-        return userService.execute(token)
     }
 
     @GetMapping("/not/authentication")
