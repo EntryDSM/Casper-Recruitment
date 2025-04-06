@@ -16,8 +16,7 @@ import org.springframework.web.servlet.view.RedirectView
 @RestController
 @RequestMapping("/api/github/auth")
 class GithubAuthenticationController(
-    private val generateGithubTokenService: GenerateGithubTokenService,
-    private val userService: UserService,
+    private val gitHubOauthService: GitHubOauthService,
     private val githubAuthProperties: GithubAuthProperties,
 ) {
     @GetMapping
@@ -28,11 +27,11 @@ class GithubAuthenticationController(
     @GetMapping("/login/oauth2/code/github")
     fun githubCallback(
         @RequestParam("code") code: String,
-    ): GithubAccessTokenResponse {
+    ): LoginSuccessResponse {
         if (code.isBlank()) {
             throw InvalidAuthorizationCodeException()
         }
-        return generateGithubTokenService.execute(code)
+        return gitHubOauthService.execute(code)
     }
 
     @GetMapping("/not/authentication")
