@@ -19,7 +19,7 @@ class GithubAuthenticationController(
     private val gitHubOauthService: GitHubOauthService,
     private val githubAuthProperties: GithubAuthProperties,
 ) {
-    @GetMapping
+    @GetMapping("/authentication")
     fun githubAuth(): RedirectView {
         return RedirectView(githubAuthProperties.redirectUrl)
     }
