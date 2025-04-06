@@ -8,7 +8,7 @@ import entry.dsm.gitauth.equusgithubauth.global.oauth.properties.GithubRegistrat
 import org.springframework.stereotype.Service
 
 @Service
-class GenerateGithubTokenService(
+class GitHubOauthService(
     private val githubOAuthApiClient: GithubOAuthApiClient,
     private val githubRegistrationProperties: GithubRegistrationProperties,
     private val userService: UserService
