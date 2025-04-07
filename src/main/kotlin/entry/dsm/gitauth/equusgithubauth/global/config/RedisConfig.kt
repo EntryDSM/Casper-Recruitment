@@ -24,13 +24,14 @@ class RedisConfig(
     }
 
     @Bean
-    fun redisTemplate(): RedisTemplate<*, *> {
+    fun redisTemplate(redisConnectionFactory: RedisConnectionFactory): RedisTemplate<*, *> {
         return RedisTemplate<String, String>().apply {
-            this.setConnectionFactory(redisConnectionFactory())
+            this.connectionFactory = redisConnectionFactory // 이건 이제 주입받은 파라미터!
             this.keySerializer = StringRedisSerializer()
             this.hashKeySerializer = StringRedisSerializer()
             this.valueSerializer = StringRedisSerializer()
             this.setDefaultSerializer(StringRedisSerializer())
         }
     }
+
 }
