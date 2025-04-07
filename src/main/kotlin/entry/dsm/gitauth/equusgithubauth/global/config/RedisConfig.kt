@@ -26,7 +26,7 @@ class RedisConfig(
     @Bean
     fun redisTemplate(redisConnectionFactory: RedisConnectionFactory): RedisTemplate<*, *> {
         return RedisTemplate<String, String>().apply {
-            this.connectionFactory = redisConnectionFactory // 이건 이제 주입받은 파라미터!
+            this.connectionFactory = redisConnectionFactory
             this.keySerializer = StringRedisSerializer()
             this.hashKeySerializer = StringRedisSerializer()
             this.valueSerializer = StringRedisSerializer()

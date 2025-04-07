@@ -27,6 +27,11 @@ class SecurityConfig(
     private val customOAuth2AuthenticationFailureHandler: CustomOAuth2AuthenticationFailureHandler,
     private val customOAuth2AuthenticationSuccessHandler: CustomOAuth2AuthenticationSuccessHandler,
 ) {
+    companion object {
+        private const val CONTENT_SECURITY_POLICY =
+            "default-src 'self'; frame-ancestors 'none';"
+    }
+
     @Bean
     fun webSecurityCustomizer(): WebSecurityCustomizer {
         return WebSecurityCustomizer { web ->
@@ -42,19 +47,23 @@ class SecurityConfig(
             .cors { it.configurationSource(corsConfig.corsConfigurationSource()) }
             .formLogin { it.disable() }
             .sessionManagement { it.sessionCreationPolicy(SessionCreationPolicy.STATELESS) }
+            .headers {
+                it.xssProtection { xss -> xss.disable() }
+                it.frameOptions { frame -> frame.deny() }
+                it.contentSecurityPolicy {
+                        csp ->
+                    csp.policyDirectives(CONTENT_SECURITY_POLICY)
+                }
+            }
             .authorizeHttpRequests { auth ->
                 auth
                     .requestMatchers(
-                        "/",
-                        "/login",
-                        "/oauth2/**",
-                        "/api/github/auth",
+                        "/api/google/auth/**",
                         "/api/github/auth/**",
-                        "/oauth2/authorize/**",
+                        "/auth/**",
                         "/error",
                     ).permitAll()
-                    .requestMatchers(HttpMethod.GET, "reports", "notice").permitAll()
-                    .requestMatchers("/api/**").permitAll()
+                    .requestMatchers(HttpMethod.GET, "reports", "notices").permitAll()
                     .requestMatchers("/oauth-login/admin").hasRole("ADMIN")
                     .requestMatchers("/oauth-login/info").authenticated()
                     .anyRequest().authenticated()

@@ -1,9 +1,9 @@
-package entry.dsm.gitauth.equusgithubauth.domain.auth.command.service
+package entry.dsm.gitauth.equusgithubauth.domain.auth.command.service.component
 
-import entry.dsm.gitauth.equusgithubauth.global.external.github.presentation.controller.GithubApiClient
-import org.springframework.stereotype.Service
+import entry.dsm.gitauth.equusgithubauth.global.infrastructure.feign.client.GithubApiClient
+import org.springframework.stereotype.Component
 
-@Service
+@Component
 class ValidateGithubOrganizationService(
     private val githubApiClient: GithubApiClient,
 ) {
@@ -11,7 +11,7 @@ class ValidateGithubOrganizationService(
         private const val TARGET_ORG = "EntryDSM"
     }
 
-    fun execute(accessToken: String): Boolean {
+    fun validGithubOrganization(accessToken: String): Boolean {
         val userOrganizations = githubApiClient.getUserOrganizations(accessToken)
         return userOrganizations.any { it.login == TARGET_ORG }
     }

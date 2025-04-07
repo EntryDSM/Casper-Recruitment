@@ -49,6 +49,7 @@ github:
     redirect-url: ${GITHUB_AUTH_REDIRECT_URL}
     success-authentication-url: ${SUCCESS_AUTHENTICATION_URL}
     failure-authentication-url: ${FAILURE_AUTHENTICATION_URL}
+    front-direct-url: ${GITHUB_FRONT_DIRECT_URL}
 
 jwt:
   header: ${HEADER}

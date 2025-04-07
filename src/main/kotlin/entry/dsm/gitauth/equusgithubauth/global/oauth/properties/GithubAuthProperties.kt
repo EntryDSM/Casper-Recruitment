@@ -8,4 +8,5 @@ class GithubAuthProperties(
     val successAuthenticationUrl: String,
     val failureAuthenticationUrl: String,
     val failure: String,
+    val frontDirectUrl: String,
 )

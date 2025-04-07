@@ -1,9 +1,9 @@
 package entry.dsm.gitauth.equusgithubauth.domain.auth.presentation.controller
 
-import entry.dsm.gitauth.equusgithubauth.domain.auth.command.service.GitHubOauthService
+import entry.dsm.gitauth.equusgithubauth.domain.auth.command.service.GithubOauthService
 import entry.dsm.gitauth.equusgithubauth.domain.auth.exception.InvalidAuthorizationCodeException
-import entry.dsm.gitauth.equusgithubauth.domain.user.presentation.dto.response.LoginSuccessResponse
 import entry.dsm.gitauth.equusgithubauth.global.oauth.properties.GithubAuthProperties
+import jakarta.servlet.http.HttpServletResponse
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RequestParam
@@ -12,8 +12,8 @@ import org.springframework.web.servlet.view.RedirectView
 
 @RestController
 @RequestMapping("/api/github/auth")
-class GithubAuthenticationController(
-    private val gitHubOauthService: GitHubOauthService,
+class GithubOauthController(
+    private val gitHubOauthService: GithubOauthService,
     private val githubAuthProperties: GithubAuthProperties,
 ) {
     @GetMapping("/authentication")
@@ -24,11 +24,12 @@ class GithubAuthenticationController(
     @GetMapping("/login/oauth2/code/github")
     fun githubCallback(
         @RequestParam("code") code: String,
-    ): LoginSuccessResponse {
+        response: HttpServletResponse,
+    ) {
         if (code.isBlank()) {
             throw InvalidAuthorizationCodeException()
         }
-        return gitHubOauthService.execute(code)
+        gitHubOauthService.execute(code, response)
     }
 
     @GetMapping("/not/authentication")

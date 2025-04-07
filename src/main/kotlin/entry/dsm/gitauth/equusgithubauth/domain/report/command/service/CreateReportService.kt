@@ -18,7 +18,7 @@ class CreateReportService(
         // Notice 엔티티 가져오기
         val notice =
             noticeRepository.findById(command.noticeId)
-                .orElseThrow { NoticeNotFoundException }
+                .orElseThrow { NoticeNotFoundException() }
 
         // Report 엔티티 생성
         val report =
