@@ -1,9 +1,9 @@
 package entry.dsm.gitauth.equusgithubauth.domain.auth.command.service
 
 import entry.dsm.gitauth.equusgithubauth.global.infrastructure.feign.client.GithubApiClient
-import org.springframework.stereotype.Service
+import org.springframework.stereotype.Component
 
-@Service
+@Component
 class ValidateGithubOrganizationService(
     private val githubApiClient: GithubApiClient,
 ) {
