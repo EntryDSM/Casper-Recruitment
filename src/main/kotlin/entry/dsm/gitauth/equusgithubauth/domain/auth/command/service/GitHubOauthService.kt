@@ -1,9 +1,9 @@
 package entry.dsm.gitauth.equusgithubauth.domain.auth.command.service
 
 import entry.dsm.gitauth.equusgithubauth.domain.auth.exception.GitHubOAuthException
-import entry.dsm.gitauth.equusgithubauth.domain.user.presentation.dto.response.LoginSuccessResponse
+import entry.dsm.gitauth.equusgithubauth.domain.user.presentation.dto.response.TokenResponse
 import entry.dsm.gitauth.equusgithubauth.domain.user.service.UserService
-import entry.dsm.gitauth.equusgithubauth.global.external.github.presentation.controller.GithubOAuthApiClient
+import entry.dsm.gitauth.equusgithubauth.global.infrastructure.feign.client.GithubOAuthApiClient
 import entry.dsm.gitauth.equusgithubauth.global.oauth.properties.GithubRegistrationProperties
 import org.springframework.stereotype.Service
 
@@ -13,7 +13,7 @@ class GitHubOauthService(
     private val githubRegistrationProperties: GithubRegistrationProperties,
     private val userService: UserService,
 ) {
-    fun execute(code: String): LoginSuccessResponse {
+    fun execute(code: String): TokenResponse {
         try {
             val githubAccessToken =
                 githubOAuthApiClient.codeToToken(
