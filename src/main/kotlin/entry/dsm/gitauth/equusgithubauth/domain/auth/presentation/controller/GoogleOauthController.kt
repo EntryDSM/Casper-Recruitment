@@ -1,6 +1,5 @@
 package entry.dsm.gitauth.equusgithubauth.domain.auth.presentation.controller
 
-
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.RequestMapping
@@ -16,5 +15,4 @@ class GoogleOauthController(
     fun googleAuth(): RedirectView {
         return RedirectView(googleRedirectUrl)
     }
-
 }

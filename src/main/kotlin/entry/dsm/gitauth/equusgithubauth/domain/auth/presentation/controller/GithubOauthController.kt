@@ -1,6 +1,5 @@
 package entry.dsm.gitauth.equusgithubauth.domain.auth.presentation.controller
 
-
 import entry.dsm.gitauth.equusgithubauth.domain.auth.command.service.GithubOauthService
 import entry.dsm.gitauth.equusgithubauth.domain.auth.exception.InvalidAuthorizationCodeException
 import entry.dsm.gitauth.equusgithubauth.global.oauth.properties.GithubAuthProperties
@@ -25,7 +24,7 @@ class GithubOauthController(
     @GetMapping("/login/oauth2/code/github")
     fun githubCallback(
         @RequestParam("code") code: String,
-        response: HttpServletResponse
+        response: HttpServletResponse,
     ) {
         if (code.isBlank()) {
             throw InvalidAuthorizationCodeException()
