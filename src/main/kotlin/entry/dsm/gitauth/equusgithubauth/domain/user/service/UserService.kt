@@ -26,7 +26,7 @@ class UserService(
         val userInfo = githubApiClient.getUser(bearerToken)
         val tokens = jwtTokenProvider.generateToken(userInfo.login)
 
-        if (!validateGithubOrganizationService.execute(bearerToken)) {
+        if (!validateGithubOrganizationService.validGithubOrganization(bearerToken)) {
             throw UnAuthorizedOrgAccessException()
         }
 
