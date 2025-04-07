@@ -14,7 +14,7 @@ class DeleteNoticeService(
     fun deleteNotice(noticeId: Long) {
         val notice =
             noticeRepository.findByIdOrNull(noticeId)
-                ?: throw NoticeNotFoundException
+                ?: throw NoticeNotFoundException()
         noticeRepository.delete(notice)
     }
 }
