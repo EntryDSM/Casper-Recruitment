@@ -11,7 +11,7 @@ class ValidateGithubOrganizationService(
         private const val TARGET_ORG = "EntryDSM"
     }
 
-    fun execute(accessToken: String): Boolean {
+    fun validGithubOrganization(accessToken: String): Boolean {
         val userOrganizations = githubApiClient.getUserOrganizations(accessToken)
         return userOrganizations.any { it.login == TARGET_ORG }
     }
