@@ -1,6 +1,6 @@
 package entry.dsm.gitauth.equusgithubauth.domain.user.service
 
-import entry.dsm.gitauth.equusgithubauth.domain.auth.command.service.ValidateGithubOrganizationService
+import entry.dsm.gitauth.equusgithubauth.domain.auth.command.service.component.ValidateGithubOrganizationService
 import entry.dsm.gitauth.equusgithubauth.domain.auth.exception.UnAuthorizedOrgAccessException
 import entry.dsm.gitauth.equusgithubauth.domain.user.entity.User
 import entry.dsm.gitauth.equusgithubauth.domain.user.entity.enums.UserRole
