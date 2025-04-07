@@ -3,12 +3,14 @@ package entry.dsm.gitauth.equusgithubauth.global.oauth.service.component
 import entry.dsm.gitauth.equusgithubauth.domain.user.entity.User
 import entry.dsm.gitauth.equusgithubauth.domain.user.entity.repository.UserRepository
 import org.springframework.stereotype.Component
+import org.springframework.transaction.annotation.Transactional
 
 @Component
 class GoogleOauthUserService(
     private val userRepository: UserRepository,
     private val oauthRoleProvider: OauthRoleProvider,
 ) {
+    @Transactional
     fun findOrCreateOAuthUser(
         loginId: String,
         email: String,
