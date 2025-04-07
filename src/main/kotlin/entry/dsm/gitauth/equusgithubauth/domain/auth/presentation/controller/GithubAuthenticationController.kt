@@ -2,7 +2,6 @@ package entry.dsm.gitauth.equusgithubauth.domain.auth.presentation.controller
 
 import entry.dsm.gitauth.equusgithubauth.domain.auth.command.service.GitHubOauthService
 import entry.dsm.gitauth.equusgithubauth.domain.auth.exception.InvalidAuthorizationCodeException
-import entry.dsm.gitauth.equusgithubauth.domain.user.presentation.dto.response.TokenResponse
 import entry.dsm.gitauth.equusgithubauth.global.oauth.properties.GithubAuthProperties
 import jakarta.servlet.http.HttpServletResponse
 import org.springframework.web.bind.annotation.GetMapping

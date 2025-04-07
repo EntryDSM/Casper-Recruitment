@@ -20,7 +20,10 @@ class GitHubOauthService(
     private val userService: UserService,
 ) {
     @Transactional
-    fun execute(code: String, response: HttpServletResponse) {
+    fun execute(
+        code: String,
+        response: HttpServletResponse,
+    ) {
         try {
             val githubAccessToken =
                 githubOAuthApiClient.codeToToken(
@@ -52,7 +55,7 @@ class GitHubOauthService(
         val encodedParams =
             queryParams.map { (key, value) ->
                 "${URLEncoder.encode(key, StandardCharsets.UTF_8.toString())}=" +
-                        URLEncoder.encode(value, StandardCharsets.UTF_8.toString())
+                    URLEncoder.encode(value, StandardCharsets.UTF_8.toString())
             }.joinToString("&")
         return "$baseUrl?$encodedParams"
     }
