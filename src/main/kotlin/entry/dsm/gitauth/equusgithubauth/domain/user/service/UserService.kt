@@ -21,7 +21,7 @@ class UserService(
         private fun withBearer(accessToken: String) = "Bearer $accessToken"
     }
 
-    fun execute(accessToken: String): TokenResponse {
+    fun generateTokens(accessToken: String): TokenResponse {
         val bearerToken = withBearer(accessToken)
         val userInfo = githubApiClient.getUser(bearerToken)
         val tokens = jwtTokenProvider.generateToken(userInfo.login)
