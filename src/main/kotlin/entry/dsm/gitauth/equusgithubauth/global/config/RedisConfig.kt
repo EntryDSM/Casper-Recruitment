@@ -33,5 +33,4 @@ class RedisConfig(
             this.setDefaultSerializer(StringRedisSerializer())
         }
     }
-
 }
