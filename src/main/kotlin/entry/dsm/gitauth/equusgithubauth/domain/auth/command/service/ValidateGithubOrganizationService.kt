@@ -1,6 +1,6 @@
 package entry.dsm.gitauth.equusgithubauth.domain.auth.command.service
 
-import entry.dsm.gitauth.equusgithubauth.global.external.github.presentation.controller.GithubApiClient
+import entry.dsm.gitauth.equusgithubauth.global.infrastructure.feign.client.GithubApiClient
 import org.springframework.stereotype.Service
 
 @Service
