@@ -5,12 +5,14 @@ import entry.dsm.gitauth.equusgithubauth.domain.user.presentation.dto.response.T
 import entry.dsm.gitauth.equusgithubauth.global.security.auth.exception.RefreshTokenNotFoundException
 import entry.dsm.gitauth.equusgithubauth.global.security.jwt.JwtTokenProvider
 import org.springframework.stereotype.Service
+import org.springframework.transaction.annotation.Transactional
 
 @Service
 class OauthReissueService(
     private val refreshTokenRepository: RefreshTokenRepository,
     private val jwtTokenProvider: JwtTokenProvider,
 ) {
+    @Transactional
     fun reissue(refreshToken: String): TokenResponse {
         val storedToken =
             refreshTokenRepository.findByRefreshToken(refreshToken)
