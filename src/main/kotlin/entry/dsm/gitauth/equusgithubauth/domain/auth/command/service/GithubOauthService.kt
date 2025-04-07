@@ -8,7 +8,6 @@ import entry.dsm.gitauth.equusgithubauth.global.oauth.properties.GithubAuthPrope
 import entry.dsm.gitauth.equusgithubauth.global.oauth.properties.GithubRegistrationProperties
 import jakarta.servlet.http.HttpServletResponse
 import org.springframework.stereotype.Service
-import org.springframework.transaction.annotation.Transactional
 import java.net.URLEncoder
 import java.nio.charset.StandardCharsets
 
@@ -19,7 +18,6 @@ class GithubOauthService(
     private val githubAuthProperties: GithubAuthProperties,
     private val userService: UserService,
 ) {
-    @Transactional
     fun execute(
         code: String,
         response: HttpServletResponse,
