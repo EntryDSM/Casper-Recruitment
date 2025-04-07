@@ -12,7 +12,7 @@ import org.springframework.web.servlet.view.RedirectView
 
 @RestController
 @RequestMapping("/api/github/auth")
-class GithubAuthenticationController(
+class GithubOauthController(
     private val gitHubOauthService: GitHubOauthService,
     private val githubAuthProperties: GithubAuthProperties,
     private val httpServletResponse: HttpServletResponse,
