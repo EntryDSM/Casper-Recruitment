@@ -44,7 +44,7 @@ class NoticeController(
     @OnlyAdmin
     @ResponseStatus(HttpStatus.OK)
     fun updateNotice(
-        @RequestBody command: UpdateNoticeCommand,
+        @RequestBody @Valid  command: UpdateNoticeCommand,
     ) {
         updateNoticeService.updateNotice(command)
     }
