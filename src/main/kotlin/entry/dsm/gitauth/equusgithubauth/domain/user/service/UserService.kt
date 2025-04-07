@@ -9,6 +9,7 @@ import entry.dsm.gitauth.equusgithubauth.domain.user.presentation.dto.response.T
 import entry.dsm.gitauth.equusgithubauth.global.infrastructure.feign.client.GithubApiClient
 import entry.dsm.gitauth.equusgithubauth.global.security.jwt.JwtTokenProvider
 import org.springframework.stereotype.Service
+import org.springframework.transaction.annotation.Transactional
 
 @Service
 class UserService(
@@ -21,6 +22,7 @@ class UserService(
         private fun withBearer(accessToken: String) = "Bearer $accessToken"
     }
 
+    @Transactional
     fun generateTokens(accessToken: String): TokenResponse {
         val bearerToken = withBearer(accessToken)
         val userInfo = githubApiClient.getUser(bearerToken)
