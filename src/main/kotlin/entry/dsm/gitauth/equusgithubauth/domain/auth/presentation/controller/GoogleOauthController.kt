@@ -7,7 +7,12 @@ import entry.dsm.gitauth.equusgithubauth.domain.user.presentation.dto.request.Re
 import entry.dsm.gitauth.equusgithubauth.domain.user.presentation.dto.response.TokenResponse
 import jakarta.validation.Valid
 import org.springframework.beans.factory.annotation.Value
-import org.springframework.web.bind.annotation.*
+import org.springframework.web.bind.annotation.GetMapping
+import org.springframework.web.bind.annotation.PatchMapping
+import org.springframework.web.bind.annotation.PostMapping
+import org.springframework.web.bind.annotation.RequestBody
+import org.springframework.web.bind.annotation.RequestMapping
+import org.springframework.web.bind.annotation.RestController
 import org.springframework.web.servlet.view.RedirectView
 
 @RestController
@@ -15,7 +20,7 @@ import org.springframework.web.servlet.view.RedirectView
 class GoogleOauthController(
     @Value("\${oauth.google.redirect}") private val googleRedirectUrl: String,
     private val oauthReissueService: OauthReissueService,
-    private val logoutService: LogoutService
+    private val logoutService: LogoutService,
 ) {
     @GetMapping
     fun googleAuth(): RedirectView {
