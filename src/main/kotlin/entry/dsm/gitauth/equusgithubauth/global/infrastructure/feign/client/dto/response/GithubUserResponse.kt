@@ -1,4 +1,4 @@
-package entry.dsm.gitauth.equusgithubauth.global.external.github.presentation.dto.response
+package entry.dsm.gitauth.equusgithubauth.global.infrastructure.feign.client.dto.response
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties
 import com.fasterxml.jackson.databind.PropertyNamingStrategies.SnakeCaseStrategy
