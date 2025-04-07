@@ -17,12 +17,13 @@ class UserSaver(
         email: String,
     ): User {
         return userRepository.findByLoginId(loginId) ?: run {
-            val newUser = User(
-                loginId = loginId,
-                name = name,
-                email = email,
-                role = UserRole.ADMIN,
-            )
+            val newUser =
+                User(
+                    loginId = loginId,
+                    name = name,
+                    email = email,
+                    role = UserRole.ADMIN,
+                )
             userRepository.save(newUser)
         }
     }
