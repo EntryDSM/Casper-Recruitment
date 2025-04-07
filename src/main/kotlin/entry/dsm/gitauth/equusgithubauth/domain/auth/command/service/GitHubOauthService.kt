@@ -25,7 +25,7 @@ class GitHubOauthService(
                     code = code,
                 ).accessToken
 
-            return userService.execute(githubAccessToken)
+            return userService.generateTokens(githubAccessToken)
         } catch (e: Exception) {
             throw GitHubOAuthException()
         }
