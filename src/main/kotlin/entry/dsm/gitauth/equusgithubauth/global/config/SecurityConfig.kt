@@ -60,6 +60,7 @@ class SecurityConfig(
                     .requestMatchers(
                         "/api/google/auth/**",
                         "/api/github/auth/**",
+                        "/auth/**",
                         "/error",
                     ).permitAll()
                     .requestMatchers(HttpMethod.GET, "reports", "notices").permitAll()
