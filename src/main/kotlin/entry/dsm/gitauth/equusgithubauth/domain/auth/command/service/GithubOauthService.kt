@@ -1,6 +1,6 @@
 package entry.dsm.gitauth.equusgithubauth.domain.auth.command.service
 
-import entry.dsm.gitauth.equusgithubauth.domain.auth.exception.GitHubOAuthException
+import entry.dsm.gitauth.equusgithubauth.domain.auth.exception.GithubOAuthException
 import entry.dsm.gitauth.equusgithubauth.domain.user.presentation.dto.response.TokenResponse
 import entry.dsm.gitauth.equusgithubauth.domain.user.service.UserService
 import entry.dsm.gitauth.equusgithubauth.global.infrastructure.feign.client.GithubOAuthApiClient
@@ -13,7 +13,7 @@ import java.net.URLEncoder
 import java.nio.charset.StandardCharsets
 
 @Service
-class GitHubOauthService(
+class GithubOauthService(
     private val githubOAuthApiClient: GithubOAuthApiClient,
     private val githubRegistrationProperties: GithubRegistrationProperties,
     private val githubAuthProperties: GithubAuthProperties,
@@ -39,7 +39,7 @@ class GitHubOauthService(
 
             response.sendRedirect(redirectUrl)
         } catch (e: Exception) {
-            throw GitHubOAuthException()
+            throw GithubOAuthException()
         }
     }
 
