@@ -15,7 +15,7 @@ class NoticeQueryService(
     fun getNotice(noticeId: Long): NoticeQueryResponse {
         val notice =
             noticeQueryRepository.findByIdOrNull(noticeId)
-                ?: throw NoticeNotFoundException
+                ?: throw NoticeNotFoundException()
         return NoticeQueryResponse.from(notice)
     }
 }

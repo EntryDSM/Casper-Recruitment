@@ -15,7 +15,7 @@ class UpdateNoticeService(
     fun updateNotice(command: UpdateNoticeCommand) {
         val notice =
             noticeRepository.findByIdOrNull(command.noticeId)
-                ?: throw NoticeNotFoundException
+                ?: throw NoticeNotFoundException()
         notice.update(command)
     }
 }

@@ -14,7 +14,7 @@ class AuthDetailsService(
     override fun loadUserByUsername(loginId: String): UserDetails {
         val user: User =
             userRepository.findByLoginId(loginId)
-                ?: throw UserNotFoundException
+                ?: throw UserNotFoundException()
 
         return CustomOauth2UserDetails(user, emptyMap())
     }
