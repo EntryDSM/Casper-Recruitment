@@ -1,6 +1,7 @@
 package entry.dsm.gitauth.equusgithubauth.domain.auth.presentation.controller
 
-import entry.dsm.gitauth.equusgithubauth.domain.auth.command.service.GitHubOauthService
+
+import entry.dsm.gitauth.equusgithubauth.domain.auth.command.service.GithubOauthService
 import entry.dsm.gitauth.equusgithubauth.domain.auth.exception.InvalidAuthorizationCodeException
 import entry.dsm.gitauth.equusgithubauth.global.oauth.properties.GithubAuthProperties
 import jakarta.servlet.http.HttpServletResponse
@@ -13,7 +14,7 @@ import org.springframework.web.servlet.view.RedirectView
 @RestController
 @RequestMapping("/api/github/auth")
 class GithubOauthController(
-    private val gitHubOauthService: GitHubOauthService,
+    private val gitHubOauthService: GithubOauthService,
     private val githubAuthProperties: GithubAuthProperties,
 ) {
     @GetMapping("/authentication")
