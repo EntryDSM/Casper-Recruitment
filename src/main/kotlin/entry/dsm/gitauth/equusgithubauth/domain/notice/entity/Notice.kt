@@ -33,7 +33,7 @@ class Notice(
     var isFocusRecruit: Boolean,
     @Column(name = "is_important", nullable = false)
     var isImportant: Boolean,
-    @OneToMany(mappedBy = "notice", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "notice", fetch = FetchType.LAZY, cascade = [CascadeType.REMOVE])
     val reports: List<Report> = listOf(),
 ) {
     fun update(command: UpdateNoticeCommand) {
