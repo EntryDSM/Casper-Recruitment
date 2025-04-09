@@ -12,10 +12,11 @@ class CorsConfig {
     fun corsConfigurationSource(): CorsConfigurationSource {
         val configuration =
             CorsConfiguration().apply {
-                allowedOrigins = listOf(
-                    "https://career.entrydsm.hs.kr",
-                    "https://entry-recruit-admin.xquare.app"
-                )
+                allowedOrigins =
+                    listOf(
+                        "https://career.entrydsm.hs.kr",
+                        "https://entry-recruit-admin.xquare.app",
+                    )
                 allowedMethods = listOf("GET", "POST", "PUT", "DELETE", "OPTIONS")
                 allowCredentials = true
                 allowedHeaders = listOf("*")
